@@ -14,7 +14,15 @@
     .navbar {
       background-color: #4CAF50;
       padding: 10px;
-      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .navbar .menu {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
     }
     .navbar a {
       color: white;
@@ -24,6 +32,9 @@
     }
     .navbar a:hover {
       background-color: #45a049;
+    }
+    #google_translate_element {
+      margin-left: 10px;
     }
     .main-content {
       display: flex;
@@ -88,16 +99,12 @@
 
   <!-- Navigation Bar -->
   <div class="navbar">
-    <a href="https://kishoredvr.github.io/Exploring/">Home</a>
-    <a href="https://kishoredvr.github.io/Exploring/AboutMe.html">Origin Of Thoughts</a>
-    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdM_eKzDRgqgfaokbaEI2nRi4ROqIqbWHviMTkFArBECH2htw/viewform?usp=header">Message Me</a>
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-      }
-    </script>
-    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div class="menu">
+      <a href="https://kishoredvr.github.io/Exploring/">Home</a>
+      <a href="https://kishoredvr.github.io/Exploring/AboutMe.html">Origin Of Thoughts</a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSdM_eKzDRgqgfaokbaEI2nRi4ROqIqbWHviMTkFArBECH2htw/viewform?usp=header">Message Me</a>
+      <div id="google_translate_element"></div>
+    </div>
   </div>
 
   <!-- Main Layout with Explorer and Viewer -->
@@ -128,19 +135,28 @@
     </div>
   </div>
 
+  <!-- JavaScript -->
   <script>
     function toggleSection(id) {
       const section = document.getElementById(id);
       const isVisible = section.style.display === 'block';
-      document.querySelectorAll('.sub-headings').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.sub-headings').forEach(div => div.style.display = 'none');
       section.style.display = isVisible ? 'none' : 'block';
     }
 
-    function loadPDF(url) {
-      document.getElementById('viewer').innerHTML =
-        '<iframe src="' + url + '"></iframe>';
+    function loadPDF(link) {
+      const viewer = document.getElementById('viewer');
+      viewer.innerHTML = `<iframe src="${link}"></iframe>`;
     }
   </script>
+
+  <!-- Google Translate -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
 </body>
 </html>
