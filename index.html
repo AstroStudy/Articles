@@ -1,143 +1,146 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Articles by Kishore DVR</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-        }
-        .navbar {
-            background-color: #4CAF50; /* Green color */
-            padding: 10px;
-            text-align: center;
-        }
-        .navbar a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: inline-block;
-        }
-        .navbar a:hover {
-            background-color: #45a049;
-        }
-        .container {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-            padding: 20px;
-        }
-        .column {
-            width: 30%;
-            min-width: 300px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            background-color: white;
-            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center; /* Center align topics */
-        }
-        .topic-title {
-            color: #4CAF50; /* Green font color */
-        }
-        .heading {
-            cursor: pointer;
-            padding: 10px;
-            background-color: #f1f1f1; /* Keeping headings unchanged */
-            border: 1px solid #ccc;
-            margin-top: 5px;
-            text-align: center;
-        }
-        .content {
-            display: none;
-            padding: 10px;
-        }
-        @media (max-width: 900px) {
-            .column {
-                width: 100%;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Articles by Kishore DVR</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+    }
+    .navbar {
+      background-color: #4CAF50;
+      padding: 10px;
+      text-align: center;
+    }
+    .navbar a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: inline-block;
+    }
+    .navbar a:hover {
+      background-color: #45a049;
+    }
+    .main-content {
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+    .explorer {
+      width: 250px;
+      background-color: #ffffff;
+      border-right: 1px solid #ccc;
+      padding: 15px;
+      overflow-y: auto;
+      font-size: 13px;
+    }
+    .explorer h3 {
+      color: #4CAF50;
+      margin: 10px 0;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .explorer .sub-headings {
+      display: none;
+      margin-left: 10px;
+    }
+    .explorer .heading-link {
+      display: block;
+      margin: 5px 0;
+      font-size: 12px;
+      color: #333;
+      text-decoration: none;
+    }
+    .explorer .heading-link:hover {
+      text-decoration: underline;
+      color: #4CAF50;
+    }
+    .pdf-viewer {
+      flex: 1;
+      padding: 20px;
+      overflow: auto;
+    }
+    .pdf-viewer iframe {
+      width: 100%;
+      height: 90vh;
+      border: none;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    @media (max-width: 768px) {
+      .main-content {
+        flex-direction: column;
+      }
+      .explorer {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+      }
+      .pdf-viewer iframe {
+        height: 60vh;
+      }
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navigation Bar -->
-    <div class="navbar">
-        <a href="https://kishoredvr.github.io/Exploring/">Home</a>
-        <a href="https://kishoredvr.github.io/Exploring/AboutMe.html">Origin Of Thoughts</a>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSdM_eKzDRgqgfaokbaEI2nRi4ROqIqbWHviMTkFArBECH2htw/viewform?usp=header">Message Me</a>
-            <!-- Google Translate Widget -->
-<div id="google_translate_element"></div>
-
-<!-- Google Translate API -->
-<script type="text/javascript">
-    function googleTranslateElementInit() {
+  <!-- Navigation Bar -->
+  <div class="navbar">
+    <a href="https://kishoredvr.github.io/Exploring/">Home</a>
+    <a href="https://kishoredvr.github.io/Exploring/AboutMe.html">Origin Of Thoughts</a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdM_eKzDRgqgfaokbaEI2nRi4ROqIqbWHviMTkFArBECH2htw/viewform?usp=header">Message Me</a>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+      function googleTranslateElementInit() {
         new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-    }
-</script>
-<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    </div>
-
-    <div class="container">
-        <!-- Column 1 -->
-        <div class="column">
-            <h2 class="topic-title">Digital Reliability</h2>
-            <div class="heading" onclick="togglePDF('pdf1')">Heading 1</div>
-            <div id="pdf1" class="content">
-                <iframe src="https://drive.google.com/file/d/YOUR_FILE_ID/preview" width="100%" height="500px"></iframe>
-            </div>
-
-            <div class="heading" onclick="togglePDF('pdf2')">Heading 2</div>
-            <div id="pdf2" class="content">
-                <iframe src="https://drive.google.com/file/d/YOUR_FILE_ID/preview" width="100%" height="500px"></iframe>
-            </div>
-        </div>
-
-        <!-- Column 2 -->
-        <div class="column">
-            <h2 class="topic-title">Vedic Astrology</h2>
-            <div class="heading" onclick="togglePDF('pdf3')">Heading 1</div>
-            <div id="pdf3" class="content">
-                <iframe src="https://drive.google.com/file/d/YOUR_FILE_ID/preview" width="100%" height="500px"></iframe>
-            </div>
-
-            <div class="heading" onclick="togglePDF('pdf4')">Heading 2</div>
-            <div id="pdf4" class="content">
-                <iframe src="https://drive.google.com/file/d/YOUR_FILE_ID/preview" width="100%" height="500px"></iframe>
-            </div>
-        </div>
-
-        <!-- Column 3 -->
-        <div class="column">
-            <h2 class="topic-title">Country Wise Economy Study</h2>
-            <div class="heading" onclick="togglePDF('pdf5')">Heading 1</div>
-            <div id="pdf5" class="content">
-                <iframe src="https://drive.google.com/file/d/YOUR_FILE_ID/preview" width="100%" height="500px"></iframe>
-            </div>
-
-            <div class="heading" onclick="togglePDF('pdf6')">Heading 2</div>
-            <div id="pdf6" class="content">
-                <iframe src="https://drive.google.com/file/d/YOUR_FILE_ID/preview" width="100%" height="500px"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function togglePDF(id) {
-            let contents = document.querySelectorAll('.content');
-            contents.forEach(content => {
-                if (content.id === id) {
-                    content.style.display = content.style.display === 'block' ? 'none' : 'block';
-                } else {
-                    content.style.display = 'none';
-                }
-            });
-        }
+      }
     </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+  </div>
+
+  <!-- Main Layout with Explorer and Viewer -->
+  <div class="main-content">
+    <div class="explorer">
+      <h3 onclick="toggleSection('section1')">▶ Digital Reliability</h3>
+      <div id="section1" class="sub-headings">
+        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID1/preview')">Heading 1</a>
+        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID2/preview')">Heading 2</a>
+      </div>
+
+      <h3 onclick="toggleSection('section2')">▶ Vedic Astrology</h3>
+      <div id="section2" class="sub-headings">
+        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID3/preview')">Heading 1</a>
+        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID4/preview')">Heading 2</a>
+      </div>
+
+      <h3 onclick="toggleSection('section3')">▶ Country Wise Economy Study</h3>
+      <div id="section3" class="sub-headings">
+        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID5/preview')">Heading 1</a>
+        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID6/preview')">Heading 2</a>
+      </div>
+    </div>
+
+    <div class="pdf-viewer" id="viewer">
+      <!-- Default PDF loaded on page load -->
+      <iframe src="https://drive.google.com/file/d/YOUR_DEFAULT_FILE_ID/preview"></iframe>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      const isVisible = section.style.display === 'block';
+      document.querySelectorAll('.sub-headings').forEach(el => el.style.display = 'none');
+      section.style.display = isVisible ? 'none' : 'block';
+    }
+
+    function loadPDF(url) {
+      document.getElementById('viewer').innerHTML =
+        '<iframe src="' + url + '"></iframe>';
+    }
+  </script>
 
 </body>
 </html>
