@@ -112,31 +112,30 @@
     <div class="explorer">
       <h3 onclick="toggleSection('section1')">▶ Digital Reliability</h3>
       <div id="section1" class="sub-headings">
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID1/preview')">Heading 1</a>
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID2/preview')">Heading 2</a>
+        <a href="#" class="heading-link" data-fileid="FILE_ID_1">Heading 1</a>
+        <a href="#" class="heading-link" data-fileid="FILE_ID_2">Heading 2</a>
       </div>
 
       <h3 onclick="toggleSection('section2')">▶ Vedic Astrology</h3>
       <div id="section2" class="sub-headings">
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID3/preview')">Heading 1</a>
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID4/preview')">Heading 2</a>
+        <a href="#" class="heading-link" data-fileid="FILE_ID_3">Heading 1</a>
+        <a href="#" class="heading-link" data-fileid="FILE_ID_4">Heading 2</a>
       </div>
 
       <h3 onclick="toggleSection('section3')">▶ National Economies</h3>
       <div id="section3" class="sub-headings">
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID5/preview')">Heading 1</a>
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID6/preview')">Heading 2</a>
+        <a href="#" class="heading-link" data-fileid="FILE_ID_5">Heading 1</a>
+        <a href="#" class="heading-link" data-fileid="FILE_ID_6">Heading 2</a>
       </div>
+
       <h3 onclick="toggleSection('section4')">▶ Other Topics</h3>
       <div id="section4" class="sub-headings">
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/YOUR_FILE_ID6/preview')">Heading 1</a>
-        <a href="#" class="heading-link" onclick="loadPDF('https://drive.google.com/file/d/0BzUh0cGuRAnsekFOOFh4b2p4RkE/preview')"> My View on Alternative Director</a>
+        <a href="#" class="heading-link" data-fileid="1cDUr3OvvQBwUcamPMY7K1IB096CiwPn6">My View on Alternative Director</a>
       </div>
     </div>
 
     <div class="pdf-viewer" id="viewer">
-      <!-- Default PDF loaded on page load -->
-      <iframe src="https://drive.google.com/file/d/0BzUh0cGuRAnsekFOOFh4b2p4RkE/preview"></iframe>
+      <iframe id="pdfFrame" src="https://drive.google.com/file/d/0BzUh0cGuRAnsekFOOFh4b2p4RkE/preview"></iframe>
     </div>
   </div>
 
@@ -149,10 +148,20 @@
       section.style.display = isVisible ? 'none' : 'block';
     }
 
-    function loadPDF(link) {
-      const viewer = document.getElementById('viewer');
-      viewer.innerHTML = `<iframe src="${link}"></iframe>`;
-    }
+    // Attach click handlers after DOM loads
+    document.addEventListener("DOMContentLoaded", function() {
+      const links = document.querySelectorAll('.heading-link');
+      links.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const fileId = this.getAttribute('data-fileid');
+          if (fileId) {
+            const iframe = document.getElementById('pdfFrame');
+            iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+          }
+        });
+      });
+    });
   </script>
 
   <!-- Google Translate -->
