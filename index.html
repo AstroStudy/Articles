@@ -24,30 +24,22 @@
       flex-wrap: wrap;
       align-items: center;
     }
-    .navbar a {
+    .navbar a, .navbar .print-button {
       color: white;
       text-decoration: none;
       padding: 10px 20px;
       display: inline-block;
+      background: none;
+      border: none;
+      font-size: inherit;
+      cursor: pointer;
+      font-family: inherit;
     }
-    .navbar a:hover {
+    .navbar a:hover, .navbar .print-button:hover {
       background-color: #45a049;
     }
     #google_translate_element {
       margin-left: 10px;
-    }
-    .print-button {
-      margin-left: 10px;
-      background-color: #45a049;
-      color: white;
-      border: none;
-      padding: 8px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-    .print-button:hover {
-      background-color: #3d8b40;
     }
     .main-content {
       display: flex;
@@ -163,10 +155,30 @@
     }
 
     function printArticle() {
-      const pdfFrame = document.getElementById('pdfFrame');
-      const pdfWindow = pdfFrame.contentWindow;
-      pdfWindow.focus();
-      pdfWindow.print();
+      // Get the current PDF URL from the iframe
+      const pdfUrl = document.getElementById('pdfFrame').src;
+      
+      // Replace '/preview' with '/view' to get the printable version
+      const printableUrl = pdfUrl.replace('/preview', '/view?usp=sharing');
+      
+      // Open the PDF in a new tab for printing
+      const printWindow = window.open(printableUrl, '_blank');
+      
+      // Wait for the new window to load then trigger print
+      if (printWindow) {
+        printWindow.onload = function() {
+          // Add a small delay to ensure PDF is fully loaded
+          setTimeout(function() {
+            try {
+              printWindow.print();
+            } catch (e) {
+              alert('Please use the print option in the PDF viewer (Ctrl+P or Cmd+P)');
+            }
+          }, 1000);
+        };
+      } else {
+        alert('Pop-up blocked. Please allow pop-ups for this site to print.');
+      }
     }
 
     // Attach click handlers after DOM loads
