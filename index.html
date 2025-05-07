@@ -36,6 +36,19 @@
     #google_translate_element {
       margin-left: 10px;
     }
+    .print-button {
+      margin-left: 10px;
+      background-color: #45a049;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .print-button:hover {
+      background-color: #3d8b40;
+    }
     .main-content {
       display: flex;
       height: calc(100vh - 60px);
@@ -104,6 +117,7 @@
       <a href="https://kishoredvr.github.io/Exploring/AboutMe.html">Origin Of Thoughts</a>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLSdM_eKzDRgqgfaokbaEI2nRi4ROqIqbWHviMTkFArBECH2htw/viewform?usp=header">Message Me</a>
       <div id="google_translate_element"></div>
+      <button class="print-button" onclick="printArticle()">Print This Article</button>
     </div>
   </div>
 
@@ -146,6 +160,13 @@
       const isVisible = section.style.display === 'block';
       document.querySelectorAll('.sub-headings').forEach(div => div.style.display = 'none');
       section.style.display = isVisible ? 'none' : 'block';
+    }
+
+    function printArticle() {
+      const pdfFrame = document.getElementById('pdfFrame');
+      const pdfWindow = pdfFrame.contentWindow;
+      pdfWindow.focus();
+      pdfWindow.print();
     }
 
     // Attach click handlers after DOM loads
