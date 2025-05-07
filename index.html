@@ -107,18 +107,17 @@
         visibility: visible;
       }
       .pdf-viewer {
-        position: fixed;
-        top: 0;
+        position: absolute;
         left: 0;
-        width: 100vw;
-        height: 100vh;
+        top: 0;
+        width: 100%;
+        height: 100%;
         margin: 0;
         padding: 0;
       }
       .pdf-viewer iframe {
         width: 100%;
         height: 100%;
-        border: none;
       }
     }
   </style>
@@ -178,39 +177,35 @@
     }
 
     function printArticle() {
-      // Get current PDF URL and modify for direct printing
-      const currentSrc = document.getElementById('pdfFrame').src;
-      const printUrl = currentSrc
-        .replace('/preview', '')
-        .replace('/view', '')
-        + '?usp=sharing&print=true';
-
-      // Create temporary window for printing
-      const printWindow = window.open(printUrl, '_blank');
+      // Create a temporary iframe with the PDF content
+      const tempIframe = document.createElement('iframe');
+      tempIframe.style.position = 'absolute';
+      tempIframe.style.width = '0';
+      tempIframe.style.height = '0';
+      tempIframe.style.border = 'none';
       
-      // Wait for PDF to load then trigger print
-      if (printWindow) {
-        printWindow.onload = function() {
-          setTimeout(() => {
-            try {
-              printWindow.print();
-            } catch (e) {
-              // Show manual print instructions if automatic fails
-              printWindow.document.body.innerHTML = `
-                <div style="padding: 20px; font-family: Arial, sans-serif;">
-                  <h2>Print Instructions</h2>
-                  <p>1. Press Ctrl+P (Windows) or Cmd+P (Mac)</p>
-                  <p>2. Check "Simplify page" in print dialog if available</p>
-                  <p>3. Adjust scale to 100%</p>
-                  <button onclick="window.print()" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Try Print Again</button>
-                </div>
-              `;
-            }
-          }, 2000);
-        };
-      } else {
-        alert('Please allow pop-ups for this site to enable printing');
-      }
+      // Get the current PDF URL and modify it for printing
+      const currentSrc = document.getElementById('pdfFrame').src;
+      const printSrc = currentSrc.replace('/preview', '/view');
+      
+      tempIframe.src = printSrc;
+      document.body.appendChild(tempIframe);
+
+      tempIframe.onload = function() {
+        // Focus the iframe and trigger print
+        try {
+          tempIframe.contentWindow.focus();
+          tempIframe.contentWindow.print();
+        } catch (e) {
+          // Fallback to regular print if direct printing fails
+          window.print();
+        }
+        
+        // Remove the temporary iframe after printing
+        setTimeout(() => {
+          document.body.removeChild(tempIframe);
+        }, 1000);
+      };
     }
 
     // Attach click handlers after DOM loads
