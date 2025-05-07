@@ -112,6 +112,13 @@
         top: 0;
         width: 100%;
         height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+      .pdf-viewer iframe {
+        width: 100%;
+        height: 100%;
+        box-shadow: none;
       }
       .navbar, .explorer {
         display: none;
@@ -174,35 +181,25 @@
     }
 
     function printArticle() {
-      // Create a temporary iframe for printing
-      const printFrame = document.createElement('iframe');
-      printFrame.style.position = 'absolute';
-      printFrame.style.width = '0';
-      printFrame.style.height = '0';
-      printFrame.style.border = 'none';
+      // First try to print just the PDF viewer area
+      const printContents = document.getElementById('viewer').innerHTML;
+      const originalContents = document.body.innerHTML;
       
-      // Get the current PDF URL and modify it for printing
-      const pdfUrl = document.getElementById('pdfFrame').src;
-      const printUrl = pdfUrl.replace('/preview', '/view?usp=sharing&print=true');
+      document.body.innerHTML = printContents;
+      window.print();
+      document.body.innerHTML = originalContents;
       
-      printFrame.src = printUrl;
-      document.body.appendChild(printFrame);
-      
-      printFrame.onload = function() {
-        try {
-          // Try to print the iframe content
-          printFrame.contentWindow.focus();
-          printFrame.contentWindow.print();
-        } catch (e) {
-          // Fallback to browser print if direct printing fails
-          window.print();
-        }
-        
-        // Remove the iframe after printing
-        setTimeout(() => {
-          document.body.removeChild(printFrame);
-        }, 1000);
-      };
+      // Restore click handlers
+      document.querySelectorAll('.heading-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const fileId = this.getAttribute('data-fileid');
+          if (fileId) {
+            const iframe = document.getElementById('pdfFrame');
+            iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
+          }
+        });
+      });
     }
 
     // Attach click handlers after DOM loads
