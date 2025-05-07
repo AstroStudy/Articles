@@ -98,6 +98,25 @@
         height: 60vh;
       }
     }
+    /* Print-specific styles */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .pdf-viewer, .pdf-viewer * {
+        visibility: visible;
+      }
+      .pdf-viewer {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .navbar, .explorer {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
@@ -155,30 +174,35 @@
     }
 
     function printArticle() {
-      // Get the current PDF URL from the iframe
+      // Create a temporary iframe for printing
+      const printFrame = document.createElement('iframe');
+      printFrame.style.position = 'absolute';
+      printFrame.style.width = '0';
+      printFrame.style.height = '0';
+      printFrame.style.border = 'none';
+      
+      // Get the current PDF URL and modify it for printing
       const pdfUrl = document.getElementById('pdfFrame').src;
+      const printUrl = pdfUrl.replace('/preview', '/view?usp=sharing&print=true');
       
-      // Replace '/preview' with '/view' to get the printable version
-      const printableUrl = pdfUrl.replace('/preview', '/view?usp=sharing');
+      printFrame.src = printUrl;
+      document.body.appendChild(printFrame);
       
-      // Open the PDF in a new tab for printing
-      const printWindow = window.open(printableUrl, '_blank');
-      
-      // Wait for the new window to load then trigger print
-      if (printWindow) {
-        printWindow.onload = function() {
-          // Add a small delay to ensure PDF is fully loaded
-          setTimeout(function() {
-            try {
-              printWindow.print();
-            } catch (e) {
-              alert('Please use the print option in the PDF viewer (Ctrl+P or Cmd+P)');
-            }
-          }, 1000);
-        };
-      } else {
-        alert('Pop-up blocked. Please allow pop-ups for this site to print.');
-      }
+      printFrame.onload = function() {
+        try {
+          // Try to print the iframe content
+          printFrame.contentWindow.focus();
+          printFrame.contentWindow.print();
+        } catch (e) {
+          // Fallback to browser print if direct printing fails
+          window.print();
+        }
+        
+        // Remove the iframe after printing
+        setTimeout(() => {
+          document.body.removeChild(printFrame);
+        }, 1000);
+      };
     }
 
     // Attach click handlers after DOM loads
