@@ -118,6 +118,7 @@
       .pdf-viewer iframe {
         width: 100%;
         height: 100%;
+        border: none;
       }
     }
   </style>
@@ -177,39 +178,39 @@
     }
 
     function printArticle() {
-      // Create a temporary print iframe
-      const printFrame = document.createElement('iframe');
-      printFrame.style.position = 'fixed';
-      printFrame.style.right = '0';
-      printFrame.style.bottom = '0';
-      printFrame.style.width = '0';
-      printFrame.style.height = '0';
-      printFrame.style.border = 'none';
-      
-      // Get current PDF URL and modify for printing
+      // Get current PDF URL and modify for direct printing
       const currentSrc = document.getElementById('pdfFrame').src;
-      const printSrc = currentSrc.replace('/preview', '/view?usp=sharing');
-      
-      printFrame.src = printSrc;
-      document.body.appendChild(printFrame);
+      const printUrl = currentSrc
+        .replace('/preview', '')
+        .replace('/view', '')
+        + '?usp=sharing&print=true';
 
-      printFrame.onload = function() {
-        setTimeout(() => {
-          try {
-            // Try to print the iframe content
-            printFrame.contentWindow.focus();
-            printFrame.contentWindow.print();
-          } catch (e) {
-            // Fallback to regular print if direct printing fails
-            window.print();
-          }
-          
-          // Clean up after printing
+      // Create temporary window for printing
+      const printWindow = window.open(printUrl, '_blank');
+      
+      // Wait for PDF to load then trigger print
+      if (printWindow) {
+        printWindow.onload = function() {
           setTimeout(() => {
-            document.body.removeChild(printFrame);
-          }, 1000);
-        }, 1000);
-      };
+            try {
+              printWindow.print();
+            } catch (e) {
+              // Show manual print instructions if automatic fails
+              printWindow.document.body.innerHTML = `
+                <div style="padding: 20px; font-family: Arial, sans-serif;">
+                  <h2>Print Instructions</h2>
+                  <p>1. Press Ctrl+P (Windows) or Cmd+P (Mac)</p>
+                  <p>2. Check "Simplify page" in print dialog if available</p>
+                  <p>3. Adjust scale to 100%</p>
+                  <button onclick="window.print()" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Try Print Again</button>
+                </div>
+              `;
+            }
+          }, 2000);
+        };
+      } else {
+        alert('Please allow pop-ups for this site to enable printing');
+      }
     }
 
     // Attach click handlers after DOM loads
