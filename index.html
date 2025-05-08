@@ -178,17 +178,27 @@
     }
 
     function printArticle() {
-      // Get current PDF URL and modify for direct printing
-      const currentSrc = document.getElementById('pdfFrame').src;
-      const printUrl = currentSrc
-        .replace('/preview', '')
-        .replace('/view', '')
-        + '?usp=sharing&print=true';
-
-      // Create temporary window for printing
-      const printWindow = window.open(printUrl, '_blank');
+      const pdfFrame = document.getElementById('pdfFrame');
       
-      // Wait for PDF to load then trigger print
+      // First try to print the iframe directly
+      try {
+        // Focus the iframe
+        pdfFrame.focus();
+        
+        // Try to call print on the iframe's contentWindow
+        if (pdfFrame.contentWindow && typeof pdfFrame.contentWindow.print === 'function') {
+          pdfFrame.contentWindow.print();
+          return;
+        }
+      } catch (e) {
+        console.log("Direct print failed, trying fallback method");
+      }
+      
+      // Fallback method - open PDF in new window and print
+      const currentSrc = pdfFrame.src;
+      const printUrl = currentSrc.replace('/preview', '');
+      
+      const printWindow = window.open(printUrl, '_blank');
       if (printWindow) {
         printWindow.onload = function() {
           setTimeout(() => {
