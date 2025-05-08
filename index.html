@@ -181,39 +181,13 @@
       // Get current PDF URL and modify for direct printing
       const currentSrc = document.getElementById('pdfFrame').src;
       const printUrl = currentSrc
-        .replace('/preview', '')
-        .replace('/view', '')
-        + '?usp=sharing&print=true';
+        pdfFrame.focus();
+        pdfFrame.contentWindow.print();
 
       // Create temporary window for printing
       const printWindow = window.open(printUrl, '_blank');
       
-      // Wait for PDF to load then trigger print
-      if (printWindow) {
-        printWindow.onload = function() {
-          setTimeout(() => {
-            try {
-              printWindow.print();
-            } catch (e) {
-              // Show manual print instructions if automatic fails
-              printWindow.document.body.innerHTML = `
-                <div style="padding: 20px; font-family: Arial, sans-serif;">
-                  <h2>Print Instructions</h2>
-                  <p>1. Press Ctrl+P (Windows) or Cmd+P (Mac)</p>
-                  <p>2. Check "Simplify page" in print dialog if available</p>
-                  <p>3. Adjust scale to 100%</p>
-                  <button onclick="window.print()" style="padding: 8px 16px; background-color: #4CAF50; color: white; border: none; cursor: pointer;">Try Print Again</button>
-                </div>
-              `;
-            }
-          }, 2000);
-        };
-      } else {
-        alert('Please allow pop-ups for this site to enable printing');
-      }
-    }
-
-    // Attach click handlers after DOM loads
+     // Attach click handlers after DOM loads
     document.addEventListener("DOMContentLoaded", function() {
       const links = document.querySelectorAll('.heading-link');
       links.forEach(link => {
