@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Articles by Kishore DVR</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      color: #333;
+      padding: 20px;
+    }
+
+    /* Zoom container to simulate 70% zoom */
+    .zoom-container {
+      transform: scale(0.7);
+      transform-origin: top left;
+      width: 142.86%; /* 100% / 0.7 */
+      height: 142.86vh;
+      position: relative;
+      left: 0;
+      top: 0;
+    }
+
+    .content-wrapper {
+      display: flex;
+      min-height: 100vh;
+      gap: 20px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    /* Explorer Section */
+    .explorer {
+      flex: 0 0 280px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .explorer-title {
+      font-size: 1.5rem;
+      color: #2c3e50;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #4CAF50;
+      font-weight: 600;
+    }
+
+    .category {
+      margin-bottom: 25px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px 0;
+      font-weight: 600;
+      color: #2c3e50;
+      transition: all 0.3s ease;
+    }
+
+    .category-header:hover {
+      color: #4CAF50;
+    }
+
+    .category-header::before {
+      content: "▶";
+      margin-right: 10px;
+      font-size: 0.8rem;
+      transition: transform 0.3s ease;
+    }
+
+    .category-header.open::before {
+      content: "▼";
+    }
+
+    .sub-headings {
+      padding-left: 25px;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+    }
+
+    .category.open .sub-headings {
+      max-height: 500px;
+    }
+
+    .heading-link {
+      display: block;
+      padding: 10px 15px;
+      margin: 8px 0;
+      background: #f8f9fa;
+      border-radius: 8px;
+      color: #555;
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .heading-link:hover {
+      background: #e8f5e9;
+      color: #4CAF50;
+      transform: translateX(5px);
+      box-shadow: 0 4px 8px rgba(76, 175, 80, 0.15);
+    }
+
+    .heading-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 0;
+      background: #4CAF50;
+      border-radius: 0 4px 4px 0;
+      transition: height 0.3s ease;
+    }
+
+    .heading-link:hover::before {
+      height: 70%;
+    }
+
+    /* PDF Viewer - Increased height by 30% */
+    .pdf-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+      background: white;
+    }
+
+    .pdf-header {
+      background: linear-gradient(to right, #4CAF50, #43a047);
+      color: white;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pdf-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .pdf-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .pdf-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pdf-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .pdf-viewer {
+      flex: 1;
+      position: relative;
+      height: calc(100% + 30%); /* Increased height by 30% */
+      min-height: 800px; /* Added minimum height */
+    }
+
+    .pdf-viewer iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Right Menu */
+    .right-menu {
+      flex: 0 0 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .menu-card {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .menu-title {
+      font-size: 1.3rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #4CAF50;
+      font-weight: 600;
+    }
+
+    .menu-links {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .menu-link {
+      display: flex;
+      align-items: center;
+      padding: 15px 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      color: #555;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .menu-link:hover {
+      background: #4CAF50;
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(76, 175, 80, 0.4);
+    }
+
+    .menu-link::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 5px;
+      height: 100%;
+      background: #43a047;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .menu-link:hover::before {
+      transform: translateX(0);
+    }
+
+    .menu-icon {
+      margin-right: 12px;
+      font-size: 1.2rem;
+    }
+
+    .translate-container {
+      background: white;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Improved Google Translate dropdown */
+    .goog-te-combo {
+      width: 100% !important;
+      padding: 12px !important;
+      border-radius: 8px !important;
+      border: 1px solid #ddd !important;
+      background: #f8f9fa !important;
+      font-size: 1rem !important;
+      color: #555 !important;
+      height: auto !important;
+    }
+
+    .goog-te-menu-value {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+    }
+
+    .goog-te-menu-value span {
+      color: #555 !important;
+    }
+
+    .goog-te-menu-value img {
+      display: none !important;
+    }
+
+    .goog-te-menu2 {
+      max-width: 100% !important;
+      width: 100% !important;
+      overflow: hidden !important;
+    }
+
+    .goog-te-menu2-item div, .goog-te-menu2-item-selected div {
+      padding: 8px 12px !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+      .zoom-container {
+        transform: scale(0.8);
+        width: 125%; /* 100% / 0.8 */
+      }
+    }
+
+    @media (max-width: 992px) {
+      .content-wrapper {
+        flex-direction: column;
+      }
+      
+      .right-menu {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      
+      .menu-card, .translate-container {
+        flex: 1;
+        min-width: 300px;
+      }
+      
+      .zoom-container {
+        transform: scale(0.9);
+        width: 111.11%; /* 100% / 0.9 */
+      }
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      .explorer {
+        flex: 0 0 auto;
+      }
+      
+      .pdf-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .pdf-actions {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .zoom-container {
+        transform: scale(1);
+        width: 100%;
+      }
+    }
+
+    /* Animation for category opening */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .heading-link {
+      animation: fadeIn 0.3s ease forwards;
+    }
+  </style>
+</head>
+<body>
+  <div class="zoom-container">
+    <div class="content-wrapper">
+      <!-- Explorer Section -->
+      <div class="explorer">
+        <h2 class="explorer-title">Browse Articles</h2>
+        
+        <div class="category" id="category1">
+          <div class="category-header" onclick="toggleCategory('category1')">Digital Reliability</div>
+          <div class="sub-headings">
+            <a href="#" class="heading-link" data-fileid="FILE_ID_1_REPLACE_ME">Understanding System Dependability</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_2_REPLACE_ME">Best Practices in Digital Security</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_3_REPLACE_ME">Cloud Infrastructure Reliability</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_4_REPLACE_ME">Disaster Recovery Planning</a>
+          </div>
+        </div>
+        
+        <div class="category" id="category2">
+          <div class="category-header" onclick="toggleCategory('category2')">Vedic Astrology</div>
+          <div class="sub-headings">
+            <a href="#" class="heading-link" data-fileid="FILE_ID_5_REPLACE_ME">Planetary Influences Explained</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_6_REPLACE_ME">Modern Applications of Ancient Wisdom</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_7_REPLACE_ME">Astrological Remedies for Modern Life</a>
+          </div>
+        </div>
+        
+        <div class="category" id="category3">
+          <div class="category-header" onclick="toggleCategory('category3')">National Economies</div>
+          <div class="sub-headings">
+            <a href="#" class="heading-link active" data-fileid="1Azxn_sL25RSzM_GHUAh9XgY4BVNpGuvg">Finland Basic Introduction</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_9_REPLACE_ME">Emerging Markets Analysis</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_10_REPLACE_ME">Sustainable Economic Development</a>
+          </div>
+        </div>
+        
+        <div class="category" id="category4">
+          <div class="category-header" onclick="toggleCategory('category4')">Other Topics</div>
+          <div class="sub-headings">
+            <a href="#" class="heading-link" data-fileid="1cDUr3OvvQBwUcamPMY7K1IB096CiwPn6">My View on Alternative Director</a>
+            <a href="#" class="heading-link" data-fileid="ANOTHER_FILE_ID_REPLACE_ME">Philosophy of Technology</a>
+            <a href="#" class="heading-link" data-fileid="FILE_ID_12_REPLACE_ME">Ethics in Modern Business</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- PDF Viewer -->
+      <div class="pdf-container">
+        <div class="pdf-header">
+          <div class="pdf-title">Finland Basic Introduction</div>
+          <div class="pdf-actions">
+            <button class="pdf-btn" id="downloadBtn">
+              <span class="menu-icon">📥</span> Download
+            </button>
+            <button class="pdf-btn" onclick="zoomIn()">
+              <span class="menu-icon">🔍</span> Zoom
+            </button>
+          </div>
+        </div>
+        <div class="pdf-viewer">
+          <iframe id="pdfFrame" src="https://drive.google.com/file/d/1Azxn_sL25RSzM_GHUAh9XgY4BVNpGuvg/preview"></iframe>
+        </div>
+      </div>
+      
+      <!-- Right Menu -->
+      <div class="right-menu">
+        <div class="menu-card">
+          <h2 class="menu-title">Navigation</h2>
+          <div class="menu-links">
+            <a href="https://kishoredvr.github.io/Exploring/" class="menu-link">
+              <span class="menu-icon">🏠</span> Home
+            </a>
+            <a href="https://kishoredvr.github.io/Exploring/AboutMe.html" class="menu-link">
+              <span class="menu-icon">💭</span> Origin Of Thoughts
+            </a>
+            <a href="https://kishoredvr.github.io/Exploring/MessageMe.html" class="menu-link">
+              <span class="menu-icon">✉️</span> Message Me
+            </a>
+          </div>
+        </div>
+        
+        <div class="translate-container">
+          <h2 class="menu-title">Translate</h2>
+          <div id="google_translate_element"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Toggle category sections
+    function toggleCategory(categoryId) {
+      const category = document.getElementById(categoryId);
+      category.classList.toggle('open');
+    }
+    
+    // Set initial state (first category open)
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('category1').classList.add('open');
+      
+      // Set up event listeners for article links
+      document.querySelectorAll('.heading-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const fileId = this.getAttribute('data-fileid');
+          const title = this.textContent;
+          
+          // Update PDF viewer
+          document.getElementById('pdfFrame').src = `https://drive.google.com/file/d/${fileId}/preview`;
+          document.querySelector('.pdf-title').textContent = title;
+          
+          // Add visual feedback
+          document.querySelectorAll('.heading-link').forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Store current PDF ID
+          currentPdfId = fileId;
+        });
+      });
+      
+      // Download button functionality
+      document.getElementById('downloadBtn').addEventListener('click', function() {
+        const currentPdfId = document.querySelector('.heading-link.active').getAttribute('data-fileid');
+        if (currentPdfId) {
+          window.open(`https://drive.google.com/uc?export=download&id=${currentPdfId}`, '_blank');
+        }
+      });
+    });
+    
+    // Zoom function
+    function zoomIn() {
+      const zoomContainer = document.querySelector('.zoom-container');
+      const currentScale = parseFloat(zoomContainer.style.transform.replace('scale(', '').replace(')', '')) || 0.7;
+      
+      if (currentScale < 1.0) {
+        const newScale = currentScale + 0.1;
+        zoomContainer.style.transform = `scale(${newScale})`;
+        zoomContainer.style.width = `${100 / newScale}%`;
+      } else {
+        alert("Maximum zoom level reached");
+      }
+    }
+    
+    // Improved Google Translate initialization
+    function googleTranslateElementInit() {
+      if (typeof google !== 'undefined') {
+        new google.translate.TranslateElement({
+          pageLanguage: 'en',
+          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+          autoDisplay: false,
+          includedLanguages: 'en,es,fr,de,it,pt,ru,zh-CN,ja,hi,ar,bn,pa,ta,te,ml', // Add more languages as needed
+          gaTrack: true,
+          gaId: 'UA-XXXXX-X' // Replace with your Google Analytics ID if needed
+        }, 'google_translate_element');
+        
+        // Remove Google branding
+        var googleBranding = document.querySelector('.goog-logo-link');
+        if (googleBranding) {
+          googleBranding.style.display = 'none';
+        }
+        
+        var googleText = document.querySelector('.goog-te-gadget');
+        if (googleText) {
+          googleText.innerHTML = googleText.innerHTML.replace('Google Translate', '');
+        }
+      }
+    }
+  </script>
+  
+  <!-- Google Translate API with callback -->
+  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
