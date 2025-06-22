@@ -125,6 +125,10 @@
                 margin: 5mm 15mm;
             }
             
+            @page :first {
+                margin: 2mm 15mm 2mm 15mm; /* Reduced top and bottom margins by 70% for cover letter */
+            }
+            
             body {
                 background: white !important;
                 padding: 0 !important;
@@ -156,14 +160,14 @@
             .cover-letter-page {
                 height: auto !important;
                 min-height: 0 !important;
-                padding: 10mm 15mm !important;
+                padding: 3mm 15mm !important; /* Reduced padding by 70% (from 10mm to 3mm) */
                 margin: 0 !important;
                 page-break-after: avoid;
             }
             
             .cover-letter-page .header-gradient {
-                padding: 5mm !important;
-                margin-bottom: 2mm !important;
+                padding: 2mm !important; /* Reduced padding */
+                margin-bottom: 1mm !important; /* Reduced margin */
             }
             
             .cover-letter-page .text-sm {
@@ -176,12 +180,12 @@
             }
             
             .cover-letter-page .bg-green-50 {
-                padding: 2mm !important;
-                margin-bottom: 2mm !important;
+                padding: 1mm !important; /* Reduced padding */
+                margin-bottom: 1mm !important; /* Reduced margin */
             }
             
             .cover-letter-page .mt-8 {
-                margin-top: 5mm !important;
+                margin-top: 3mm !important; /* Reduced margin */
             }
             
             .cover-letter-page p {
@@ -1030,6 +1034,9 @@
                             size: A4;
                             margin: 10mm 15mm;
                         }
+                        @page :first {
+                            margin: 2mm 15mm 2mm 15mm;
+                        }
                         body {
                             font-family: 'Inter', sans-serif;
                             line-height: 1.3;
@@ -1042,7 +1049,7 @@
                             height: 277mm;
                             width: 210mm;
                             margin: 0 auto;
-                            padding: 12mm 15mm;
+                            padding: 3mm 15mm;
                             background: white;
                         }
                         .cover-letter-page {
