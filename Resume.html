@@ -981,8 +981,8 @@
             const printWindow = window.open('', '_blank');
             
             // Get the HTML content of both sections
-            const coverLetterContent = document.getElementById('cover-letter-content').innerHTML;
-            const resumeContent = document.getElementById('resume-content').innerHTML;
+            const coverLetterContent = document.getElementById('cover-letter-content');
+            const resumeContent = document.getElementById('resume-content');
             
             // Write the combined content to the new window
             printWindow.document.open();
