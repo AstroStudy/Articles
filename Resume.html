@@ -9,26 +9,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary-green: #047857;
-            --light-green: #d1fae5;
-            --dark-green: #065f46;
-            --accent-green: #10b981;
+            --primary-blue: #0987b5;
+            --light-blue: #d1e9fa;
+            --dark-blue: #065f8c;
+            --accent-blue: #10a5e0;
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0fdf4;
+            background-color: #f0f9fd;
             line-height: 1.5;
             font-size: 14px;
         }
         
         h1, h2, h3, h4 {
             font-family: 'Montserrat', sans-serif;
-            color: var(--dark-green);
+            color: var(--dark-blue);
         }
         
         .header-gradient {
-            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            background: linear-gradient(135deg, #10a5e0 0%, #0987b5 100%);
         }
         
         .timeline-item:before {
@@ -39,8 +39,8 @@
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: #10b981;
-            border: 2px solid #d1fae5;
+            background: #10a5e0;
+            border: 2px solid #d1e9fa;
         }
         
         .timeline {
@@ -54,7 +54,7 @@
             top: 0;
             height: 100%;
             width: 2px;
-            background: #d1fae5;
+            background: #d1e9fa;
         }
         
         .tab-content {
@@ -114,7 +114,7 @@
         }
         
         .tab-btn.active {
-            background: var(--primary-green);
+            background: var(--primary-blue);
             color: white;
         }
         
@@ -216,12 +216,12 @@
             display: block;
             padding: 12px 16px;
             text-decoration: none;
-            color: #065f46;
+            color: #065f8c;
             transition: all 0.2s;
         }
         
         .print-dropdown a:hover {
-            background-color: #d1fae5;
+            background-color: #d1e9fa;
         }
         
         .print-container {
@@ -303,9 +303,9 @@
         .work-experience-item {
             margin-bottom: 8px;
             padding: 8px;
-            background-color: #f0fdf4;
+            background-color: #f0f9fd;
             border-radius: 4px;
-            border-left: 2px solid #10b981;
+            border-left: 2px solid #10a5e0;
         }
         
         .work-experience-header {
@@ -316,15 +316,15 @@
         
         .work-experience-title {
             font-weight: 600;
-            color: #065f46;
+            color: #065f8c;
         }
         
         .work-experience-date {
             font-size: 11px;
-            background-color: #d1fae5;
+            background-color: #d1e9fa;
             padding: 2px 6px;
             border-radius: 10px;
-            color: #065f46;
+            color: #065f8c;
         }
         
         .work-experience-location {
@@ -348,7 +348,7 @@
             content: '•';
             position: absolute;
             left: -10px;
-            color: #10b981;
+            color: #10a5e0;
         }
     </style>
     <script>
@@ -356,10 +356,10 @@
             theme: {
                 extend: {
                     colors: {
-                        primary: '#047857',
-                        secondary: '#10b981',
-                        light: '#d1fae5',
-                        dark: '#065f46'
+                        primary: '#0987b5',
+                        secondary: '#10a5e0',
+                        light: '#d1e9fa',
+                        dark: '#065f8c'
                     }
                 }
             }
@@ -374,7 +374,7 @@
     </div>
     
     <div class="no-print fixed top-6 right-6 z-50 print-container">
-        <button id="print-button" class="bg-gradient-to-r from-green-600 to-green-800 text-white px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all">
+        <button id="print-button" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all">
             <i class="fas fa-print mr-2"></i> Print
             <i class="fas fa-chevron-down ml-2 text-sm"></i>
         </button>
@@ -411,7 +411,7 @@
                     <h1 class="text-2xl font-bold mb-1 text-yellow-500">KISHORE DVR</h1>
                     <p class="text-sm opacity-90 mb-3">Financial Professional | Accounting, Reporting & Auditing</p>
                     
-                    <div class="inline-block bg-white text-green-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow-sm">
+                    <div class="inline-block bg-white text-blue-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow-sm">
                         <i class="fas fa-laptop-house mr-1"></i> Seeking Remote / Work From Home
                     </div>
                     
@@ -426,20 +426,20 @@
                         </div>
                     </div>
                     <div class="mt-2 text-xs flex flex-wrap justify-center gap-x-3 gap-y-1">
-                        <a href="tel:+918885326661" class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                        <a href="tel:+918885326661" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                             <i class="fas fa-phone-alt mr-1"></i>
                             +91 888 532 6661
                         </a>
-                        <a href="mailto:ravikishoreca@gmail.com" class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                        <a href="mailto:ravikishoreca@gmail.com" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                             <i class="fas fa-envelope mr-1"></i>
                             ravikishoreca@gmail.com
                         </a>
                         <a href="https://www.linkedin.com/in/venkata-ravi-kishore-dontharaju-24b9ba254/" target="_blank" 
-                                   class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                                   class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                                     <img src="LinkedIn-Logo.png" alt="LinkedIn" class="w-14 h-4 mr-1 rounded-sm bg-white" />
                         </a>
 
-                        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                         <i class="fas fa-globe mr-1"></i>My Webpage
                         </a>
                         <span class="flex items-center">
@@ -451,9 +451,9 @@
             </header>
 
             <section class="compact-section">
-                <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-                    <span class="bg-green-100 p-1 rounded-full mr-2">
-                        <i class="fas fa-user-tie text-green-600 text-xs"></i>
+                <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+                    <span class="bg-blue-100 p-1 rounded-full mr-2">
+                        <i class="fas fa-user-tie text-blue-600 text-xs"></i>
                     </span>
                     PROFESSIONAL SUMMARY
                 </h2>
@@ -467,22 +467,22 @@
                 <!-- Left Column -->
                 <div>
                    <section class="compact-section">
-                        <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-                            <span class="bg-green-100 p-1 rounded-full mr-2">
-                                <i class="fas fa-graduation-cap text-green-600 text-xs"></i>
+                        <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-graduation-cap text-blue-600 text-xs"></i>
                             </span>
                            EDUCATION
                         </h2>
                         <div class="space-y-2">
-                            <div class="education-item bg-green-50 p-2 rounded border-l-2 border-green-500">
+                            <div class="education-item bg-blue-50 p-2 rounded border-l-2 border-blue-500">
                                 <h3 class="font-semibold text-gray-800">CA-Inter, ICAI</h3>
                                 <p class="text-gray-600 text-xs">2008 (Recently attempted CA Final Exams, 2024)</p>
                             </div>
-                            <div class="education-item bg-green-50 p-2 rounded border-l-2 border-green-500">
+                            <div class="education-item bg-blue-50 p-2 rounded border-l-2 border-blue-500">
                                 <h3 class="font-semibold text-gray-800">MBA, Finance</h3>
                                 <p class="text-gray-600 text-xs">2016, Hindu College of Management, Guntur.</p>
                             </div>
-                            <div class="education-item bg-green-50 p-2 rounded border-l-2 border-green-500">
+                            <div class="education-item bg-blue-50 p-2 rounded border-l-2 border-blue-500">
                                 <h3 class="font-semibold text-gray-800">B.Com</h3>
                                 <p class="text-gray-600 text-xs">2011, Mahatma Gandhi College, Guntur.</p>
                             </div>
@@ -490,27 +490,27 @@
                     </section>
                     <br>
                  <section class="compact-section mt-4">
-                        <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-                            <span class="bg-green-100 p-1 rounded-full mr-2">
-                                <i class="fas fa-trophy text-green-600 text-xs"></i>
+                        <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-trophy text-blue-600 text-xs"></i>
                             </span>
                            ACCOMPLISHMENTS
                         </h2>
                         <div class="space-y-2">
-                            <div class="accomplishments-item flex items-start bg-green-50 p-2 rounded">
-                                <span class="text-green-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
                                 <p class="text-gray-700 text-xs">Academic Excellence: Achieved All-India Rank 30 in the CA-CPT examination.</p>
                             </div>
-                            <div class="accomplishments-item flex items-start bg-green-50 p-2 rounded">
-                                <span class="text-green-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
                                 <p class="text-gray-700 text-xs">Strategic Implementation: Successfully led the transition to IFRS 16 without formal training.</p>
                             </div>
-                            <div class="accomplishments-item flex items-start bg-green-50 p-2 rounded">
-                                <span class="text-green-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
                                 <p class="text-gray-700 text-xs">Process Optimization: Automated processes resulting in 90% reduction in processing time.</p>
                             </div>
-                            <div class="accomplishments-item flex items-start bg-green-50 p-2 rounded">
-                                <span class="text-green-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-600 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
                                 <p class="text-gray-700 text-xs">Fraud Detection: Identified and reported fraudulent activities totaling INR 35 Crores.</p>
                             </div>
                         </div>
@@ -521,109 +521,109 @@
                 <div>
                    
                     <section class="compact-section">
-                        <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-                            <span class="bg-green-100 p-1 rounded-full mr-2">
-                                <i class="fas fa-tools text-green-600 text-xs"></i>
+                        <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-tools text-blue-600 text-xs"></i>
                             </span>
                             SKILLS
                         </h2>
                         <div class="three-column">
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-calculator mr-2 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-calculator mr-2 text-blue-600"></i>
                                 Accounting
                                 </div>
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-file-invoice-dollar mr-2 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-file-invoice-dollar mr-2 text-blue-600"></i>
                                 Reporting
                                 </div>
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-search-dollar mr-2 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-search-dollar mr-2 text-blue-600"></i>
                                 Auditing
                                 </div>
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-robot mr-2 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-robot mr-2 text-blue-600"></i>
                                 Automation
                                 </div>
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center text-center">
-                                <i class="fas fa-file-excel mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center text-center">
+                                <i class="fas fa-file-excel mr-1 text-blue-600"></i>
                                 MS Office
                             </div>
                             
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-calculator mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-calculator mr-1 text-blue-600"></i>
                                 Investran
                             </div>
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-code mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-code mr-1 text-blue-600"></i>
                                 VBA
                             </div>
                             
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-database mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-database mr-1 text-blue-600"></i>
                                 SAP
                             </div>
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-bolt mr-2 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-bolt mr-2 text-blue-600"></i>
                                 Power Query
                                 </div>
                             
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-cloud mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-cloud mr-1 text-blue-600"></i>
                                 NetSuite
                             </div>
                             
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-desktop mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-desktop mr-1 text-blue-600"></i>
                                 Hardware
                             </div>
                             
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                  <br><i class="fas fa-chart-line mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                  <br><i class="fas fa-chart-line mr-1 text-blue-600"></i>
                                 Stage
                             </div>
                             
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fas fa-file-invoice-dollar mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-file-invoice-dollar mr-1 text-blue-600"></i>
                                 Tally
                             </div>                            
-                            <div class="skill-badge bg-green-100 text-green-800 rounded flex items-center justify-center">
-                                <i class="fab fa-python mr-1 text-green-600"></i>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fab fa-python mr-1 text-blue-600"></i>
                                 Python
                             </div>
                         </div>                                                                    
                     </section>
                     <br>   
                     <section class="compact-section mt-4">
-                        <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-                            <span class="bg-green-100 p-1 rounded-full mr-2">
-                                <i class="fas fa-info-circle text-green-600 text-xs"></i>
+                        <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-info-circle text-blue-600 text-xs"></i>
                             </span>
                            PERSONAL INFORMATION
                         </h2>
                         <div class="personal-info-grid text-xs">
                             <div class="personal-info-item">
-                                <i class="fas fa-venus-mars text-green-500 mr-2 mt-1 text-sm"></i>
+                                <i class="fas fa-venus-mars text-blue-500 mr-2 mt-1 text-sm"></i>
                                 <div>
                                     <p class="font-medium">Gender</p>
                                     <p>Male</p>
                                 </div>
                             </div>
                             <div class="personal-info-item">
-                                <i class="fas fa-heart text-green-500 mr-2 mt-1 text-sm"></i>
+                                <i class="fas fa-heart text-blue-500 mr-2 mt-1 text-sm"></i>
                                 <div>
                                     <p class="font-medium">Marital Status</p>
                                     <p>Married</p>
                                 </div>
                             </div>
                             <div class="personal-info-item">
-                                <i class="fas fa-birthday-cake text-green-500 mr-2 mt-1 text-sm"></i>
+                                <i class="fas fa-birthday-cake text-blue-500 mr-2 mt-1 text-sm"></i>
                                 <div>
                                     <p class="font-medium">Date of Birth</p>
                                     <p>August 25, 1987</p>
                                 </div>
                             </div>
                             <div class="personal-info-item">
-                                <i class="fas fa-language text-green-500 mr-2 mt-1 text-sm"></i>
+                                <i class="fas fa-language text-blue-500 mr-2 mt-1 text-sm"></i>
                                 <div>
                                     <p class="font-medium">Languages</p>
                                     <p>Telugu, English, Hindi</p>
@@ -631,7 +631,7 @@
                             </div>
                             <br>
                             <div class="personal-info-item col-span-2">
-                                <i class="fas fa-home text-green-500 mr-2 mt-1 text-sm"></i>
+                                <i class="fas fa-home text-blue-500 mr-2 mt-1 text-sm"></i>
                                 <div>
                                     <p class="font-medium">Address</p>
                                     <p>F.N.304, Chalapathi Paradise,
@@ -641,7 +641,7 @@
                             </div>
                             
                             <div class="personal-info-item col-span-2">
-                                <i class="fas fa-laptop-house text-green-500 mr-2 mt-1 text-sm"></i>
+                                <i class="fas fa-laptop-house text-blue-500 mr-2 mt-1 text-sm"></i>
                                 <div>
                                     <p class="font-medium">Work Preference</p>
                                     <p>Exclusively seeking remote work</p>
@@ -659,47 +659,47 @@
             <!-- Page 2 -->
              <!-- Portfolio moved below to balance columns -->
   <section class="compact-section mt-4">
-    <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-        <span class="bg-green-100 p-1 rounded-full mr-2">
-            <i class="fas fa-laptop-code text-green-600 text-xs"></i>
+    <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+        <span class="bg-blue-100 p-1 rounded-full mr-2">
+            <i class="fas fa-laptop-code text-blue-600 text-xs"></i>
         </span>
         PORTFOLIO & PROJECTS
     </h2>
     <div class="flex flex-wrap gap-2">
-        <div class="portfolio-item bg-green-50 p-2 rounded flex-1">
+        <div class="portfolio-item bg-blue-50 p-2 rounded flex-1">
             <h3 class="font-semibold text-gray-800 flex items-center">
-                <i class="fab fa-github text-green-600 mr-2 text-sm"></i>
+                <i class="fab fa-github text-blue-600 mr-2 text-sm"></i>
                 GitHub Portfolio
             </h3>
             <p class="text-gray-700 text-xs mb-1">Explore my projects and technical explorations:</p>
-            <a href="https://github.com/digitalreliability/Sharing" target="_blank" class="text-xs text-green-700 hover:underline">
+            <a href="https://github.com/digitalreliability/Sharing" target="_blank" class="text-xs text-blue-700 hover:underline">
                 github.com/digitalreliability/Sharing
             </a>
         </div>
 
-        <div class="portfolio-item bg-white border border-green-200 rounded p-2 flex-1">
-            <h4 class="font-semibold text-green-700 flex items-center text-sm">
-                <i class="fas fa-cogs mr-2 text-green-600"></i>
+        <div class="portfolio-item bg-white border border-blue-200 rounded p-2 flex-1">
+            <h4 class="font-semibold text-blue-700 flex items-center text-sm">
+                <i class="fas fa-cogs mr-2 text-blue-600"></i>
                 Process Automation
             </h4>
             <p class="text-gray-700 text-xs">VBA scripts for accounting workflows.</p>
         </div>
 
-        <div class="portfolio-item bg-white border border-green-200 rounded p-2 flex-1">
-            <h4 class="font-semibold text-green-700 flex items-center text-sm">
-                <i class="fab fa-python mr-2 text-green-600"></i>
+        <div class="portfolio-item bg-white border border-blue-200 rounded p-2 flex-1">
+            <h4 class="font-semibold text-blue-700 flex items-center text-sm">
+                <i class="fab fa-python mr-2 text-blue-600"></i>
                 Python Financial Tools
             </h4>
             <p class="text-gray-700 text-xs">Python scripts for financial analysis.</p>
         </div>
 
-        <div class="portfolio-item bg-white border border-green-200 rounded p-2 flex-1">
-            <h4 class="font-semibold text-green-700 flex items-center text-sm">
-                <i class="fas fa-book-open mr-2 text-green-600"></i>
+        <div class="portfolio-item bg-white border border-blue-200 rounded p-2 flex-1">
+            <h4 class="font-semibold text-blue-700 flex items-center text-sm">
+                <i class="fas fa-book-open mr-2 text-blue-600"></i>
                 Articles & Writings
             </h4>
             <p class="text-gray-700 text-xs">Collection of finance articles.</p>
-            <a href="https://astrostudy.github.io/Articles/" target="_blank" class="text-xs text-green-600 hover:text-green-800">
+            <a href="https://astrostudy.github.io/Articles/" target="_blank" class="text-xs text-blue-600 hover:text-blue-800">
                 astrostudy.github.io/Articles/
             </a>
         </div>
@@ -707,9 +707,9 @@
 </section>
        
             <section class="compact-section">
-                <h2 class="text-lg font-bold text-green-700 mb-2 flex items-center">
-                    <span class="bg-green-100 p-1 rounded-full mr-2">
-                        <i class="fas fa-briefcase text-green-600 text-xs"></i>
+                <h2 class="text-lg font-bold text-blue-700 mb-2 flex items-center">
+                    <span class="bg-blue-100 p-1 rounded-full mr-2">
+                        <i class="fas fa-briefcase text-blue-600 text-xs"></i>
                     </span>
                     WORK EXPERIENCE
                 </h2>
@@ -751,13 +751,13 @@
                             <div class="work-experience-date">May 2019 - Feb 2021</div>
                         </div>
                         <div class="work-experience-location">Hyderabad, Telangana</div>
-                        <div class="font-medium text-xs text-green-700 mb-1">IFRS 16 Implementation</div>
+                        <div class="font-medium text-xs text-blue-700 mb-1">IFRS 16 Implementation</div>
                         <ul class="work-experience-bullets">
                             <li class="work-experience-bullet">Analyzed and transformed data to comply with IFRS 16</li>
                             <li class="work-experience-bullet">Streamlined processes for efficient implementation</li>
                             <li class="work-experience-bullet">Managed implementation for ~6,000 leases</li>
                         </ul>
-                        <div class="font-medium text-xs text-green-700 mb-1 mt-2">Accounts Receivables Optimization</div>
+                        <div class="font-medium text-xs text-blue-700 mb-1 mt-2">Accounts Receivables Optimization</div>
                         <ul class="work-experience-bullets">
                             <li class="work-experience-bullet">Automated processes to improve efficiency</li>
                             <li class="work-experience-bullet">Prepared and analyzed MIS reports</li>
@@ -842,7 +842,7 @@
                 <p class="mb-3 text-center">I do hereby acknowledge that the above information is true to the best of my knowledge.</p>
                   
                 <br>
-                <p class="font-semibold text-green-700 text-center">(D Venkata Ravi Kishore)</p>
+                <p class="font-semibold text-blue-700 text-center">(D Venkata Ravi Kishore)</p>
             </footer>
         </div>
     </div>
@@ -856,7 +856,7 @@
                     <h1 class="text-2xl font-bold mb-1 text-yellow-500">KISHORE DVR</h1>
                     <p class="text-sm opacity-90 mb-3">Financial Professional | Accounting, Reporting & Auditing</p>
                     
-                    <div class="inline-block bg-white text-green-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow-sm">
+                    <div class="inline-block bg-white text-blue-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow-sm">
                         <i class="fas fa-laptop-house mr-1"></i> Seeking Remote / Work From Home
                     </div>
                     
@@ -871,19 +871,19 @@
                         </div>
                     </div>
                     <div class="mt-2 text-xs flex flex-wrap justify-center gap-x-3 gap-y-1">
-                        <a href="tel:+918885326661" class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                        <a href="tel:+918885326661" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                             <i class="fas fa-phone-alt mr-1"></i>
                             +91 888 532 6661
                         </a>
-                        <a href="mailto:ravikishoreca@gmail.com" class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                        <a href="mailto:ravikishoreca@gmail.com" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                             <i class="fas fa-envelope mr-1"></i>
                             ravikishoreca@gmail.com
                         </a>
                         <a href="https://www.linkedin.com/in/venkata-ravi-kishore-dontharaju-24b9ba254/" target="_blank" 
-                                   class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                                   class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                                     <img src="LinkedIn-Logo.png" alt="LinkedIn" class="w-14 h-4 mr-1 rounded-sm bg-white" />
                         </a>
-                        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="flex items-center hover:underline hover:text-green-200 transition-colors">
+                        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
                         <i class="fas fa-globe mr-1"></i>My Webpage
                         </a>
                         <span class="flex items-center">
@@ -899,26 +899,26 @@
             
             <div class="text-gray-700">
                                                               
-                <p class="mb-4 font-bold text-lg text-green-700">Dear Hiring Manager,</p>
+                <p class="mb-4 font-bold text-lg text-blue-700">Dear Hiring Manager,</p>
 
                 <p class="mb-3 text-sm"  style="text-align: justify;">I am writing to express my keen interest in the position advertised. With over 10 years of experience in financial accounting, reporting, and auditing across diverse industries, I am confident I possess the skills and qualifications necessary to excel in this role, particularly in a remote setting outside India.</p></style>
 
-                <div class="bg-green-50 p-3 rounded mb-3 border-l-2 border-green-500 text-sm">
+                <div class="bg-blue-50 p-3 rounded mb-3 border-l-2 border-blue-500 text-sm">
                     <p class="mb-2" style="text-align: justify;">Throughout my career, I have demonstrated a strong ability to adapt to new environments and regulatory frameworks, as evidenced by my successful project implementations like the transition to IFRS 16 without formal training and streamlining the end-to-end accounts receivable process. I have worked with various accounting software like Investran, VBA & Power Query, MS Office, SAP, NetSuite (Oracle), Python, and Tally, which allows me to quickly learn and integrate into any existing systems. I have even created tailored programs with HTML, CSS and python with the help of AI models. It helps in boosting my confidence in creating programs without learning some programming laguages. </p></style>
                 </div>
 
                 <p class="mb-3 text-sm" style="text-align: justify;">Furthermore, I am a highly motivated and results-oriented individual with a passion for continuous improvement. In my previous roles, I have consistently identified opportunities to automate processes and improve efficiency, leading to significant time savings. My strong analytical and investigative skills were instrumental in detecting fraudulent activities totaling INR 35 Crores during audits.</p></style>
 
-                <div class="bg-green-50 p-3 rounded mb-3 border-l-2 border-green-500 text-sm">
+                <div class="bg-blue-50 p-3 rounded mb-3 border-l-2 border-blue-500 text-sm">
                     <p class="mb-2" style="text-align: justify;">I am exclusively seeking remote work opportunities to effectively contribute my expertise while maintaining a flexible work arrangement. My extensive experience with remote collaboration tools and self-discipline ensures seamless integration with distributed teams. I believe my skills and experience perfectly align with the requirements of this position. I am a strong team player with excellent communication and interpersonal skills, ensuring smooth collaboration with colleagues across different time zones.</p></style>
                 </div>
 
-                <p class="mb-3 text-sm" style="text-align: justify;">I invite you to explore my portfolio of financial tools and projects at <a href="https://kishoredvr.github.io/Exploring/" class="text-green-700 font-medium">kishoredvr.github.io/Exploring</a>, which showcases my technical capabilities and innovative approach to financial problem-solving. I am eager to learn more about this exciting opportunity and how my skills can contribute to the success of your team. I have attached my resume for your review and welcome the opportunity to discuss my qualifications further.</p></style>
+                <p class="mb-3 text-sm" style="text-align: justify;">I invite you to explore my portfolio of financial tools and projects at <a href="https://kishoredvr.github.io/Exploring/" class="text-blue-700 font-medium">kishoredvr.github.io/Exploring</a>, which showcases my technical capabilities and innovative approach to financial problem-solving. I am eager to learn more about this exciting opportunity and how my skills can contribute to the success of your team. I have attached my resume for your review and welcome the opportunity to discuss my qualifications further.</p></style>
                
                 <p class="mb-3 text-center">Thank you for your time and consideration.</p>
                 <div class="mt-8 text-center">
                       <p class="mb-1">Sincerely,</p>
-                      <p class="font-semibold text-green-700">Kishore DVR</p>
+                      <p class="font-semibold text-blue-700">Kishore DVR</p>
                 </div>
             </div>
         </div>
