@@ -378,6 +378,25 @@
     .heading-link {
       animation: fadeIn 0.3s ease forwards;
     }
+    
+    /* Fallback for Google Translate */
+    .translate-fallback {
+      display: none;
+      text-align: center;
+      padding: 15px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+    
+    .translate-fallback a {
+      color: #0987b5;
+      text-decoration: none;
+    }
+    
+    .translate-fallback a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -468,6 +487,9 @@
         <div class="translate-container">
           <h2 class="menu-title">Translate</h2>
           <div id="google_translate_element"></div>
+          <div class="translate-fallback" id="translateFallback">
+            <p>Translation service is currently unavailable. Please try again later or use <a href="https://translate.google.com/" target="_blank">Google Translate</a> directly.</p>
+          </div>
         </div>
       </div>
     </div>
@@ -479,6 +501,9 @@
       const category = document.getElementById(categoryId);
       category.classList.toggle('open');
     }
+    
+    // Current PDF ID variable
+    let currentPdfId = '1Azxn_sL25RSzM_GHUAh9XgY4BVNpGuvg';
     
     // Set initial state (first category open)
     document.addEventListener('DOMContentLoaded', function() {
@@ -506,11 +531,17 @@
       
       // Download button functionality
       document.getElementById('downloadBtn').addEventListener('click', function() {
-        const currentPdfId = document.querySelector('.heading-link.active').getAttribute('data-fileid');
-        if (currentPdfId) {
-          window.open(`https://drive.google.com/uc?export=download&id=${currentPdfId}`, '_blank');
+        const activeLink = document.querySelector('.heading-link.active');
+        if (activeLink) {
+          const currentPdfId = activeLink.getAttribute('data-fileid');
+          if (currentPdfId && !currentPdfId.includes('REPLACE_ME')) {
+            window.open(`https://drive.google.com/uc?export=download&id=${currentPdfId}`, '_blank');
+          }
         }
       });
+      
+      // Initialize Google Translate with error handling
+      initializeGoogleTranslate();
     });
     
     // Zoom function
@@ -527,33 +558,58 @@
       }
     }
     
-    // Improved Google Translate initialization
-    function googleTranslateElementInit() {
-      if (typeof google !== 'undefined') {
+    // Initialize Google Translate with error handling
+    function initializeGoogleTranslate() {
+      // Check if Google Translate script is loaded
+      if (typeof google === 'undefined' || typeof google.translate === 'undefined') {
+        document.getElementById('translateFallback').style.display = 'block';
+        return;
+      }
+      
+      try {
         new google.translate.TranslateElement({
           pageLanguage: 'en',
           layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
           autoDisplay: false,
-          includedLanguages: 'en,es,fr,de,it,pt,ru,zh-CN,ja,hi,ar,bn,pa,ta,te,ml', // Add more languages as needed
-          gaTrack: true,
-          gaId: 'UA-XXXXX-X' // Replace with your Google Analytics ID if needed
+          includedLanguages: 'en,es,fr,de,it,pt,ru,zh-CN,ja,hi,ar,bn,pa,ta,te,ml',
+          gaTrack: true
         }, 'google_translate_element');
         
         // Remove Google branding
-        var googleBranding = document.querySelector('.goog-logo-link');
-        if (googleBranding) {
-          googleBranding.style.display = 'none';
-        }
-        
-        var googleText = document.querySelector('.goog-te-gadget');
-        if (googleText) {
-          googleText.innerHTML = googleText.innerHTML.replace('Google Translate', '');
-        }
+        setTimeout(() => {
+          const googleBranding = document.querySelector('.goog-logo-link');
+          if (googleBranding) {
+            googleBranding.style.display = 'none';
+          }
+          
+          const googleText = document.querySelector('.goog-te-gadget');
+          if (googleText) {
+            googleText.innerHTML = googleText.innerHTML.replace('Google Translate', '');
+          }
+        }, 1000);
+      } catch (e) {
+        console.error('Google Translate initialization failed:', e);
+        document.getElementById('translateFallback').style.display = 'block';
       }
     }
+    
+    // Google Translate callback
+    function googleTranslateElementInit() {
+      initializeGoogleTranslate();
+    }
+    
+    // Load Google Translate script with error handling
+    function loadGoogleTranslateScript() {
+      const script = document.createElement('script');
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.onerror = function() {
+        document.getElementById('translateFallback').style.display = 'block';
+      };
+      document.body.appendChild(script);
+    }
+    
+    // Load the script after a slight delay to allow other resources to load
+    setTimeout(loadGoogleTranslateScript, 500);
   </script>
-  
-  <!-- Google Translate API with callback -->
-  <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
