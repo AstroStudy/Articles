@@ -199,6 +199,36 @@
       border: none;
     }
 
+    /* Error message styling */
+    .pdf-error {
+      display: none;
+      padding: 20px;
+      background: #fff8f8;
+      border: 1px solid #ffcccc;
+      border-radius: 8px;
+      margin: 20px;
+      text-align: center;
+    }
+
+    .pdf-error.show {
+      display: block;
+    }
+
+    .retry-btn {
+      background: #0987b5;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s;
+    }
+
+    .retry-btn:hover {
+      background: #0875a0;
+    }
+
     /* Right Menu */
     .right-menu {
       flex: 0 0 260px;
@@ -395,7 +425,12 @@
           </div>
         </div>
         <div class="pdf-viewer">
-          <iframe id="pdfFrame" src="https://drive.google.com/file/d/1Azxn_sL25RSzM_GHUAh9XgY4BVNpGuvg/preview"></iframe>
+          <div class="pdf-error" id="pdfError">
+            <h3>Unable to load the document</h3>
+            <p>There was an error loading the PDF from Google Drive. You can try reloading the page or try again later.</p>
+            <button class="retry-btn" onclick="retryLoadPdf()">Retry</button>
+          </div>
+          <iframe id="pdfFrame" src="https://drive.google.com/file/d/1Azxn_sL25RSzM_GHUAh9XgY4BVNpGuvg/preview" onload="hideError()" onerror="showError()"></iframe>
         </div>
       </div>
       
@@ -435,6 +470,23 @@
     // Current PDF ID variable
     let currentPdfId = '1Azxn_sL25RSzM_GHUAh9XgY4BVNpGuvg';
     
+    // Show error message
+    function showError() {
+      document.getElementById('pdfError').classList.add('show');
+    }
+    
+    // Hide error message
+    function hideError() {
+      document.getElementById('pdfError').classList.remove('show');
+    }
+    
+    // Retry loading PDF
+    function retryLoadPdf() {
+      const iframe = document.getElementById('pdfFrame');
+      iframe.src = iframe.src; // Reload the iframe
+      hideError();
+    }
+    
     // Set initial state (first category open)
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('category1').classList.add('open');
@@ -446,8 +498,14 @@
           const fileId = this.getAttribute('data-fileid');
           const title = this.textContent;
           
+          if (fileId.includes('REPLACE_ME')) {
+            alert("This content is coming soon!");
+            return;
+          }
+          
           // Update PDF viewer
-          document.getElementById('pdfFrame').src = `https://drive.google.com/file/d/${fileId}/preview`;
+          const iframe = document.getElementById('pdfFrame');
+          iframe.src = `https://drive.google.com/file/d/${fileId}/preview`;
           document.querySelector('.pdf-title').textContent = title;
           
           // Add visual feedback
@@ -456,6 +514,9 @@
           
           // Store current PDF ID
           currentPdfId = fileId;
+          
+          // Show loading state
+          hideError();
         });
       });
       
@@ -466,9 +527,25 @@
           const currentPdfId = activeLink.getAttribute('data-fileid');
           if (currentPdfId && !currentPdfId.includes('REPLACE_ME')) {
             window.open(`https://drive.google.com/uc?export=download&id=${currentPdfId}`, '_blank');
+          } else {
+            alert("This content is not available for download yet.");
           }
         }
       });
+      
+      // Check if the iframe loaded successfully after a timeout
+      setTimeout(function() {
+        const iframe = document.getElementById('pdfFrame');
+        try {
+          // Try to access the iframe content (will fail if there was an error)
+          if (iframe.contentWindow.document.body.innerHTML.includes('This error has been reported to Google')) {
+            showError();
+          }
+        } catch (e) {
+          // Cross-origin error means the iframe loaded but we can't check its content
+          // Assume it loaded successfully
+        }
+      }, 3000);
     });
     
     // Zoom function
