@@ -271,49 +271,6 @@
       font-size: 1.2rem;
     }
 
-    .translate-container {
-      background: white;
-      border-radius: 16px;
-      padding: 25px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    }
-
-    /* Improved Google Translate dropdown */
-    .goog-te-combo {
-      width: 100% !important;
-      padding: 12px !important;
-      border-radius: 8px !important;
-      border: 1px solid #ddd !important;
-      background: #f8f9fa !important;
-      font-size: 1rem !important;
-      color: #555 !important;
-      height: auto !important;
-    }
-
-    .goog-te-menu-value {
-      display: flex !important;
-      align-items: center !important;
-      justify-content: space-between !important;
-    }
-
-    .goog-te-menu-value span {
-      color: #555 !important;
-    }
-
-    .goog-te-menu-value img {
-      display: none !important;
-    }
-
-    .goog-te-menu2 {
-      max-width: 100% !important;
-      width: 100% !important;
-      overflow: hidden !important;
-    }
-
-    .goog-te-menu2-item div, .goog-te-menu2-item-selected div {
-      padding: 8px 12px !important;
-    }
-
     /* Responsive Design */
     @media (max-width: 1200px) {
       .zoom-container {
@@ -332,7 +289,7 @@
         flex-wrap: wrap;
       }
       
-      .menu-card, .translate-container {
+      .menu-card {
         flex: 1;
         min-width: 300px;
       }
@@ -377,25 +334,6 @@
 
     .heading-link {
       animation: fadeIn 0.3s ease forwards;
-    }
-    
-    /* Fallback for Google Translate */
-    .translate-fallback {
-      display: none;
-      text-align: center;
-      padding: 15px;
-      background: #f8f9fa;
-      border-radius: 8px;
-      margin-top: 10px;
-    }
-    
-    .translate-fallback a {
-      color: #0987b5;
-      text-decoration: none;
-    }
-    
-    .translate-fallback a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
@@ -483,14 +421,6 @@
             </a>
           </div>
         </div>
-        
-        <div class="translate-container">
-          <h2 class="menu-title">Translate</h2>
-          <div id="google_translate_element"></div>
-          <div class="translate-fallback" id="translateFallback">
-            <p>Translation service is currently unavailable. Please try again later or use <a href="https://translate.google.com/" target="_blank">Google Translate</a> directly.</p>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -539,9 +469,6 @@
           }
         }
       });
-      
-      // Initialize Google Translate with error handling
-      initializeGoogleTranslate();
     });
     
     // Zoom function
@@ -557,59 +484,6 @@
         alert("Maximum zoom level reached");
       }
     }
-    
-    // Initialize Google Translate with error handling
-    function initializeGoogleTranslate() {
-      // Check if Google Translate script is loaded
-      if (typeof google === 'undefined' || typeof google.translate === 'undefined') {
-        document.getElementById('translateFallback').style.display = 'block';
-        return;
-      }
-      
-      try {
-        new google.translate.TranslateElement({
-          pageLanguage: 'en',
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          autoDisplay: false,
-          includedLanguages: 'en,es,fr,de,it,pt,ru,zh-CN,ja,hi,ar,bn,pa,ta,te,ml',
-          gaTrack: true
-        }, 'google_translate_element');
-        
-        // Remove Google branding
-        setTimeout(() => {
-          const googleBranding = document.querySelector('.goog-logo-link');
-          if (googleBranding) {
-            googleBranding.style.display = 'none';
-          }
-          
-          const googleText = document.querySelector('.goog-te-gadget');
-          if (googleText) {
-            googleText.innerHTML = googleText.innerHTML.replace('Google Translate', '');
-          }
-        }, 1000);
-      } catch (e) {
-        console.error('Google Translate initialization failed:', e);
-        document.getElementById('translateFallback').style.display = 'block';
-      }
-    }
-    
-    // Google Translate callback
-    function googleTranslateElementInit() {
-      initializeGoogleTranslate();
-    }
-    
-    // Load Google Translate script with error handling
-    function loadGoogleTranslateScript() {
-      const script = document.createElement('script');
-      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.onerror = function() {
-        document.getElementById('translateFallback').style.display = 'block';
-      };
-      document.body.appendChild(script);
-    }
-    
-    // Load the script after a slight delay to allow other resources to load
-    setTimeout(loadGoogleTranslateScript, 500);
   </script>
 </body>
 </html>
