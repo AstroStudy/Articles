@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kishore DVR - Professional Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0987b5;
+            --light-blue: #d1e9fa;
+            --dark-blue: #065f8c;
+            --accent-blue: #10a5e0;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f9fd;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-blue);
+        }
+        
+        .header-gradient {
+            background: linear-gradient(135deg, #10a5e0 0%, #0987b5 100%);
+        }
+        
+        .timeline-item:before {
+            content: '';
+            position: absolute;
+            left: -17px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #10a5e0;
+            border: 2px solid #d1e9fa;
+        }
+        
+        .timeline {
+            position: relative;
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: #d1e9fa;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .page {
+            position: relative;
+            min-height: 297mm;
+            width: 210mm;
+            margin: 0 auto;
+            padding: 15mm;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .resume-page {
+            page-break-after: always;
+        }
+        
+        .cover-letter-page {
+            min-height: 297mm;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: #e5e7eb;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn:first-child {
+            border-radius: 6px 0 0 6px;
+        }
+        
+        .tab-btn:last-child {
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .tab-btn.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        /* Print Styles - Only Essential Changes */
+        @media print {
+            @page {
+                size: A4;
+                margin: 8mm 10mm; /* Reduced top/bottom margins by 20% */
+            }
+            
+            body {
+                background: white !important;
+                font-size: 11px !important; /* Slightly smaller for print */
+                line-height: 1.25 !important; /* Tighter line spacing */
+            }
+            
+            .no-print {
+                display: none !important;
+            }
+            
+            .page {
+                width: 100% !important;
+                padding: 6mm 10mm !important; /* Slightly reduced padding */
+                height: auto !important;
+                min-height: 0 !important;
+                box-shadow: none !important;
+            }
+            
+            /* Force resume to exactly 2 pages */
+            #resume-content .page {
+                height: 277mm !important; /* Fixed height for each page */
+                min-height: 277mm !important;
+                max-height: 277mm !important;
+                overflow: hidden !important; /* Prevent content overflow */
+                page-break-after: always !important;
+            }
+            
+            #resume-content .page:last-child {
+                page-break-after: avoid !important; /* Last page shouldn't create blank page */
+            }
+            
+            /* Force cover letter to 1 page */
+            #cover-letter-content .page {
+                height: 277mm !important;
+                min-height: 277mm !important;
+                max-height: 277mm !important;
+                overflow: hidden !important;
+                page-break-after: avoid !important;
+            }
+            
+            /* Slightly compact sections */
+            .compact-section {
+                margin-bottom: 4px !important;
+            }
+            
+            .work-experience-item {
+                margin-bottom: 4px !important;
+                padding: 4px !important;
+            }
+            
+            /* Prevent breaks inside key elements */
+            .work-experience-item, 
+            .education-item,
+            .accomplishments-item {
+                page-break-inside: avoid !important;
+            }
+            
+            /* Slightly adjust heading sizes */
+            h1 { font-size: 17px !important; }
+            h2 { font-size: 14px !important; }
+            
+            /* Ensure two-column layout works */
+            .two-column {
+                gap: 6px !important;
+            }
+            
+            /* Keep decorative elements visible */
+            .text-center {
+                display: block !important;
+            }
+        }
+        
+        /* Rest of your original styles remain unchanged */
+        .print-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 100;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+        
+        .print-dropdown a {
+            display: block;
+            padding: 12px 16px;
+            text-decoration: none;
+            color: #065f8c;
+            transition: all 0.2s;
+        }
+        
+        .print-dropdown a:hover {
+            background-color: #d1e9fa;
+        }
+        
+        .print-container {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .print-container:hover .print-dropdown {
+            display: block;
+        }
+        
+        .compact-section {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+        }
+        
+        .compact-header {
+            margin-bottom: 8px;
+            padding: 4px 0;
+        }
+        
+        .skill-badge {
+            padding: 4px 8px;
+            font-size: 12px;
+        }
+        
+        .experience-item {
+            margin-bottom: 12px;
+        }
+        
+        .section-divider {
+            border-bottom: 1px dashed #cbd5e0;
+            margin: 10px 0;
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .three-column {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        
+        /* Alignment fixes */
+        .education-item:not(:last-child) {
+            margin-bottom: 8px;
+        }
+        
+        .accomplishments-item:not(:last-child) {
+            margin-bottom: 8px;
+        }
+        
+        .portfolio-item:not(:last-child) {
+            margin-bottom: 8px;
+        }
+        
+        .personal-info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        
+        .personal-info-item {
+            display: flex;
+            align-items: flex-start;
+        }
+
+        /* Compact work experience styles */
+        .work-experience-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .work-experience-item {
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #f0f9fd;
+            border-radius: 4px;
+            border-left: 2px solid #10a5e0;
+        }
+        
+        .work-experience-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 4px;
+        }
+        
+        .work-experience-title {
+            font-weight: 600;
+            color: #065f8c;
+        }
+        
+        .work-experience-date {
+            font-size: 11px;
+            background-color: #d1e9fa;
+            padding: 2px 6px;
+            border-radius: 10px;
+            color: #065f8c;
+        }
+        
+        .work-experience-location {
+            font-size: 11px;
+            color: #4b5563;
+            font-style: italic;
+            margin-bottom: 4px;
+        }
+        
+        .work-experience-bullets {
+            padding-left: 12px;
+        }
+        
+        .work-experience-bullet {
+            font-size: 11px;
+            margin-bottom: 2px;
+            position: relative;
+        }
+        
+        .work-experience-bullet:before {
+            content: '•';
+            position: absolute;
+            left: -10px;
+            color: #10a5e0;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0987b5',
+                        secondary: '#10a5e0',
+                        light: '#d1e9fa',
+                        dark: '#065f8c'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="p-4 min-h-screen flex flex-col items-center justify-center print:p-0 bg-gray-100">
+    <!-- Tab Navigation -->
+    <div class="no-print tab-nav">
+        <button class="tab-btn active" data-tab="resume-content">Resume</button>
+        <button class="tab-btn" data-tab="cover-letter-content">Cover Letter</button>
+    </div>
+    
+    <div class="no-print fixed top-6 right-6 z-50 print-container">
+        <button id="print-button" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all">
+            <i class="fas fa-print mr-2"></i> Print
+            <i class="fas fa-chevron-down ml-2 text-sm"></i>
+        </button>
+        <div class="print-dropdown">
+            <a href="#" id="print-resume-only">Print Resume</a>
+            <a href="#" id="print-cover-letter-only">Print Cover Letter</a>
+            
+        </div>
+    </div>
+    
+    <!-- Portfolio Link -->
+    <div class="no-print fixed top-6 left-6 z-50">
+        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white px-6 py-3 rounded-full font-semibold flex items-center shadow-lg hover:shadow-xl transition-all">
+            <i class="fas fa-globe mr-2"></i> My Webpage
+        </a>
+    </div>
+    <!-- LinkedIn Logo -->
+    <div class="no-print fixed top-24 left-6 z-50 flex flex-col space-y-2">
+        <a href="https://www.linkedin.com/in/venkata-ravi-kishore-dontharaju-24b9ba254/" 
+           target="_blank" 
+           class="bg-gradient-to-r from-blue-600 to-blue-800 text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all"
+           title="Connect on LinkedIn">
+            <i class="fab fa-linkedin-in text-lg"></i>
+        </a>
+    </div>
+
+    <!-- Resume Content -->
+    <div id="resume-content" class="tab-content active w-full max-w-4xl">
+        <div class="page resume-page">
+            <!-- Page 1 -->
+            <header class="header-gradient text-white p-4 mb-4 text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5QcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')"></div>
+                <div class="relative z-10">
+                    <h1 class="text-2xl font-bold mb-1 text-yellow-500">KISHORE DVR</h1>
+                    <p class="text-sm opacity-90 mb-3">Faculty Aspirant | Accounts, Commerce & Economics</p>
+                    
+                    <div class="inline-block bg-white text-blue-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow-sm">
+                        <i class="fas fa-laptop-house mr-1"></i> Seeking Faculty Role (Onsite or Online)
+                    </div>
+                    
+                    <div class="flex justify-center space-x-2 mb-2 flex-wrap text-xs">
+                        <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1 inline-flex items-center">
+                            <i class="fas fa-certificate mr-1"></i>
+                            <span>CA-Inter, MBA Finance</span>
+                        </div>
+                        <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1 inline-flex items-center">
+                            <i class="fas fa-briefcase mr-1"></i>
+                            <span>10+ Years Industry Experience</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-xs flex flex-wrap justify-center gap-x-3 gap-y-1">
+                        <a href="tel:+918885326661" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                            <i class="fas fa-phone-alt mr-1"></i>
+                            +91 888 532 6661
+                        </a>
+                        <a href="mailto:ravikishoreca@gmail.com" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                            <i class="fas fa-envelope mr-1"></i>
+                            ravikishoreca@gmail.com
+                        </a>
+                        <a href="https://www.linkedin.com/in/venkata-ravi-kishore-dontharaju-24b9ba254/" target="_blank" 
+                                   class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                                    <img src="LinkedIn-Logo.png" alt="LinkedIn" class="w-14 h-4 mr-1 rounded-sm bg-white" />
+                        </a>
+
+                        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                        <i class="fas fa-globe mr-1"></i>My Webpage
+                        </a>
+                        <span class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            Guntur, Andhra Pradesh, India
+                        </span>
+                    </div>
+                </div>
+            </header>
+
+            <section class="compact-section">
+                <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+                    <span class="bg-blue-100 p-1 rounded-full mr-2">
+                        <i class="fas fa-user-tie text-blue-400 text-xs"></i>
+                    </span>
+                    PROFESSIONAL SUMMARY
+                </h2>
+                <p class="text-gray-700 text-sm" style="text-align: justify;">
+    Motivated and detail-oriented commerce professional with 10+ years of industry experience in accounting, reporting, and auditing. I am now transitioning to a faculty role, aspiring to teach and mentor higher secondary (+2) students in Accounts, Commerce, and Economics. I bring real-world financial experience into the classroom and am passionate about simplifying core concepts for students through practical examples and technology-aided learning. Committed to inspiring curiosity and critical thinking in students while fostering academic discipline. Proven ability to lead and mentor team members, fostering a collaborative and high-performing work environment. Committed to staying updated on industry trends and leveraging technology to optimize processes and drive efficiency.
+</p>
+        </section>
+            <p class = "text-center">---------------------------------------------------------------------------------------------------------</p>
+        <div>
+            <div class="two-column mt-4">
+                <!-- Left Column -->
+                <div>
+                   <section class="compact-section">
+                        <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-graduation-cap text-blue-400 text-xs"></i>
+                            </span>
+                           EDUCATION
+                        </h2>
+                        <div class="space-y-2">
+                            <div class="education-item bg-blue-50 p-2 rounded border-l-2 border-blue-500">
+                                <h3 class="font-semibold text-gray-800">CA-Inter, ICAI</h3>
+                                <p class="text-gray-600 text-xs">2008 (Recently attempted CA Final Exams, 2024)</p>
+                            </div>
+                            <div class="education-item bg-blue-50 p-2 rounded border-l-2 border-blue-500">
+                                <h3 class="font-semibold text-gray-800">MBA, Finance</h3>
+                                <p class="text-gray-600 text-xs">2016, Hindu College of Management, Guntur.</p>
+                            </div>
+                            <div class="education-item bg-blue-50 p-2 rounded border-l-2 border-blue-500">
+                                <h3 class="font-semibold text-gray-800">B.Com</h3>
+                                <p class="text-gray-600 text-xs">2011, Mahatma Gandhi College, Guntur.</p>
+                            </div>
+                        </div>
+                    </section>
+                    <br>
+                 <section class="compact-section mt-4">
+                        <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-trophy text-blue-400 text-xs"></i>
+                            </span>
+                           ACCOMPLISHMENTS
+                        </h2>
+                        <div class="space-y-2">
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-400 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <p class="text-gray-700 text-xs">Academic Excellence: Achieved All-India Rank 30 in the CA-CPT examination.</p>
+                            </div>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-400 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <p class="text-gray-700 text-xs">Strategic Implementation: Successfully led the transition to IFRS 16 without formal training.</p>
+                            </div>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-400 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <p class="text-gray-700 text-xs">Process Optimization: Automated processes resulting in 90% reduction in processing time.</p>
+                            </div>
+                            <div class="accomplishments-item flex items-start bg-blue-50 p-2 rounded">
+                                <span class="text-blue-400 text-sm mr-2 mt-1"><i class="fas fa-check-circle"></i></span>
+                                <p class="text-gray-700 text-xs">Fraud Detection: Identified and reported fraudulent activities totaling INR 35 Crores.</p>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                
+                <!-- Right Column -->
+                <div>
+                   
+                    <section class="compact-section">
+                        <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-tools text-blue-400 text-xs"></i>
+                            </span>
+                            SKILLS
+                        </h2>
+                        <div class="three-column">
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-calculator mr-2 text-blue-400"></i>
+                                Accounting
+                                </div>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-file-invoice-dollar mr-2 text-blue-400"></i>
+                                Reporting
+                                </div>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-search-dollar mr-2 text-blue-400"></i>
+                                Auditing
+                                </div>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-robot mr-2 text-blue-400"></i>
+                                Automation
+                                </div>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center text-center">
+                                <i class="fas fa-file-excel mr-1 text-blue-400"></i>
+                                MS Office
+                            </div>
+                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-calculator mr-1 text-blue-400"></i>
+                                Investran
+                            </div>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-code mr-1 text-blue-400"></i>
+                                VBA
+                            </div>
+                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-database mr-1 text-blue-400"></i>
+                                SAP
+                            </div>
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-bolt mr-2 text-blue-400"></i>
+                                Power Query
+                                </div>
+                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-cloud mr-1 text-blue-400"></i>
+                                NetSuite
+                            </div>
+                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-desktop mr-1 text-blue-400"></i>
+                                Hardware
+                            </div>
+                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                  <br><i class="fas fa-chart-line mr-1 text-blue-400"></i>
+                                Stage
+                            </div>
+                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fas fa-file-invoice-dollar mr-1 text-blue-400"></i>
+                                Tally
+                            </div>                            
+                            <div class="skill-badge bg-blue-100 text-blue-800 rounded flex items-center justify-center">
+                                <i class="fab fa-python mr-1 text-blue-400"></i>
+                                Python
+                            </div>
+                        </div>                                                                    
+                    </section>
+                    <br>   
+                    <section class="compact-section mt-4">
+                        <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+                            <span class="bg-blue-100 p-1 rounded-full mr-2">
+                                <i class="fas fa-info-circle text-blue-400 text-xs"></i>
+                            </span>
+                           PERSONAL INFORMATION
+                        </h2>
+                        <div class="personal-info-grid text-xs">
+                            <div class="personal-info-item">
+                                <i class="fas fa-venus-mars text-blue-500 mr-2 mt-1 text-sm"></i>
+                                <div>
+                                    <p class="font-medium">Gender</p>
+                                    <p>Male</p>
+                                </div>
+                            </div>
+                            <div class="personal-info-item">
+                                <i class="fas fa-heart text-blue-500 mr-2 mt-1 text-sm"></i>
+                                <div>
+                                    <p class="font-medium">Marital Status</p>
+                                    <p>Married</p>
+                                </div>
+                            </div>
+                            <div class="personal-info-item">
+                                <i class="fas fa-birthday-cake text-blue-500 mr-2 mt-1 text-sm"></i>
+                                <div>
+                                    <p class="font-medium">Date of Birth</p>
+                                    <p>August 25, 1987</p>
+                                </div>
+                            </div>
+                            <div class="personal-info-item">
+                                <i class="fas fa-language text-blue-500 mr-2 mt-1 text-sm"></i>
+                                <div>
+                                    <p class="font-medium">Languages</p>
+                                    <p>Telugu, English, Hindi</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="personal-info-item col-span-2">
+                                <i class="fas fa-home text-blue-500 mr-2 mt-1 text-sm"></i>
+                                <div>
+                                    <p class="font-medium">Address</p>
+                                    <p>F.N.304, Chalapathi Paradise,
+                                        Venkataramana Colony,
+                                        Guntur, AP - 522004</p>
+                                </div>
+                            </div>
+                            
+                            <div class="personal-info-item col-span-2">
+                                <i class="fas fa-laptop-house text-blue-500 mr-2 mt-1 text-sm"></i>
+                                <div>
+                                    <p class="font-medium">Work Preference</p>
+                                    <p>Exclusively seeking remote work</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>                   
+                </div>
+            </div>           
+        </div>   
+      <br>                                  
+    <p class = "text-center">---------------------------------------------------------------------------------------------------------</p></div>
+ <div class="page resume-page">
+ 
+            <!-- Page 2 -->
+             <!-- Portfolio moved below to balance columns -->
+  <section class="compact-section mt-4">
+    <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+        <span class="bg-blue-100 p-1 rounded-full mr-2">
+            <i class="fas fa-laptop-code text-blue-400 text-xs"></i>
+        </span>
+        PORTFOLIO & PROJECTS
+    </h2>
+    <div class="flex flex-wrap gap-2">
+        <div class="portfolio-item bg-blue-50 p-2 rounded flex-1">
+            <h3 class="font-semibold text-gray-800 flex items-center">
+                <i class="fab fa-github text-blue-400 mr-2 text-sm"></i>
+                GitHub Portfolio
+            </h3>
+            <p class="text-gray-700 text-xs mb-1">Explore my projects and technical explorations:</p>
+            <a href="https://github.com/digitalreliability/Sharing" target="_blank" class="text-xs text-blue-400 hover:underline">
+                github.com/digitalreliability/Sharing
+            </a>
+        </div>
+
+        <div class="portfolio-item bg-white border border-blue-200 rounded p-2 flex-1">
+            <h4 class="font-semibold text-blue-400 flex items-center text-sm">
+                <i class="fas fa-cogs mr-2 text-blue-400"></i>
+                Process Automation
+            </h4>
+            <p class="text-gray-700 text-xs">VBA scripts for accounting workflows.</p>
+        </div>
+
+        <div class="portfolio-item bg-white border border-blue-200 rounded p-2 flex-1">
+            <h4 class="font-semibold text-blue-400 flex items-center text-sm">
+                <i class="fab fa-python mr-2 text-blue-400"></i>
+                Python Financial Tools
+            </h4>
+            <p class="text-gray-700 text-xs">Python scripts for financial analysis.</p>
+        </div>
+
+        <div class="portfolio-item bg-white border border-blue-200 rounded p-2 flex-1">
+            <h4 class="font-semibold text-blue-400 flex items-center text-sm">
+                <i class="fas fa-book-open mr-2 text-blue-400"></i>
+                Articles & Writings
+            </h4>
+            <p class="text-gray-700 text-xs">Educational write-ups related to commerce and economics.</p>
+            <a href="https://astrostudy.github.io/Articles/" target="_blank" class="text-xs text-blue-400 hover:text-blue-800">
+                astrostudy.github.io/Articles/
+            </a>
+        </div>
+    </div>
+</section>
+       
+            <section class="compact-section">
+                <h2 class="text-lg font-bold text-blue-400 mb-2 flex items-center">
+                    <span class="bg-blue-100 p-1 rounded-full mr-2">
+                        <i class="fas fa-briefcase text-blue-400 text-xs"></i>
+                    </span>
+                    WORK EXPERIENCE
+                </h2>
+                <div class="work-experience-grid">
+                    <!-- Olam -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Deputy Manager, Olam</div>
+                            <div class="work-experience-date">Apr 2022 - Apr 2023</div>
+                        </div>
+                        <div class="work-experience-location">Chennai, Tamilnadu</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Prepared and analyzed monthly financial statements</li>
+                            <li class="work-experience-bullet">Ensured timely and accurate reporting to address auditor queries</li>
+                            <li class="work-experience-bullet">Oversaw team performance and provided guidance</li>
+                            <li class="work-experience-bullet">Implemented automation solutions to enhance efficiency</li>
+                        </ul>
+                    </div>
+
+                    <!-- Teleperformance -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Assistant Manager, Teleperformance</div>
+                            <div class="work-experience-date">Feb 2021 - Sep 2021</div>
+                        </div>
+                        <div class="work-experience-location">Chennai</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Supported project transition before joining</li>
+                            <li class="work-experience-bullet">Managed Accounts Receivable during project handover</li>
+                            <li class="work-experience-bullet">Led team to resolve issues efficiently</li>
+                            <li class="work-experience-bullet">Reviewed team deliverables for accuracy</li>
+                        </ul>
+                    </div>
+                   
+                    <!-- Genpact -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Assistant Manager, Genpact</div>
+                            <div class="work-experience-date">May 2019 - Feb 2021</div>
+                        </div>
+                        <div class="work-experience-location">Hyderabad, Telangana</div>
+                        <div class="font-medium text-xs text-blue-400 mb-1">IFRS 16 Implementation</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Analyzed and transformed data to comply with IFRS 16</li>
+                            <li class="work-experience-bullet">Streamlined processes for efficient implementation</li>
+                            <li class="work-experience-bullet">Managed implementation for ~6,000 leases</li>
+                        </ul>
+                        <div class="font-medium text-xs text-blue-400 mb-1 mt-2">Accounts Receivables Optimization</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Automated processes to improve efficiency</li>
+                            <li class="work-experience-bullet">Prepared and analyzed MIS reports</li>
+                            <li class="work-experience-bullet">Tracked team performance for improvement</li>
+                        </ul>
+                    </div>
+
+                    <!-- Clarivate Analytics -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Global Accounting Senior Analyst, Clarivate Analytics</div>
+                            <div class="work-experience-date">Nov 2018 - May 2019</div>
+                        </div>
+                        <div class="work-experience-location">Hyderabad</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Financial statement preparation and bank reconciliation</li>
+                            <li class="work-experience-bullet">Participated in ERP implementation (NetSuite and SAP)</li>
+                            <li class="work-experience-bullet">Identified and resolved financial discrepancies</li>
+                        </ul>
+                    </div>
+                 
+                    <!-- Cognizant -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Senior Process Executive (Private Equity), Cognizant</div>
+                            <div class="work-experience-date">May 2017 - Oct 2018</div>
+                        </div>
+                        <div class="work-experience-location">Hyderabad</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Managed accounting for 20+ Private Equity funds</li>
+                            <li class="work-experience-bullet">Prepared Quarterly work papers, calculated NAV</li>
+                            <li class="work-experience-bullet">Prepared and reported management fees quarterly</li>
+                            <li class="work-experience-bullet">Reconciled bank accounts daily</li>
+                        </ul>
+                    </div>
+
+                    <!-- Varma & Varma -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Senior Audit Associate, Varma & Varma Chartered Accountants</div>
+                            <div class="work-experience-date">Aug 2015 - Feb 2017</div>
+                        </div>
+                        <div class="work-experience-location">Bengaluru</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Maintained strong client relationships and led teams on-site</li>
+                            <li class="work-experience-bullet">Guided the team in conducting internal audits within defined scope</li>
+                            <li class="work-experience-bullet">Reviewed internal controls for effectiveness and compliance</li>
+                        </ul>
+                    </div>
+                  
+                    <!-- Deccan Tobacco Company -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Accounts Assistant, Deccan Tobacco Company</div>
+                            <div class="work-experience-date">Jan 2014 - Jul 2015</div>
+                        </div>
+                        <div class="work-experience-location">Guntur</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Reviewed ledgers for inconsistencies and abnormal items</li>
+                            <li class="work-experience-bullet">Maintained accurate records of cash transactions</li>
+                            <li class="work-experience-bullet">Prepared and analyzed MIS reports</li>
+                        </ul>
+                    </div>
+
+                    <!-- Mastanaiah & Co. -->
+                    <div class="work-experience-item">
+                        <div class="work-experience-header">
+                            <div class="work-experience-title">Audit Assistant, Mastanaiah & Co.</div>
+                            <div class="work-experience-date">Jan 2007 - Jun 2010</div>
+                        </div>
+                        <div class="work-experience-location">Guntur</div>
+                        <ul class="work-experience-bullets">
+                            <li class="work-experience-bullet">Participated in statutory and internal audits</li>
+                            <li class="work-experience-bullet">Prepared various income tax returns</li>
+                            <li class="work-experience-bullet">Vouched, verified and scrutinized financial records</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>      
+            <br>
+            <p class = "text-center">---------------------------------------------------------------------------------------------------------</p>
+                <p class="mb-3 text-center">I do hereby acknowledge that the above information is true to the best of my knowledge.</p>
+                  
+                <br>
+                <p class="font-semibold text-blue-400 text-center">(D Venkata Ravi Kishore)</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Cover Letter Content -->
+    <div id="cover-letter-content" class="tab-content">
+        <div class="page cover-letter-page">
+<header class="header-gradient text-white p-4 mb-4 text-center relative overflow-hidden">
+                <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5QcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsMjU1LDI1NSwwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNwYXR0ZXJuKSIvPjwvc3ZnPg==')"></div>
+                <div class="relative z-10">
+                    <h1 class="text-2xl font-bold mb-1 text-yellow-500">KISHORE DVR</h1>
+                    <p class="text-sm opacity-90 mb-3">Faculty Aspirant | Accounts, Commerce & Economics</p>
+                    
+                    <div class="inline-block bg-white text-blue-800 px-3 py-1 rounded-full text-xs font-semibold mb-2 shadow-sm">
+                        <i class="fas fa-laptop-house mr-1"></i> Seeking Faculty Role (Onsite or Online)
+                    </div>
+                    
+                    <div class="flex justify-center space-x-2 mb-2 flex-wrap text-xs">
+                        <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1 inline-flex items-center">
+                            <i class="fas fa-certificate mr-1"></i>
+                            <span>CA-Inter, MBA Finance</span>
+                        </div>
+                        <div class="bg-white bg-opacity-20 backdrop-blur-sm rounded-full px-2 py-1 inline-flex items-center">
+                            <i class="fas fa-briefcase mr-1"></i>
+                            <span>10+ Years Industry Experience</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-xs flex flex-wrap justify-center gap-x-3 gap-y-1">
+                        <a href="tel:+918885326661" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                            <i class="fas fa-phone-alt mr-1"></i>
+                            +91 888 532 6661
+                        </a>
+                        <a href="mailto:ravikishoreca@gmail.com" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                            <i class="fas fa-envelope mr-1"></i>
+                            ravikishoreca@gmail.com
+                        </a>
+                        <a href="https://www.linkedin.com/in/venkata-ravi-kishore-dontharaju-24b9ba254/" target="_blank" 
+                                   class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                                    <img src="LinkedIn-Logo.png" alt="LinkedIn" class="w-14 h-4 mr-1 rounded-sm bg-white" />
+                        </a>
+                        <a href="https://kishoredvr.github.io/Exploring/" target="_blank" class="flex items-center hover:underline hover:text-blue-200 transition-colors">
+                        <i class="fas fa-globe mr-1"></i>My Webpage
+                        </a>
+                        <span class="flex items-center">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            Guntur, Andhra Pradesh, India
+                        </span>
+                    </div>
+                </div>
+            </header>
+
+            </b>
+
+            
+            <div class="text-gray-700">
+                                                              
+                <p class="mb-4 font-bold text-lg text-blue-400">Dear Hiring Manager,</p>
+
+                <p class="mb-3 text-sm"  style="text-align: justify;">I am writing to express my keen interest in the position advertised. With over 10 years of industry experience in accounting, auditing, and financial reporting, I am now aspiring to contribute as a faculty member for +2 students in the subjects of Accounts, Commerce, and Economics.</p></style>
+
+                <div class="bg-blue-50 p-3 rounded mb-3 border-l-2 border-blue-500 text-sm">
+                    <p class="mb-2" style="text-align: justify;">Throughout my career, I have demonstrated a strong ability to adapt to new environments and regulatory frameworks, as evidenced by my successful project implementations like the transition to IFRS 16 without formal training and streamlining the end-to-end accounts receivable process. I have worked with various accounting software like Investran, VBA & Power Query, MS Office, SAP, NetSuite (Oracle), Python, and Tally, which allows me to quickly learn and integrate into any existing systems. I have even created tailored programs with HTML, CSS and python with the help of AI models. It helps in boosting my confidence in creating programs without learning some programming laguages. </p></style>
+                </div>
+
+                <p class="mb-3 text-sm" style="text-align: justify;">Furthermore, I am a highly motivated and results-oriented individual with a passion for continuous improvement. In my previous roles, I have consistently identified opportunities to automate processes and improve efficiency, leading to significant time savings. My strong analytical and investigative skills were instrumental in detecting fraudulent activities totaling INR 35 Crores during audits.</p></style>
+
+                <div class="bg-blue-50 p-3 rounded mb-3 border-l-2 border-blue-500 text-sm">
+                    <p class="mb-2" style="text-align: justify;">I am open to both onsite and online teaching roles, and am confident in adapting my real-world knowledge to create engaging, student-centered learning experiences. My extensive experience with remote collaboration tools and self-discipline ensures seamless integration with distributed teams. I believe my strong academic foundation (CA-Inter, MBA Finance) and practical exposure will help bridge the gap between theory and application for students. I am a strong team player with excellent communication and interpersonal skills, ensuring smooth collaboration with colleagues across different time zones.</p></style>
+                </div>
+
+                <p class="mb-3 text-sm" style="text-align: justify;">I invite you to explore my portfolio of financial tools and projects at <a href="https://kishoredvr.github.io/Exploring/" class="text-blue-400 font-medium">kishoredvr.github.io/Exploring</a>, which showcases my technical capabilities and innovative approach to financial problem-solving. I am eager to learn more about this exciting opportunity and how my skills can contribute to the success of your team. I have attached my resume for your review and welcome the opportunity to discuss my qualifications further.</p></style>
+               
+                <p class="mb-3 text-center">Thank you for your time and consideration.</p>
+                <div class="mt-8 text-center">
+                      <p class="mb-1">Sincerely,</p>
+                      <p class="font-semibold text-blue-400">Kishore DVR</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabButtons = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+
+                // Get the tab to activate
+                const tabId = button.getAttribute('data-tab');
+                
+                // Activate the clicked tab
+                document.getElementById(tabId).classList.add('active');
+                button.classList.add('active');
+
+                // Change background based on tab
+                if (tabId === "cover-letter-content") {
+                    document.body.classList.remove("bg-gray-100");
+                    document.body.classList.add("bg-white");
+                } else {
+                    document.body.classList.remove("bg-white");
+                    document.body.classList.add("bg-gray-100");
+                }
+            });
+        });
+
+        // Print functionality
+        document.getElementById('print-resume-only').addEventListener('click', (e) => {
+            e.preventDefault();
+            // Activate resume tab
+            document.querySelector('[data-tab="resume-content"]').click();
+            // Wait for tab switch then print
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        });
+        
+        document.getElementById('print-cover-letter-only').addEventListener('click', (e) => {
+            e.preventDefault();
+            // Activate cover letter tab
+            document.querySelector('[data-tab="cover-letter-content"]').click();
+            // Wait for tab switch then print
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        });
+        
+        document.getElementById('print-both').addEventListener('click', (e) => {
+            e.preventDefault();
+            
+            // Create a print window
+            const printWindow = window.open('', '_blank');
+            
+            // Get the HTML content of both sections
+            const coverLetterContent = document.getElementById('cover-letter-content');
+            const resumeContent = document.getElementById('resume-content');
+            
+            // Write the combined content to the new window
+            printWindow.document.open();
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+                    <title>Kishore DVR - Cover Letter and Resume</title>
+                    <style>
+                        @page {
+                            size: A4;
+                            margin: 8mm 10mm;
+                        }
+                        body {
+                            font-family: 'Inter', sans-serif;
+                            line-height: 1.25;
+                            font-size: 11px;
+                            margin: 0;
+                            padding: 0;
+                        }
+                        .page {
+                            padding: 6mm 10mm !important;
+                            width: 210mm;
+                            margin: 0 auto;
+                            background: white;
+                        }
+                        
+                        /* Force cover letter to one page */
+                        #cover-letter-content .page {
+                            height: 277mm !important;
+                            min-height: 277mm !important;
+                            max-height: 277mm !important;
+                            overflow: hidden !important;
+                            page-break-after: avoid !important;
+                        }
+                        
+                        /* Force resume to two pages */
+                        #resume-content .page {
+                            height: 277mm !important;
+                            min-height: 277mm !important;
+                            max-height: 277mm !important;
+                            overflow: hidden !important;
+                            page-break-after: always !important;
+                        }
+                        
+                        #resume-content .page:last-child {
+                            page-break-after: avoid !important;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="page cover-letter-page">
+                        ${coverLetterContent}
+                    </div>
+                    <div class="page resume-page">
+                        ${resumeContent}
+                    </div>
+                    <script>
+                        window.onload = function() {
+                            setTimeout(function() {
+                                window.print();
+                                window.close();
+                            }, 200);
+                        };
+                    <\/script>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+        });
+    </script>
+</body>
+</html>
