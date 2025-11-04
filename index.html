@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Video Search Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
@@ -240,6 +241,15 @@
             margin-right: 10px;
         }
 
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: #dc3545;
+            background-color: #f8d7da;
+            border-radius: 4px;
+            margin: 10px 0;
+        }
+
         .mobile-results {
             display: none;
         }
@@ -435,11 +445,11 @@
         <div class="search-container">
             <h1>Search YouTube Videos</h1>
             <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search by video title or unique ID...">
+                <input type="text" id="searchInput" placeholder="Enter your client code...">
                 <button id="searchButton">Search</button>
             </div>
             <div class="search-hint">
-                <i class="fas fa-info-circle"></i> You can search by video title or unique alphanumeric ID
+                <i class="fas fa-info-circle"></i> Enter your unique client code to access your videos
             </div>
         </div>
 
@@ -447,7 +457,7 @@
             <h2>Search Results</h2>
             <div id="resultsTable">
                 <div class="loading">
-                    <i class="fas fa-search"></i> Enter a search term to find YouTube videos
+                    <i class="fas fa-search"></i> Enter your client code to find your videos
                 </div>
             </div>
             <div id="mobileResults" class="mobile-results">
@@ -465,50 +475,19 @@
             const mobileMenuToggle = document.getElementById('mobileMenuToggle');
             const mainNav = document.getElementById('mainNav');
             
-            // Sample data with unique IDs - replace with Supabase API call
-            const sampleVideos = [
-                {
-                    id: "ASTRO001",
-                    title: "Introduction to Astrology",
-                    link: "https://www.youtube.com/watch?v=abc123"
-                },
-                {
-                    id: "ECON2023",
-                    title: "Economic Trends 2023",
-                    link: "https://www.youtube.com/watch?v=def456"
-                },
-                {
-                    id: "DIGMKT001",
-                    title: "Digital Marketing Strategies",
-                    link: "https://www.youtube.com/watch?v=ghi789"
-                },
-                {
-                    id: "ASTRO002",
-                    title: "Understanding Planetary Movements",
-                    link: "https://www.youtube.com/watch?v=jkl012"
-                },
-                {
-                    id: "CRYPTO101",
-                    title: "Cryptocurrency Investment Guide",
-                    link: "https://www.youtube.com/watch?v=mno345"
-                },
-                {
-                    id: "ECON101",
-                    title: "Basics of Macroeconomics",
-                    link: "https://www.youtube.com/watch?v=pqr678"
-                },
-                {
-                    id: "DIGREL001",
-                    title: "Digital Reliability Framework",
-                    link: "https://www.youtube.com/watch?v=stu901"
-                }
-            ];
+            // Supabase configuration - REPLACE WITH YOUR ACTUAL SUPABASE URL AND ANON KEY
+            const supabaseUrl = 'https://your-project.supabase.co';
+            const supabaseKey = 'your-anon-key';
+            
+            // Initialize Supabase client
+            const supabase = supabaseUrl && supabaseKey ? 
+                window.supabase.createClient(supabaseUrl, supabaseKey) : null;
             
             // Function to display search results
             function displayResults(videos) {
                 if (videos.length === 0) {
-                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found matching your search</div>';
-                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found matching your search</div>';
+                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found for this client code</div>';
+                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found for this client code</div>';
                     return;
                 }
                 
@@ -552,30 +531,44 @@
                 mobileResults.innerHTML = mobileHTML;
             }
             
-            // Function to handle search
-            function performSearch() {
+            // Function to handle search using Supabase Edge Function
+            async function performSearch() {
                 const searchTerm = searchInput.value.trim().toLowerCase();
                 
                 if (searchTerm === '') {
-                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a search term</div>';
-                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a search term</div>';
+                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a client code</div>';
+                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a client code</div>';
                     return;
                 }
                 
                 // Show loading state
-                resultsTable.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
-                mobileResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching...</div>';
+                resultsTable.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for your videos...</div>';
+                mobileResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for your videos...</div>';
                 
-                // Simulate API call delay
-                setTimeout(() => {
-                    // Filter sample data based on search term (title or ID)
-                    const filteredVideos = sampleVideos.filter(video => 
-                        video.title.toLowerCase().includes(searchTerm) ||
-                        video.id.toLowerCase().includes(searchTerm)
-                    );
+                try {
+                    // Call Supabase Edge Function
+                    const response = await fetch(`${supabaseUrl}/functions/v1/search-videos`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${supabaseKey}`
+                        },
+                        body: JSON.stringify({ searchTerm })
+                    });
                     
-                    displayResults(filteredVideos);
-                }, 1000);
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Search failed');
+                    }
+                    
+                    displayResults(data.videos || []);
+                    
+                } catch (error) {
+                    console.error('Search error:', error);
+                    resultsTable.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+                    mobileResults.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+                }
             }
             
             // Mobile menu functionality
@@ -634,5 +627,3 @@
     </script>
 </body>
 </html>
-
-
