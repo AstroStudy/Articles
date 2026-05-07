@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antharyami Data Bank | Ganesh Solutions</title>
     
-    <!-- Include SheetJS to parse the Excel file -->
+    <!-- Include SheetJS to parse the Excel/CSV file -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     
     <!-- Tailwind CSS -->
@@ -164,12 +164,9 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // Get the raw URL injected by GitHub Actions
-        const SECRET_URL = "{{DATA_TABLE_URL}}";
-        
-        // Wrap the URL in a free CORS proxy to bypass Google's security block
-        const EXCEL_URL = "https://api.allorigins.win/raw?url=" + encodeURIComponent(SECRET_URL);
-        
+        // Direct fetch of the CSV URL injected by GitHub Actions (No proxy needed!)
+        const EXCEL_URL = "{{DATA_TABLE_URL}}";
+
         // Global variables to hold data in memory
         let globalHeaders = [];
         let globalData = [];
