@@ -212,7 +212,7 @@
         function generateSearchForm() {
             const container = document.getElementById('search-form-container');
             let formHTML = `<div class="mb-5"><h2 class="text-xl font-bold text-gs-navy">Search Parameters</h2><p class="text-sm text-gray-500">Fill in one or more fields to filter the registry.</p></div>`;
-            formHTML += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 mb-6">`;
+            formHTML += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">`;
 
             globalHeaders.forEach((header, index) => {
                 formHTML += `
