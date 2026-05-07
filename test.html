@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5432639450228352" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vedic Auspicious Timing Finder - Panchanga</title>
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2140422184257609" crossorigin="anonymous"></script>
+    <title>Video Search Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         /* === Ganesh Solutions Global Vars === */
         :root {
+            /* Master Header/Footer Vars */
             --primary-blue: #1a365d;
             --accent-gold: #d4af37;
             --dark-navy: #0f1a3c;
@@ -17,6 +18,20 @@
             --medium-gray: #e2e8f0;
             --text-dark: #2d3748;
             --text-light: #718096;
+
+            /* App Specific Vars */
+            --app-primary: #1a73e8;        
+            --app-primary-dark: #0d47a1;     
+            --app-primary-light: #e8f0fe;    
+            --accent-teal: #007c91;         
+            --accent-orange: #ff6d00;       
+            --bg-light: #f8f9fa;            
+            --bg-white: #ffffff;            
+            --border-light: #dadce0;        
+            --shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
+            --shadow-hover: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+            --border-radius: 8px;
+            --transition: all 0.3s ease;
         }
 
         * {
@@ -27,19 +42,20 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #fff;
-            min-height: 100vh;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            min-height: 100vh;
         }
 
         /* Essential for Master Components layout (Header & Footer) */
         .container {
             max-width: 95%;
             margin: 0 auto;
-            padding: 0 10px;
+            padding: 0 15px;
             width: 100%;
         }
 
@@ -49,6 +65,11 @@
             margin: 0 auto;
             padding: 0 20px;
             width: 100%;
+        }
+
+        #header-placeholder { 
+            width: 100%;
+            min-height: 100px; 
         }
 
         /* Main Content Area Wrapper */
@@ -62,7 +83,7 @@
            INJECTED HEADER & FOOTER STYLES 
            ========================================= */
         header { background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
-        .mobile-header { display: none; padding: 15px 0; background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: white; align-items: center; justify-content: space-between; width: 100%; position: sticky; top: 0; z-index: 1000; }
+        .mobile-header { display: none; padding: 15px 20px; background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: white; align-items: center; justify-content: space-between; width: 100%; position: sticky; top: 0; z-index: 1000; }
         .header-content { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
         .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; text-decoration: none; }
         .logo-image { height: 70px; width: auto; margin-top: 10px; border-radius: 50%; object-fit: cover; }
@@ -80,7 +101,7 @@
         .dropdown-menu a:hover { background: var(--light-gray); color: var(--primary-blue) !important; }
         .dropdown-menu a i { margin-right: 10px; width: 20px; }
 
-        footer { background: var(--dark-navy); color: white; padding: 50px 0 20px; margin-top: 40px; width: 100%; }
+        footer { background: var(--dark-navy); color: white; padding: 50px 0 20px; margin-top: auto; width: 100%; }
         .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 30px; margin-bottom: 30px; text-align: left; }
         .footer-column h3 { font-size: 18px; margin-bottom: 18px; color: var(--accent-gold); font-weight: 600; }
         .footer-column ul { list-style: none; }
@@ -91,7 +112,7 @@
 
         @media (max-width: 992px) {
             header { display: none; }
-            .mobile-header { display: flex; padding: 15px 20px; }
+            .mobile-header { display: flex; }
             .mobile-menu-toggle { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
             nav#mainNav { display: none; position: fixed; top: 70px; left: 0; width: 100%; height: calc(100% - 70px); background: var(--dark-navy); z-index: 2000; padding: 20px; overflow-y: auto; transform: translateX(-100%); transition: transform 0.3s ease; }
             nav#mainNav.active { display: block; transform: translateX(0); }
@@ -104,266 +125,313 @@
         /* =========================================
            APP SPECIFIC STYLES 
            ========================================= */
-        .main-container {
-            display: flex;
-            gap: 5px;
-            align-items: flex-start;
+        .search-container {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-light);
         }
 
-        .content-wrapper {
+        .search-container h1 {
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-bar input {
             flex: 1;
+            padding: 12px 15px;
+            border: 1px solid var(--border-light);
+            border-radius: 4px;
+            font-size: 16px;
+            transition: var(--transition);
+            color: var(--text-dark);
+        }
+
+        .search-bar input:focus {
+            border-color: var(--app-primary);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        .search-bar button {
+            background-color: var(--app-primary);
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            min-width: 100px;
+            font-weight: 500;
+        }
+
+        .search-bar button:hover {
+            background-color: var(--app-primary-dark);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .search-hint {
+            margin-top: 10px;
+            font-size: 14px;
+            color: var(--text-medium);
             display: flex;
-            flex-direction: column;
-            min-width: 0; 
+            align-items: center;
         }
 
-        .purpose-selector {
-            background: rgba(20, 20, 40, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            margin-bottom: 10px;
-            padding: 10px;
+        .search-hint i {
+            margin-right: 8px;
+            color: var(--app-primary);
+        }
+
+        .results-container {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            border: 1px solid var(--border-light);
+        }
+
+        .results-container h2 {
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            font-weight: 600;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        th {
+            background-color: var(--app-primary-light);
+            font-weight: 600;
+            color: var(--app-primary);
+        }
+
+        tr:hover {
+            background-color: var(--app-primary-light);
+        }
+
+        .video-title {
+            font-weight: 500;
+            color: var(--text-dark);
+            width: 70%;
+        }
+
+        .video-link {
+            color: var(--app-primary);
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 15px;
+            background-color: var(--app-primary-light);
+            border-radius: 4px;
+            transition: var(--transition);
+            font-weight: 500;
+            border: 1px solid var(--border-light);
+        }
+
+        .video-link:hover {
+            text-decoration: none;
+            background-color: var(--app-primary);
+            color: #fff;
+            box-shadow: var(--shadow);
+        }
+
+        .loading {
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            color: var(--text-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .purpose-header h2 { color: #0fccce; font-size: 1.6rem; margin-bottom: 8px; }
-        .purpose-header p { color: #b8b8b8; font-size: 0.95rem; }
-        
-        .custom-dropdown { position: relative; width: 100%; max-width: 500px; margin: 20px auto 0; }
-        .dropdown-trigger { background: rgba(40, 40, 80, 0.5); border-radius: 10px; padding: 15px 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 2px solid transparent; transition: all 0.3s ease; }
-        .dropdown-trigger.active { border-color: #e94560; border-bottom-left-radius: 0; border-bottom-right-radius: 0; }
-        .selected-purpose { display: flex; align-items: center; gap: 15px; }
-        .selected-icon { font-size: 1.5rem; width: 40px; text-align: center; }
-        .selected-text h3 { font-size: 1.1rem; text-align: left; }
-        .selected-text p { font-size: 0.8rem; color: #b8b8b8; text-align: left; }
-        .dropdown-arrow { transition: transform 0.3s ease; color: var(--accent-gold); }
-        .dropdown-arrow.rotated { transform: rotate(180deg); }
-        
-        .dropdown-options { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: rgba(30, 30, 60, 0.98); border-radius: 0 0 10px 10px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5); z-index: 1000; max-height: 400px; overflow-y: auto; border: 2px solid #e94560; border-top: none; }
-        .dropdown-options.active { display: block; }
-        .purpose-option { padding: 15px 20px; cursor: pointer; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.2s; }
-        .purpose-option:hover { background: rgba(233,69,96,0.1); }
-        .purpose-option.active { background: rgba(233,69,96,0.2); }
-        .option-icon { font-size: 1.3rem; width: 30px; text-align: center; }
-        .option-text h3 { font-size: 0.95rem; }
-        .option-text p { font-size: 0.75rem; color: #b8b8b8; }
 
-        .input-section { background: rgba(30, 30, 60, 0.7); padding: 30px; border-radius: 15px; margin-bottom: 30px; display: none; border: 1px solid rgba(255,255,255,0.05); }
-        .input-section.active { display: block; }
-        .input-section h2 { text-align: center; color: #0fccce; margin-bottom: 25px; }
-        .selection-area { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-bottom: 20px; }
-        .star-selector { flex: 1; min-width: 280px; background: rgba(40, 40, 80, 0.5); padding: 20px; border-radius: 10px; }
-        .star-selector h3 { text-align: center; color: #0fccce; margin-bottom: 15px; }
-        
-        select { width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: #1a1a2e; color: #fff; font-size: 1rem; cursor: pointer; }
-        select:focus { outline: none; box-shadow: 0 0 0 2px #e94560; }
-        .star-info { margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.2); border-radius: 8px; display: none; }
-        .star-info h4 { color: #0fccce; margin-bottom: 6px; }
-        
-        .check-button-container { text-align: center; margin-top: 20px; }
-        .check-button { background: linear-gradient(135deg, #e94560, #c62a4a); color: white; border: none; padding: 14px 40px; font-size: 1.2rem; font-weight: bold; border-radius: 50px; cursor: pointer; transition: 0.3s; box-shadow: 0 4px 15px rgba(233,69,96,0.4); }
-        .check-button:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(233,69,96,0.6); }
-        .check-button:disabled { background: #6c757d; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        .result-section { background: rgba(30, 30, 60, 0.7); padding: 30px; border-radius: 15px; text-align: center; margin-bottom: 30px; display: none; border: 1px solid rgba(255,255,255,0.05); }
-        .result-section.active { display: block; }
-        .result-title { font-size: 1.8rem; color: #e94560; margin-bottom: 10px; }
-        .relationship-type { font-size: 2rem; font-weight: bold; color: #0fccce; text-shadow: 0 0 10px rgba(15,204,206,0.5); margin: 15px 0; }
-        .relationship-description { color: #b8b8b8; font-size: 1rem; margin-bottom: 20px; }
-        .auspicious-info { background: rgba(0,0,0,0.2); border-radius: 12px; padding: 20px; margin-top: 10px; }
-        .auspicious-info h3 { color: #0fccce; margin-bottom: 15px; }
-
-        .dates-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; margin-top: 20px; }
-        .date-card { background: rgba(20, 20, 40, 0.6); border-radius: 16px; padding: 20px; border-left: 4px solid #e94560; transition: transform 0.2s, box-shadow 0.2s; text-align: left; backdrop-filter: blur(4px); border-top: 1px solid rgba(255,255,255,0.05); }
-        .date-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.3); border-left-color: #0fccce; }
-        .card-date { font-size: 1.4rem; font-weight: bold; color: #0fccce; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-        .card-date i { font-size: 1.2rem; color: #e94560; }
-        .card-detail { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; font-size: 0.9rem; }
-        .detail-badge { background: rgba(0,0,0,0.4); padding: 5px 12px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgba(255,255,255,0.05); }
-        .detail-badge i { color: #0fccce; width: 18px; }
-        .detail-label { color: #aaa; }
-        .detail-value { color: #fff; font-weight: 500; }
-        .card-footer { margin-top: 15px; font-size: 0.8rem; color: #888; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px; }
-
-        .tara-system-info { background: rgba(30,30,60,0.7); padding: 30px; border-radius: 15px; margin-bottom: 30px; border: 1px solid rgba(255,255,255,0.05); }
-        .tara-system-info h2 { color: #0fccce; text-align: center; margin-bottom: 20px; }
-        .tara-types { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px,1fr)); gap: 15px; margin-top: 20px; }
-        .tara-type { background: rgba(0,0,0,0.2); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.03); }
-        .tara-type h4 { color: #e94560; margin-bottom: 8px; }
-
-        .ad-sidebar { width: 300px; min-width: 300px; display: flex; flex-direction: column; }
-        .ad-banner { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 15px; padding: 25px; border: 1px solid #0fccce; position: sticky; top: 120px; text-align: center; display: flex; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-        .ad-banner:after { content: 'ADVERTISEMENT'; position: absolute; top: 10px; right: 10px; background: rgba(233,69,96,0.2); font-size: 0.65rem; padding: 2px 8px; border-radius: 4px; letter-spacing: 0.5px; }
-        .ad-header { margin-bottom: 20px; }
-        .ad-icon { font-size: 3rem; color: #0fccce; margin-bottom: 10px; }
-        .ad-header h3 { color: #e94560; font-size: 1.5rem; margin-bottom: 5px; }
-        .ad-image { margin: 15px 0; border-radius: 12px; overflow: hidden; background: rgba(0,0,0,0.1); }
-        .ad-button { background: linear-gradient(135deg, #e94560, #c62a4a); padding: 12px 20px; border-radius: 40px; text-decoration: none; color: white; font-weight: bold; margin-top: 15px; transition: 0.3s; display: inline-block; }
-        .ad-button:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(233,69,96,0.4); }
-
-        @media (max-width: 1200px) {
-            .main-container { flex-direction: column; }
-            .ad-sidebar { width: 100%; align-items: center; margin-bottom: 40px; }
-            .ad-banner { position: static; max-width: 400px; width: 100%; }
+        .loading i {
+            margin-right: 10px;
+            color: var(--app-primary);
         }
+
+        .error {
+            text-align: center;
+            padding: 20px;
+            color: #d93025;
+            background-color: #fce8e6;
+            border-radius: 4px;
+            margin: 10px 0;
+            border: 1px solid #fad2cf;
+        }
+
+        .mobile-results {
+            display: none;
+        }
+
+        .video-card {
+            background-color: var(--bg-white);
+            border-radius: var(--border-radius);
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            border: 1px solid var(--border-light);
+        }
+
+        .video-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translateY(-2px);
+        }
+
+        .video-card-title {
+            font-weight: 500;
+            margin-bottom: 10px;
+            font-size: 16px;
+            line-height: 1.4;
+            color: var(--text-dark);
+        }
+
+        .video-card-link {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: var(--app-primary);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid var(--app-primary);
+        }
+
+        .video-card-link:hover {
+            background-color: var(--app-primary-dark);
+            text-decoration: none;
+            color: #fff;
+            box-shadow: var(--shadow);
+        }
+
         @media (max-width: 768px) {
-            .selection-area { flex-direction: column; }
-            .dates-grid { grid-template-columns: 1fr; }
-            .page-content { padding: 20px 0; }
+            .page-content {
+                padding: 20px 0;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+            .search-bar input {
+                padding: 15px;
+                font-size: 16px;
+            }
+            .search-bar button {
+                width: 100%;
+                padding: 15px;
+                font-size: 16px;
+                min-height: 50px;
+            }
+            table {
+                display: none;
+            }
+            .mobile-results {
+                display: block;
+            }
+            .video-title {
+                width: 60%;
+            }
+            .video-link {
+                padding: 10px 15px;
+            }
+            .video-card-link {
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-container h1 {
+                font-size: 22px;
+            }
+            .results-container h2 {
+                font-size: 20px;
+            }
+            .video-card-title {
+                font-size: 15px;
+            }
+            .search-container,
+            .results-container {
+                padding: 15px;
+            }
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        button:focus,
+        input:focus,
+        a:focus {
+            outline: 2px solid var(--app-primary);
+            outline-offset: 2px;
         }
     </style>
 </head>
 <body>
-
+    
     <!-- Master Header Placeholder -->
     <div id="header-placeholder"></div>
 
-    <!-- Main View Wrapper -->
-    <div class="page-content">
+    <main class="page-content">
         <div class="gs-container">
-            <div class="main-container">
-                <!-- Content Area -->
-                <div class="content-wrapper">
-                    <div class="purpose-selector">
-                        <div class="purpose-header">
-                            <h2>Select Purpose For Generally Favourable Day</h2>
-                            <p>Intended for emergency use when a Purohit is unavailable; full functionality coming soon.</p>
-                        </div>
-                        <div class="custom-dropdown">
-                            <div class="dropdown-trigger" id="dropdown-trigger">
-                                <div class="selected-purpose">
-                                    <div class="selected-icon">💑</div>
-                                    <div class="selected-text">
-                                        <h3>Compatibility</h3>
-                                        <p>Check relationship between people</p>
-                                    </div>
-                                </div>
-                                <div class="dropdown-arrow"><i class="fas fa-chevron-down"></i></div>
-                            </div>
-                            <div class="dropdown-options" id="dropdown-options"></div>
-                        </div>
-                    </div>
+            <div class="search-container">
+                <h1>Search YouTube Videos</h1>
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Enter your client code...like GS2025BK2519879" aria-label="Client code">
+                    <button id="searchButton">Search</button>
+                </div>
+                <div class="search-hint">
+                    <i class="fas fa-info-circle"></i> Enter your unique client code to access your videos
+                </div>
+            </div>
 
-                    <div class="main-content">
-                        <div class="input-section active" id="compatibility-input">
-                            <h2 id="dynamic-input-title">Check Compatibility Between Two People</h2>
-                            <div class="selection-area">
-                                <div class="star-selector" id="star1-container">
-                                    <h3 id="star1-title">First Person's Birth Star</h3>
-                                    <select id="star1">
-                                        <option value="">Select a star</option>
-                                        <option value="ashwini">Ashwini</option><option value="bharani">Bharani</option><option value="krittika">Krittika</option>
-                                        <option value="rohini">Rohini</option><option value="mrigashira">Mrigashira</option><option value="ardra">Ardra</option>
-                                        <option value="punarvasu">Punarvasu</option><option value="pushya">Pushya</option><option value="ashlesha">Ashlesha</option>
-                                        <option value="magha">Magha</option><option value="purva-phalguni">Purva Phalguni</option><option value="uttara-phalguni">Uttara Phalguni</option>
-                                        <option value="hasta">Hasta</option><option value="chitra">Chitra</option><option value="swati">Swati</option>
-                                        <option value="vishakha">Vishakha</option><option value="anuradha">Anuradha</option><option value="jyestha">Jyestha</option>
-                                        <option value="mula">Mula</option><option value="purva-ashadha">Purva Ashadha</option><option value="uttara-ashadha">Uttara Ashadha</option>
-                                        <option value="shravana">Shravana</option><option value="dhanishta">Dhanishta</option><option value="shatabhisha">Shatabhisha</option>
-                                        <option value="purva-bhadrapada">Purva Bhadrapada</option><option value="uttara-bhadrapada">Uttara Bhadrapada</option><option value="revati">Revati</option>
-                                    </select>
-                                    <div class="star-info" id="star1-info"></div>
-                                </div>
-                                <div class="star-selector" id="star2-container">
-                                    <h3>Second Person's Birth Star</h3>
-                                    <select id="star2">
-                                        <option value="">Select a star</option>
-                                        <option value="ashwini">Ashwini</option><option value="bharani">Bharani</option><option value="krittika">Krittika</option>
-                                        <option value="rohini">Rohini</option><option value="mrigashira">Mrigashira</option><option value="ardra">Ardra</option>
-                                        <option value="punarvasu">Punarvasu</option><option value="pushya">Pushya</option><option value="ashlesha">Ashlesha</option>
-                                        <option value="magha">Magha</option><option value="purva-phalguni">Purva Phalguni</option><option value="uttara-phalguni">Uttara Phalguni</option>
-                                        <option value="hasta">Hasta</option><option value="chitra">Chitra</option><option value="swati">Swati</option>
-                                        <option value="vishakha">Vishakha</option><option value="anuradha">Anuradha</option><option value="jyestha">Jyestha</option>
-                                        <option value="mula">Mula</option><option value="purva-ashadha">Purva Ashadha</option><option value="uttara-ashadha">Uttara Ashadha</option>
-                                        <option value="shravana">Shravana</option><option value="dhanishta">Dhanishta</option><option value="shatabhisha">Shatabhisha</option>
-                                        <option value="purva-bhadrapada">Purva Bhadrapada</option><option value="uttara-bhadrapada">Uttara Bhadrapada</option><option value="revati">Revati</option>
-                                    </select>
-                                    <div class="star-info" id="star2-info"></div>
-                                </div>
-                            </div>
-                            <div id="timeframe-selector" class="selection-area" style="display: none;">
-                                <div class="star-selector">
-                                    <h3>Select Month</h3>
-                                    <select id="month-select">
-                                        <option value="All">All Months</option>
-                                        <option>January</option><option>February</option><option>March</option><option>April</option>
-                                        <option>May</option><option>June</option><option>July</option><option>August</option>
-                                        <option>September</option><option>October</option><option>November</option><option>December</option>
-                                    </select>
-                                </div>
-                                <div class="star-selector">
-                                    <h3>Select Year</h3>
-                                    <select id="year-select">
-                                        <option value="2026">2026</option>
-                                        <option value="2027">2027</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="check-button-container">
-                                <button id="check-compatibility" class="check-button" disabled>Check Compatibility</button>
-                            </div>
-                        </div>
-
-                        <div class="result-section" id="compatibility-result">
-                            <h2 class="result-title" id="dynamic-result-title">Compatibility Analysis</h2>
-                            <div class="relationship-type" id="relationship-type">Please make your selection</div>
-                            <p class="relationship-description" id="relationship-desc"></p>
-                            <div class="auspicious-info">
-                                <h3>Insights</h3>
-                                <div id="compatibility-insights">Detailed insights will appear here.</div>
-                            </div>
-                        </div>
-
-                        <div class="tara-system-info" id="tara-system-info">
-                            <h2>The Tara System in Vedic Astrology</h2>
-                            <p>The Tara system determines the relationship between stars based on their relative positions in the 27 Nakshatra cycle.</p>
-                            <div class="tara-types">
-                                <div class="tara-type"><h4>Janma Tara</h4><p>Birth, health, vitality.</p></div>
-                                <div class="tara-type"><h4>Sampat Tara</h4><p>Wealth, prosperity.</p></div>
-                                <div class="tara-type"><h4>Vipat Tara</h4><p>Obstacles, caution.</p></div>
-                                <div class="tara-type"><h4>Kshema Tara</h4><p>Well-being, success.</p></div>
-                                <div class="tara-type"><h4>Pratyak Tara</h4><p>Opposition, perseverance.</p></div>
-                                <div class="tara-type"><h4>Sadhana Tara</h4><p>Accomplishment.</p></div>
-                                <div class="tara-type"><h4>Naidhana Tara</h4><p>Loss, endings.</p></div>
-                                <div class="tara-type"><h4>Mitra Tara</h4><p>Friendship, support.</p></div>
-                                <div class="tara-type"><h4>Ati Mitra Tara</h4><p>Deep friendship, excellent.</p></div>
-                            </div>
-                        </div>
+            <div class="results-container">
+                <h2>Search Results</h2>
+                <div id="resultsTable">
+                    <div class="loading">
+                        <i class="fas fa-search"></i> Enter your client code to find your videos
                     </div>
                 </div>
-
-                <!-- Sidebar Ads -->
-                <div class="ad-sidebar">
-                    <div class="ad-banner">
-                        <div class="ad-header">
-                            <div class="ad-icon">✨</div>
-                            <h3>Premium Ad Space</h3>
-                            <p>Your advertisement here</p>
-                        </div>
-                        <div class="ad-image">
-                            <ins class="adsbygoogle" 
-                                 style="display:block" 
-                                 data-ad-client="ca-pub-2140422184257609" 
-                                 data-ad-slot="1299087104" 
-                                 data-ad-format="auto" 
-                                 data-full-width-responsive="true"></ins>
-                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                        </div>
-                        <p class="ad-description" style="font-size: 0.85rem; color: #a0aec0; margin-top: 10px;">Reach thousands of astrology enthusiasts daily.</p>
-                        <a href="MessageMe.html" class="ad-button">Partner With Us</a>
-                        <div class="ad-footer" style="font-size: 0.7rem; color: #888; margin-top: 15px;">Contact for advertising opportunities</div>
-                    </div>
+                <div id="mobileResults" class="mobile-results">
+                    <!-- Mobile results will be populated here -->
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Master Footer Placeholder -->
     <div id="footer-placeholder"></div>
 
     <script>
-        const SUPABASE_FUNCTION_URL = 'https://jusjpremtvalmqqtaoth.supabase.co/functions/v1/muhurat-api';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c2pwcmVtdHZhbG1xcXRhb3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyODQyNzksImV4cCI6MjA3Nzg2MDI3OX0.XzE8MFLHhjcKKFJ4TqNX3NNhVyGEiytxufWx8IywTqU';
+        const SUPABASE_URL = 'https://lkvcbpxkpwpoqjlcddgl.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrdmNicHhrcHdwb3FqbGNkZGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3NzI2MzIsImV4cCI6MjA3MzM0ODYzMn0.Es6C6G4I65JqjW_9h6d6iWzBr8vQoyiBq3-7wQ6qadU';
 
         // --- MASTER COMPONENT LOADING ---
         async function loadMasterCopy() {
@@ -423,219 +491,108 @@
             }, 'google_translate_element');
         }
 
-        // --- ORIGINAL DATA & APP LOGIC ---
-        const purposeOptions = [
-            { id: 'compatibility', icon: '🤝', title: 'Compatibility', subtitle: 'Check relationship between people' },
-            { id: 'marriage', icon: '💒', title: 'Marriage', subtitle: 'Find auspicious marriage timing' },
-            { id: 'engagement', icon: '💍', title: 'Engagement', subtitle: 'Nischitartham Muhurtham' },
-            { id: 'gruhapravesam', icon: '🏠', title: 'Gruha Pravesam', subtitle: 'House warming ceremony' },
-            { id: 'namakaranam', icon: '👶', title: 'Namakaranam', subtitle: 'Baby naming ceremony' },
-            { id: 'annaprasana', icon: '🍚', title: 'Annaprasana', subtitle: 'First solid food for baby' },
-            { id: 'upanayanam', icon: '📿', title: 'Upanayanam', subtitle: 'Sacred thread ceremony' },
-            { id: 'seemantham', icon: '🤰', title: 'Seemantham', subtitle: 'Baby shower ceremony' },
-            { id: 'vahana', icon: '🚗', title: 'Vahana Purchase', subtitle: 'Vehicle purchase muhurtham' },
-            { id: 'business', icon: '💼', title: 'Business Start', subtitle: 'New business inauguration' },
-            { id: 'education', icon: '📚', title: 'Vidyarambham', subtitle: 'Start of education' },
-            { id: 'travel', icon: '✈️', title: 'Travel', subtitle: 'Yatra shubha muhurtham' },
-            { id: 'property', icon: '🏡', title: 'Property', subtitle: 'Property registration' },
-            { id: 'vastu', icon: '🔨', title: 'Vastu', subtitle: 'Construction start' },
-            { id: 'medical', icon: '🏥', title: 'Medical', subtitle: 'Surgery or treatment start' },
-            { id: 'investment', icon: '💰', title: 'Investment', subtitle: 'Financial investments' },
-            { id: 'legal', icon: '⚖️', title: 'Legal Matters', subtitle: 'Court cases & agreements' },
-            { id: 'puja', icon: '🛕', title: 'Puja', subtitle: 'Religious ceremonies' },
-            { id: 'fasting', icon: '🙏', title: 'Vrata Arambham', subtitle: 'Start of fasting' },
-            { id: 'yagnya', icon: '🔥', title: 'Yagnya', subtitle: 'Sacrificial ceremonies' }
-        ];
-
-        const nakshatraOrder = ["ashwini","bharani","krittika","rohini","mrigashira","ardra","punarvasu","pushya","ashlesha","magha","purva-phalguni","uttara-phalguni","hasta","chitra","swati","vishakha","anuradha","jyestha","mula","purva-ashadha","uttara-ashadha","shravana","dhanishta","shatabhisha","purva-bhadrapada","uttara-bhadrapada","revati"];
-        const starData = Object.fromEntries(nakshatraOrder.map(s => [s, { name: s.charAt(0).toUpperCase()+s.slice(1).replace('-',' '), description: "Vedic nakshatra with unique characteristics." }]));
-        const purposeData = Object.fromEntries(purposeOptions.map(p => [p.id, { type: (p.id==='compatibility'||p.id==='marriage'||p.id==='engagement')?'two-star':'one-star', inputId:"compatibility-input", resultId:"compatibility-result" }]));
-        const taraSystemMap = { 0:{name:"Ati Mitra Tara",desc:"Deep friendship, highly favorable.",score:"Excellent"},1:{name:"Janma Tara",desc:"Birth, health, transformative.",score:"Average"},2:{name:"Sampat Tara",desc:"Wealth, prosperity.",score:"Excellent"},3:{name:"Vipat Tara",desc:"Obstacles, caution.",score:"Poor"},4:{name:"Kshema Tara",desc:"Well-being, success.",score:"Good"},5:{name:"Pratyak Tara",desc:"Opposition, obstacles.",score:"Poor"},6:{name:"Sadhana Tara",desc:"Accomplishment through effort.",score:"Good"},7:{name:"Naidhana Tara",desc:"Loss, endings, careful.",score:"Very Poor"},8:{name:"Mitra Tara",desc:"Friendship, support.",score:"Good"} };
-
-        let currentPurpose = 'compatibility';
-        let isDropdownOpen = false;
-
-        const dropdownTrigger = document.getElementById('dropdown-trigger');
-        const dropdownOptions = document.getElementById('dropdown-options');
-        const star1Select = document.getElementById('star1');
-        const star2Select = document.getElementById('star2');
-        const checkButton = document.getElementById('check-compatibility');
-        const star1Container = document.getElementById('star1-container');
-        const star2Container = document.getElementById('star2-container');
-        const star1Title = document.getElementById('star1-title');
-        const star1Info = document.getElementById('star1-info');
-        const star2Info = document.getElementById('star2-info');
-
-        function initializeDropdown() {
-            dropdownOptions.innerHTML = '';
-            purposeOptions.forEach(p => {
-                const option = document.createElement('div');
-                option.className = `purpose-option ${p.id===currentPurpose?'active':''}`;
-                option.setAttribute('data-purpose', p.id);
-                option.innerHTML = `<div class="option-icon">${p.icon}</div><div class="option-text"><h3>${p.title}</h3><p>${p.subtitle}</p></div>`;
-                option.addEventListener('click', () => selectPurpose(p));
-                dropdownOptions.appendChild(option);
-            });
-            updateSelectedPurpose(currentPurpose);
-            applyDynamicUI(currentPurpose);
-        }
-
-        function updateSelectedPurpose(purposeId) {
-            const p = purposeOptions.find(x=>x.id===purposeId);
-            if(p){ 
-                document.querySelector('.selected-icon').textContent = p.icon; 
-                document.querySelector('.selected-text h3').textContent = p.title; 
-                document.querySelector('.selected-text p').textContent = p.subtitle; 
-            }
-        }
-
-        function applyDynamicUI(purposeId) {
-            const pData = purposeData[purposeId];
-            if(pData.type === 'one-star') {
-                star2Container.style.display = 'none';
-                star1Title.textContent = 'Select Your Birth Star';
-                star2Select.value = '';
-                star2Info.style.display = 'none';
-            } else {
-                star2Container.style.display = 'block';
-                star1Title.textContent = "First Person's Birth Star";
-            }
-            if(purposeId === 'compatibility') {
-                document.getElementById('timeframe-selector').style.display = 'none';
-                document.getElementById('tara-system-info').style.display = 'block';
-                document.getElementById('dynamic-input-title').textContent = 'Check Compatibility Between Two People';
-                document.getElementById('dynamic-result-title').textContent = 'Compatibility Analysis';
-                checkButton.textContent = 'Check Compatibility';
-            } else {
-                document.getElementById('timeframe-selector').style.display = 'flex';
-                document.getElementById('tara-system-info').style.display = 'none';
-                const purp = purposeOptions.find(p=>p.id===purposeId);
-                document.getElementById('dynamic-input-title').textContent = `Find Auspicious Timings for ${purp.title}`;
-                document.getElementById('dynamic-result-title').textContent = `${purp.title} Timings`;
-                checkButton.textContent = 'Find Timings';
-            }
-            updateStarInfo();
-        }
-
-        function selectPurpose(purpose) {
-            currentPurpose = purpose.id;
-            updateSelectedPurpose(purpose.id);
-            closeDropdown();
-            document.querySelectorAll('.purpose-option').forEach(opt=>opt.classList.remove('active'));
-            document.querySelector(`.purpose-option[data-purpose="${purpose.id}"]`).classList.add('active');
-            applyDynamicUI(currentPurpose);
-        }
-
-        function closeDropdown() { 
-            isDropdownOpen=false; 
-            dropdownOptions.classList.remove('active'); 
-            dropdownTrigger.classList.remove('active'); 
-            dropdownTrigger.querySelector('.dropdown-arrow').classList.remove('rotated'); 
-        }
-
-        dropdownTrigger.addEventListener('click', () => {
-            isDropdownOpen = !isDropdownOpen;
-            dropdownOptions.classList.toggle('active', isDropdownOpen);
-            dropdownTrigger.classList.toggle('active', isDropdownOpen);
-            dropdownTrigger.querySelector('.dropdown-arrow').classList.toggle('rotated', isDropdownOpen);
-        });
-
-        document.addEventListener('click',(e)=>{ 
-            if(!dropdownTrigger.contains(e.target) && !dropdownOptions.contains(e.target)) closeDropdown(); 
-        });
-
-        star1Select.addEventListener('change', updateStarInfo);
-        star2Select.addEventListener('change', updateStarInfo);
-        checkButton.addEventListener('click', processRequest);
-
-        function updateStarInfo() {
-            if(star1Select.value && starData[star1Select.value]) {
-                star1Info.innerHTML = `<h4>About ${starData[star1Select.value].name}</h4><p>${starData[star1Select.value].description}</p>`;
-                star1Info.style.display = 'block';
-            } else star1Info.style.display = 'none';
-            if(star2Select.value && starData[star2Select.value]) {
-                star2Info.innerHTML = `<h4>About ${starData[star2Select.value].name}</h4><p>${starData[star2Select.value].description}</p>`;
-                star2Info.style.display = 'block';
-            } else star2Info.style.display = 'none';
-            
-            const pData = purposeData[currentPurpose];
-            if(pData.type === 'one-star') checkButton.disabled = !star1Select.value;
-            else checkButton.disabled = !(star1Select.value && star2Select.value);
-        }
-
-        function processRequest() {
-            const star1 = star1Select.value, star2 = star2Select.value;
-            const pData = purposeData[currentPurpose];
-            const resultSection = document.getElementById('compatibility-result');
-            resultSection.classList.add('active');
-
-            if(currentPurpose === 'compatibility') calculateTaraLocally(star1, star2);
-            else fetchMuhuratDataFromDatabase(currentPurpose, star1, pData.type==='two-star'?star2:null, document.getElementById('month-select').value, document.getElementById('year-select').value);
-        }
-
-        function calculateTaraLocally(star1, star2) {
-            const idx1 = nakshatraOrder.indexOf(star1), idx2 = nakshatraOrder.indexOf(star2);
-            let count1to2 = (idx2 - idx1) + 1; if(count1to2<=0) count1to2+=27; const t1 = count1to2%9;
-            let count2to1 = (idx1 - idx2) + 1; if(count2to1<=0) count2to1+=27; const t2 = count2to1%9;
-            const res1 = taraSystemMap[t1], res2 = taraSystemMap[t2];
-            const name1 = starData[star1].name, name2 = starData[star2].name;
-            
-            document.getElementById('relationship-type').textContent = "Tara Compatibility";
-            document.getElementById('relationship-desc').textContent = `Vedic Star Relationship between ${name1} and ${name2}`;
-            document.getElementById('compatibility-insights').innerHTML = `
-                <div class="date-card" style="margin-bottom:15px">
-                    <h4 style="color:#0fccce;">From ${name1} to ${name2}</h4>
-                    <p><strong>${res1.name}</strong></p>
-                    <p>${res1.desc}</p>
-                </div>
-                <div class="date-card" style="border-left-color:#0fccce">
-                    <h4 style="color:#e94560;">From ${name2} to ${name1}</h4>
-                    <p><strong>${res2.name}</strong></p>
-                    <p>${res2.desc}</p>
-                </div>
-            `;
-        }
-
-        async function fetchMuhuratDataFromDatabase(purpose, star1, star2, month, year) {
-            const insights = document.getElementById('compatibility-insights');
-            document.getElementById('relationship-type').textContent = "Calculating...";
-            insights.innerHTML = '<div style="padding:40px; text-align:center;"><i class="fas fa-spinner fa-spin" style="font-size:2.5rem; color:#0fccce;"></i><p style="margin-top:15px; color:#aaa;">Searching Data Bank...</p></div>';
-            checkButton.disabled = true;
-            try {
-                const resp = await fetch(SUPABASE_FUNCTION_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` },
-                    body: JSON.stringify({ purpose, star1, star2, month, year })
-                });
-                const data = await resp.json();
-                if(data.success && data.results.length) {
-                    document.getElementById('relationship-type').textContent = `${data.results.length} Auspicious Dates Found`;
-                    let html = '<div class="dates-grid">';
-                    data.results.forEach(row => {
-                        html += `
-                            <div class="date-card">
-                                <div class="card-date"><i class="fas fa-calendar-check"></i> ${new Date(row.Date).toLocaleDateString('en-GB')}</div>
-                                <div class="card-detail">
-                                    <span class="detail-badge"><i class="fas fa-moon"></i><span class="detail-label">Tithi:</span> <span class="detail-value">${row.Tithi_Name}</span></span>
-                                    <span class="detail-badge"><i class="fas fa-star"></i><span class="detail-label">Nakshatra:</span> <span class="detail-value">${row.Nakshatra_Name}</span></span>
-                                </div>
-                                <div class="card-footer">
-                                    ${row.Paksha || 'Shukla'} Paksha
-                                </div>
-                            </div>`;
-                    });
-                    insights.innerHTML = html + '</div>';
-                } else {
-                    insights.innerHTML = '<div style="padding:30px; color:#aaa;">No auspicious dates found for the selection. Please try different parameters or consult an astrologer for manual Muhurta calculation.</div>';
-                }
-            } catch(err) {
-                insights.innerHTML = '<div style="padding:30px; color:#e94560;">Error retrieving timings. Please check your connection or try again later.</div>';
-            } finally { checkButton.disabled = false; }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
+        // --- APP SPECIFIC LOGIC ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load header & footer
             loadMasterCopy();
-            initializeDropdown();
+
+            const searchButton = document.getElementById('searchButton');
+            const searchInput = document.getElementById('searchInput');
+            const resultsTable = document.getElementById('resultsTable');
+            const mobileResults = document.getElementById('mobileResults');
+            
+            const supabase = SUPABASE_URL && SUPABASE_KEY ? 
+                window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+            
+            function displayResults(videos) {
+                if (videos.length === 0) {
+                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found for this client code</div>';
+                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found for this client code</div>';
+                    return;
+                }
+                
+                let tableHTML = `
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Video Title</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                let mobileHTML = '';
+                
+                videos.forEach(video => {
+                    tableHTML += `
+                        <tr>
+                            <td class="video-title">${video.title}</td>
+                            <td><a href="${video.link}" class="video-link" target="_blank" rel="noopener">Watch <i class="fab fa-youtube" style="color: #FF0000; margin-left: 5px;"></i></a></td>
+                        </tr>
+                    `;
+                    
+                    mobileHTML += `
+                        <div class="video-card">
+                            <div class="video-card-title">${video.title}</div>
+                            <a href="${video.link}" class="video-card-link" target="_blank" rel="noopener">Watch on YouTube <i class="fab fa-youtube" style="margin-left: 5px;"></i></a>
+                        </div>
+                    `;
+                });
+                
+                tableHTML += `
+                        </tbody>
+                    </table>
+                `;
+                
+                resultsTable.innerHTML = tableHTML;
+                mobileResults.innerHTML = mobileHTML;
+            }
+            
+            async function performSearch() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+                
+                if (searchTerm === '') {
+                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a client code</div>';
+                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a client code</div>';
+                    return;
+                }
+                
+                resultsTable.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for your videos...</div>';
+                mobileResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for your videos...</div>';
+                
+                try {
+                    const response = await fetch(`${SUPABASE_URL}/functions/v1/search-videos`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${SUPABASE_KEY}`
+                        },
+                        body: JSON.stringify({ searchTerm })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(data.error || 'Search failed');
+                    }
+                    
+                    displayResults(data.videos || []);
+                    
+                } catch (error) {
+                    console.error('Search error:', error);
+                    resultsTable.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+                    mobileResults.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
+                }
+            }
+            
+            searchButton.addEventListener('click', performSearch);
+            
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
         });
     </script>
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
