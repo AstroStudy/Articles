@@ -25,11 +25,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # THIS IS THE MAGIC STEP
-      # It finds the placeholder in your code and replaces it with the secret
+      # Using 'env' and 'perl' safely injects URLs containing special characters like '&'
       - name: Inject Excel URL Secret
+        env:
+          SECRET_URL: ${{ secrets.DATA_TABLE_URL }}
         run: |
-          sed -i 's|{{DATA_TABLE_URL}}|${{ secrets.DATA_TABLE_URL }}|g' index.html
+          perl -pi -e 's|\{\{DATA_TABLE_URL\}\}|$ENV{SECRET_URL}|g' index.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
