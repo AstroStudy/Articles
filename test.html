@@ -1,16 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5432639450228352" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Search Portal</title>
+    <title>Antharyami Data Bank | Ganesh Solutions</title>
+    
+    <!-- Include SheetJS to parse the Excel file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                        },
+                        gs: {
+                            blue: '#1a365d',
+                            gold: '#d4af37',
+                            navy: '#0f1a3c'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
     <style>
+        /* Custom scrollbar for table container to match modern aesthetics */
+        .table-scroll::-webkit-scrollbar {
+            height: 8px;
+            width: 8px;
+        }
+        .table-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .table-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .table-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        
+        /* Smooth transitions */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* === Ganesh Solutions Global Vars === */
         :root {
-            /* Master Header/Footer Vars */
             --primary-blue: #1a365d;
             --accent-gold: #d4af37;
             --dark-navy: #0f1a3c;
@@ -18,102 +80,47 @@
             --medium-gray: #e2e8f0;
             --text-dark: #2d3748;
             --text-light: #718096;
-
-            /* App Specific Vars */
-            --app-primary: #1a73e8;        
-            --app-primary-dark: #0d47a1;     
-            --app-primary-light: #e8f0fe;    
-            --accent-teal: #007c91;         
-            --accent-orange: #ff6d00;       
-            --bg-light: #f8f9fa;            
-            --bg-white: #ffffff;            
-            --border-light: #dadce0;        
-            --shadow: 0 1px 2px 0 rgba(60,64,67,0.3), 0 1px 3px 1px rgba(60,64,67,0.15);
-            --shadow-hover: 0 1px 3px 0 rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
-            --border-radius: 8px;
-            --transition: all 0.3s ease;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-        }
-
-        /* Essential for Master Components layout (Header & Footer) */
-        .container {
-            max-width: 95%;
-            margin: 0 auto;
-            padding: 0 15px;
-            width: 100%;
-        }
-
-        /* Essential for App layout */
-        .gs-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            width: 100%;
-        }
-
-        #header-placeholder { 
-            width: 100%;
-            min-height: 100px; 
-        }
-
-        /* Main Content Area Wrapper */
-        .page-content {
-            flex-grow: 1;
-            width: 100%;
-            padding: 40px 0;
-        }
-
-        /* =========================================
-           INJECTED HEADER & FOOTER STYLES 
-           ========================================= */
+        /* Injected Header Styles (From Components.html) */
         header { background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 1000; }
-        .mobile-header { display: none; padding: 15px 20px; background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: white; align-items: center; justify-content: space-between; width: 100%; position: sticky; top: 0; z-index: 1000; }
+        .mobile-header { display: none; padding: 15px 0; background: linear-gradient(135deg, var(--dark-navy) 0%, var(--primary-blue) 100%); color: white; align-items: center; justify-content: space-between; width: 100%; position: sticky; top: 0; z-index: 1000; }
         .header-content { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-        .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; text-decoration: none; }
+        .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; cursor: pointer; }
         .logo-image { height: 70px; width: auto; margin-top: 10px; border-radius: 50%; object-fit: cover; }
         .logo-text-container { display: flex; flex-direction: column; white-space: nowrap; }
         .logo-text { font-size: 24px; font-weight: 600; color: white; }
         .tagline { font-size: 14px; color: rgba(255, 255, 255, 0.7); }
 
-        nav ul { display: flex; list-style: none; align-items: center; }
+        nav ul { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; }
         nav ul li { margin-left: 15px; position: relative; }
         nav ul li a { color: white; text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 4px; transition: all 0.3s; display: flex; align-items: center; white-space: nowrap; font-size: 15px; }
         nav ul li a:hover { background: rgba(255, 255, 255, 0.1); color: var(--accent-gold); }
-        .dropdown-menu { position: absolute; top: 100%; right: 0; background: white; min-width: 220px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-radius: 4px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; text-align: left; }
+        .dropdown-menu { position: absolute; top: 100%; right: 0; background: white; min-width: 220px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); border-radius: 4px; opacity: 0; visibility: hidden; transform: translateY(-10px); transition: all 0.3s ease; z-index: 1000; }
         nav ul li:hover .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
         .dropdown-menu a { color: var(--text-dark) !important; padding: 12px 20px; display: flex; align-items: center; border-bottom: 1px solid var(--medium-gray); white-space: nowrap; }
         .dropdown-menu a:hover { background: var(--light-gray); color: var(--primary-blue) !important; }
         .dropdown-menu a i { margin-right: 10px; width: 20px; }
 
-        footer { background: var(--dark-navy); color: white; padding: 50px 0 20px; margin-top: auto; width: 100%; }
-        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 30px; margin-bottom: 30px; text-align: left; }
+        /* Injected Footer Styles */
+        footer { background: var(--dark-navy); color: white; padding: 50px 0 20px; margin-top: 40px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 30px; margin-bottom: 30px; max-width: 1200px; margin-left: auto; margin-right: auto; padding: 0 20px; }
         .footer-column h3 { font-size: 18px; margin-bottom: 18px; color: var(--accent-gold); font-weight: 600; }
-        .footer-column ul { list-style: none; }
+        .footer-column ul { list-style: none; padding: 0; }
         .footer-column ul li { margin-bottom: 8px; }
         .footer-column a { color: rgba(255, 255, 255, 0.7); text-decoration: none; font-size: 0.95rem; transition: color 0.2s; }
         .footer-column a:hover { color: var(--accent-gold); }
-        .copyright { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5); font-size: 14px; }
+        .copyright { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); color: rgba(255, 255, 255, 0.5); font-size: 14px; max-width: 1200px; margin: 0 auto; }
+
+        /* Google Translate Container styling */
+        #google_translate_element { margin-left: 10px; display: flex; align-items: center; min-width: 140px; }
+        .goog-te-gadget-simple { background-color: rgba(255, 255, 255, 0.15) !important; border: 1px solid var(--accent-gold) !important; padding: 4px 8px !important; border-radius: 6px !important; font-family: 'Inter', sans-serif !important; display: flex !important; align-items: center !important; }
+        .goog-te-gadget-simple a, .goog-te-menu-value span { color: white !important; text-decoration: none !important; font-size: 12px !important; }
+        .goog-logo-link, .goog-te-gadget-icon, .goog-te-banner-frame { display: none !important; }
+        body { top: 0 !important; }
 
         @media (max-width: 992px) {
-            header { display: none; }
             .mobile-header { display: flex; }
-            .mobile-menu-toggle { background: none; border: none; color: #fff; font-size: 24px; cursor: pointer; }
             nav#mainNav { display: none; position: fixed; top: 70px; left: 0; width: 100%; height: calc(100% - 70px); background: var(--dark-navy); z-index: 2000; padding: 20px; overflow-y: auto; transform: translateX(-100%); transition: transform 0.3s ease; }
             nav#mainNav.active { display: block; transform: translateX(0); }
             nav ul { flex-direction: column; align-items: flex-start; margin-top: 20px; width: 100%; }
@@ -121,323 +128,154 @@
             .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; background: rgba(255, 255, 255, 0.05); width: 100%; display: none; }
             nav ul li.active .dropdown-menu { display: block; }
         }
-
-        /* =========================================
-           APP SPECIFIC STYLES 
-           ========================================= */
-        .search-container {
-            background-color: var(--bg-white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            margin-bottom: 30px;
-            border: 1px solid var(--border-light);
-        }
-
-        .search-container h1 {
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            font-size: 28px;
-            font-weight: 600;
-        }
-
-        .search-bar {
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-bar input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 1px solid var(--border-light);
-            border-radius: 4px;
-            font-size: 16px;
-            transition: var(--transition);
-            color: var(--text-dark);
-        }
-
-        .search-bar input:focus {
-            border-color: var(--app-primary);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
-        }
-
-        .search-bar button {
-            background-color: var(--app-primary);
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            padding: 12px 25px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: var(--transition);
-            min-width: 100px;
-            font-weight: 500;
-        }
-
-        .search-bar button:hover {
-            background-color: var(--app-primary-dark);
-            box-shadow: var(--shadow-hover);
-        }
-
-        .search-hint {
-            margin-top: 10px;
-            font-size: 14px;
-            color: var(--text-medium);
-            display: flex;
-            align-items: center;
-        }
-
-        .search-hint i {
-            margin-right: 8px;
-            color: var(--app-primary);
-        }
-
-        .results-container {
-            background-color: var(--bg-white);
-            border-radius: var(--border-radius);
-            box-shadow: var(--shadow);
-            padding: 30px;
-            border: 1px solid var(--border-light);
-        }
-
-        .results-container h2 {
-            margin-bottom: 20px;
-            color: var(--text-dark);
-            font-weight: 600;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            padding: 12px 15px;
-            text-align: left;
-            border-bottom: 1px solid var(--border-light);
-        }
-
-        th {
-            background-color: var(--app-primary-light);
-            font-weight: 600;
-            color: var(--app-primary);
-        }
-
-        tr:hover {
-            background-color: var(--app-primary-light);
-        }
-
-        .video-title {
-            font-weight: 500;
-            color: var(--text-dark);
-            width: 70%;
-        }
-
-        .video-link {
-            color: var(--app-primary);
-            text-decoration: none;
-            display: inline-block;
-            padding: 8px 15px;
-            background-color: var(--app-primary-light);
-            border-radius: 4px;
-            transition: var(--transition);
-            font-weight: 500;
-            border: 1px solid var(--border-light);
-        }
-
-        .video-link:hover {
-            text-decoration: none;
-            background-color: var(--app-primary);
-            color: #fff;
-            box-shadow: var(--shadow);
-        }
-
-        .loading {
-            text-align: center;
-            padding: 20px;
-            color: var(--text-medium);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .loading i {
-            margin-right: 10px;
-            color: var(--app-primary);
-        }
-
-        .error {
-            text-align: center;
-            padding: 20px;
-            color: #d93025;
-            background-color: #fce8e6;
-            border-radius: 4px;
-            margin: 10px 0;
-            border: 1px solid #fad2cf;
-        }
-
-        .mobile-results {
-            display: none;
-        }
-
-        .video-card {
-            background-color: var(--bg-white);
-            border-radius: var(--border-radius);
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
-            border: 1px solid var(--border-light);
-        }
-
-        .video-card:hover {
-            box-shadow: var(--shadow-hover);
-            transform: translateY(-2px);
-        }
-
-        .video-card-title {
-            font-weight: 500;
-            margin-bottom: 10px;
-            font-size: 16px;
-            line-height: 1.4;
-            color: var(--text-dark);
-        }
-
-        .video-card-link {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: var(--app-primary);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: var(--transition);
-            border: 1px solid var(--app-primary);
-        }
-
-        .video-card-link:hover {
-            background-color: var(--app-primary-dark);
-            text-decoration: none;
-            color: #fff;
-            box-shadow: var(--shadow);
-        }
-
-        @media (max-width: 768px) {
-            .page-content {
-                padding: 20px 0;
-            }
-            .search-bar {
-                flex-direction: column;
-            }
-            .search-bar input {
-                padding: 15px;
-                font-size: 16px;
-            }
-            .search-bar button {
-                width: 100%;
-                padding: 15px;
-                font-size: 16px;
-                min-height: 50px;
-            }
-            table {
-                display: none;
-            }
-            .mobile-results {
-                display: block;
-            }
-            .video-title {
-                width: 60%;
-            }
-            .video-link {
-                padding: 10px 15px;
-            }
-            .video-card-link {
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .search-container h1 {
-                font-size: 22px;
-            }
-            .results-container h2 {
-                font-size: 20px;
-            }
-            .video-card-title {
-                font-size: 15px;
-            }
-            .search-container,
-            .results-container {
-                padding: 15px;
-            }
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .fa-spinner {
-            animation: spin 1s linear infinite;
-        }
-
-        button:focus,
-        input:focus,
-        a:focus {
-            outline: 2px solid var(--app-primary);
-            outline-offset: 2px;
-        }
     </style>
 </head>
-<body>
-    
-    <!-- Master Header Placeholder -->
+<body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Placeholder for master header -->
     <div id="header-placeholder"></div>
 
-    <main class="page-content">
-        <div class="gs-container">
-            <div class="search-container">
-                <h1>Search YouTube Videos</h1>
-                <div class="search-bar">
-                    <input type="text" id="searchInput" placeholder="Enter your client code...like GS2025BK2519879" aria-label="Client code">
-                    <button id="searchButton">Search</button>
-                </div>
-                <div class="search-hint">
-                    <i class="fas fa-info-circle"></i> Enter your unique client code to access your videos
-                </div>
-            </div>
-
-            <div class="results-container">
-                <h2>Search Results</h2>
-                <div id="resultsTable">
-                    <div class="loading">
-                        <i class="fas fa-search"></i> Enter your client code to find your videos
-                    </div>
-                </div>
-                <div id="mobileResults" class="mobile-results">
-                    <!-- Mobile results will be populated here -->
-                </div>
+    <!-- Main Content Area -->
+    <main class="flex-grow w-full max-w-[95%] mx-auto px-4 py-8 relative">
+        
+        <div id="status-container" class="mb-6">
+            <!-- Initial Loading State matching reference prose-loading -->
+            <div class="flex flex-col items-center justify-center py-12 bg-white rounded-2xl shadow-sm border border-gray-100 fade-in">
+                <i class="fas fa-spinner fa-spin text-3xl text-brand-500 mb-4"></i>
+                <p class="text-gray-500 font-medium">Initializing Google Sheets Data...</p>
             </div>
         </div>
+
+        <div id="table-container" class="fade-in"></div>
+        
     </main>
 
-    <!-- Master Footer Placeholder -->
+    <!-- Placeholder for master footer -->
     <div id="footer-placeholder"></div>
 
     <script>
-        const SUPABASE_URL = 'https://lkvcbpxkpwpoqjlcddgl.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxrdmNicHhrcHdwb3FqbGNkZGdsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTc3NzI2MzIsImV4cCI6MjA3MzM0ODYzMn0.Es6C6G4I65JqjW_9h6d6iWzBr8vQoyiBq3-7wQ6qadU';
+        // Google Sheets published XLSX URL
+        const EXCEL_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRmpidryznLtEuGt1_FvHpfcM22HDIIfQHYixnBHFeWqLadHAtaxZAt6-8N0ZTI3gGWHLBT7UanaGa/pub?output=xlsx";
 
-        // --- MASTER COMPONENT LOADING ---
+        async function loadData() {
+            try {
+                const response = await fetch(EXCEL_URL);
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+                
+                const arrayBuffer = await response.arrayBuffer();
+                const workbook = XLSX.read(arrayBuffer, { type: 'array' });
+                const firstSheetName = workbook.SheetNames[0];
+                const worksheet = workbook.Sheets[firstSheetName];
+                const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+                if (!sheetData || sheetData.length < 2) throw new Error("Empty dataset or missing headers");
+
+                const rawHeaders = sheetData[0];
+                const headers = rawHeaders.map(h => h || 'Unnamed Column');
+
+                const rows = sheetData.slice(1).map(row => {
+                    return headers.map((_, colIndex) => {
+                        const cellValue = row[colIndex];
+                        return (cellValue !== undefined && cellValue !== null) ? cellValue : "";
+                    });
+                });
+
+                renderTable(headers, rows);
+                
+                // Show success status
+                document.getElementById("status-container").innerHTML = `
+                    <div class="flex items-center gap-3 p-4 bg-emerald-50 text-emerald-800 border-l-4 border-emerald-500 rounded-lg shadow-sm fade-in">
+                        <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
+                        <span class="font-medium text-sm">Successfully synchronized <strong>${rows.length}</strong> records from databank.</span>
+                    </div>
+                `;
+
+            } catch (error) {
+                // Show error status matching prose-error
+                document.getElementById("status-container").innerHTML = `
+                    <div class="flex items-start gap-3 p-5 bg-red-50 text-red-900 border-l-4 border-red-600 rounded-lg shadow-sm fade-in">
+                        <i class="fas fa-exclamation-triangle text-red-600 text-xl mt-0.5"></i>
+                        <div>
+                            <h3 class="font-bold">Data Retrieval Failed</h3>
+                            <p class="text-sm mt-1 text-red-800">${error.message}</p>
+                        </div>
+                    </div>
+                `;
+                console.error("Loading failed:", error);
+            }
+        }
+
+        function renderTable(headers, rows) {
+            // Create styled search header row
+            const searchHeader = headers.map((header, index) => `
+                <th class="p-3 bg-gray-50 border-b border-gray-200">
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
+                            <i class="fas fa-filter text-gray-400 text-[10px]"></i>
+                        </div>
+                        <input class="w-full pl-7 pr-3 py-1.5 rounded-md border border-gray-300 text-gray-800 text-xs focus:ring-2 focus:ring-gs-gold focus:border-transparent transition-all outline-none font-normal shadow-sm bg-white" 
+                               placeholder="Filter..." 
+                               oninput="filterColumn(${index}, this.value)"
+                               aria-label="Filter by ${header}">
+                    </div>
+                </th>
+            `).join('');
+
+            // Create Tailwind-styled table HTML
+            const tableHTML = `
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="overflow-x-auto table-scroll max-h-[70vh]">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gs-blue text-white sticky top-0 z-20">
+                                <tr>
+                                    ${headers.map(h => `
+                                        <th class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider whitespace-nowrap border-b border-gs-navy/50">
+                                            ${h}
+                                        </th>
+                                    `).join('')}
+                                </tr>
+                            </thead>
+                            <thead class="bg-gray-50 sticky top-[53px] z-10 shadow-sm">
+                                <tr>${searchHeader}</tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 bg-white">
+                                ${rows.map((row, rowIndex) => `
+                                    <tr class="hover:bg-blue-50/60 transition-colors duration-150 ${rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}">
+                                        ${row.map(cell => `
+                                            <td class="px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap">
+                                                ${cell !== "" ? cell : '<span class="text-gray-300">-</span>'}
+                                            </td>
+                                        `).join('')}
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById("table-container").innerHTML = tableHTML;
+        }
+
+        function filterColumn(colIndex, searchTerm) {
+            const term = searchTerm.toLowerCase().trim();
+            document.querySelectorAll("tbody tr").forEach(row => {
+                const cell = row.cells[colIndex];
+                if(cell) {
+                    const cellText = cell.textContent.toLowerCase();
+                    row.style.display = cellText.includes(term) ? "" : "none";
+                }
+            });
+        }
+
+        /**
+         * Fetch master components and inject them
+         */
         async function loadMasterCopy() {
             try {
                 const response = await fetch('Components.html');
                 if (!response.ok) throw new Error('Components.html not found');
+
                 const text = await response.text();
                 const parser = new DOMParser();
                 const masterDoc = parser.parseFromString(text, 'text/html');
@@ -454,147 +292,72 @@
                     document.getElementById('footer-placeholder').innerHTML = footerContent.innerHTML;
                 }
 
+                // Initialize events after injection
                 initMenuLogic();
+                initGoogleTranslate();
+
             } catch (err) {
-                console.error("Master Copy Load Error:", err);
+                console.error("Fetch Error:", err);
             }
         }
 
+        /**
+         * Logic for mobile menu and dropdown toggles
+         */
         function initMenuLogic() {
             const mobileBtn = document.getElementById('mobileMenuToggle');
             const mainNav = document.getElementById('mainNav');
             const dropdowns = document.querySelectorAll('.dropdown-toggle');
-            
+
             if (mobileBtn && mainNav) {
                 mobileBtn.addEventListener('click', () => {
                     const isActive = mainNav.classList.toggle('active');
                     mobileBtn.innerHTML = isActive ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                    document.body.style.overflow = isActive ? 'hidden' : '';
                 });
             }
-            
+
             dropdowns.forEach(toggle => {
                 toggle.addEventListener('click', (e) => {
                     if (window.innerWidth <= 992) {
                         e.preventDefault();
                         const li = toggle.parentElement;
+                        document.querySelectorAll('nav li').forEach(item => {
+                            if (item !== li) item.classList.remove('active');
+                        });
                         li.classList.toggle('active');
                     }
                 });
             });
         }
 
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({
-                pageLanguage: 'en',
-                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                autoDisplay: false
-            }, 'google_translate_element');
+        function initGoogleTranslate() {
+            const translateContainer = document.getElementById('google_translate_element');
+            if (translateContainer && !translateContainer.innerHTML) {
+                // Translator layout injected if not present
+            }
         }
 
-        // --- APP SPECIFIC LOGIC ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load header & footer
-            loadMasterCopy();
+        function googleTranslateElementInit() {
+            const allLanguages = "af,am,ar,as,az,be,bg,bn,bs,ca,cs,da,de,el,en,eo,es,et,eu,fa,fi,fr,ga,gd,gl,gu,ha,he,hi,hr,ht,hu,hy,id,ig,is,it,ja,jv,ka,kk,km,kn,ko,ku,ky,la,lb,lo,lt,lv,mg,mk,ml,mn,mr,ms,mt,my,ne,nl,no,ny,or,pa,pl,ps,pt,ro,ru,rw,sd,si,sk,sl,sm,sn,so,sq,sr,st,su,sv,sw,ta,te,tg,th,tk,tl,tr,tt,ug,uk,ur,uz,vi,wo,xh,yi,yor,zh-CN,zh-TW,zu";
+            if (window.google && google.translate && google.translate.TranslateElement) {
+                new google.translate.TranslateElement({
+                    pageLanguage: 'en',
+                    includedLanguages: allLanguages,
+                    layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                    autoDisplay: false,
+                    multilanguagePage: true
+                }, 'google_translate_element');
+            }
+        }
 
-            const searchButton = document.getElementById('searchButton');
-            const searchInput = document.getElementById('searchInput');
-            const resultsTable = document.getElementById('resultsTable');
-            const mobileResults = document.getElementById('mobileResults');
-            
-            const supabase = SUPABASE_URL && SUPABASE_KEY ? 
-                window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
-            
-            function displayResults(videos) {
-                if (videos.length === 0) {
-                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found for this client code</div>';
-                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> No videos found for this client code</div>';
-                    return;
-                }
-                
-                let tableHTML = `
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Video Title</th>
-                                <th>Link</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-                
-                let mobileHTML = '';
-                
-                videos.forEach(video => {
-                    tableHTML += `
-                        <tr>
-                            <td class="video-title">${video.title}</td>
-                            <td><a href="${video.link}" class="video-link" target="_blank" rel="noopener">Watch <i class="fab fa-youtube" style="color: #FF0000; margin-left: 5px;"></i></a></td>
-                        </tr>
-                    `;
-                    
-                    mobileHTML += `
-                        <div class="video-card">
-                            <div class="video-card-title">${video.title}</div>
-                            <a href="${video.link}" class="video-card-link" target="_blank" rel="noopener">Watch on YouTube <i class="fab fa-youtube" style="margin-left: 5px;"></i></a>
-                        </div>
-                    `;
-                });
-                
-                tableHTML += `
-                        </tbody>
-                    </table>
-                `;
-                
-                resultsTable.innerHTML = tableHTML;
-                mobileResults.innerHTML = mobileHTML;
-            }
-            
-            async function performSearch() {
-                const searchTerm = searchInput.value.trim().toLowerCase();
-                
-                if (searchTerm === '') {
-                    resultsTable.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a client code</div>';
-                    mobileResults.innerHTML = '<div class="loading"><i class="fas fa-exclamation-circle"></i> Please enter a client code</div>';
-                    return;
-                }
-                
-                resultsTable.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for your videos...</div>';
-                mobileResults.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Searching for your videos...</div>';
-                
-                try {
-                    const response = await fetch(`${SUPABASE_URL}/functions/v1/search-videos`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${SUPABASE_KEY}`
-                        },
-                        body: JSON.stringify({ searchTerm })
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (!response.ok) {
-                        throw new Error(data.error || 'Search failed');
-                    }
-                    
-                    displayResults(data.videos || []);
-                    
-                } catch (error) {
-                    console.error('Search error:', error);
-                    resultsTable.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
-                    mobileResults.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error: ${error.message}</div>`;
-                }
-            }
-            
-            searchButton.addEventListener('click', performSearch);
-            
-            searchInput.addEventListener('keyup', function(event) {
-                if (event.key === 'Enter') {
-                    performSearch();
-                }
-            });
+        // Load master copy AND data when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            loadMasterCopy();
+            loadData();
         });
     </script>
+    <!-- Google Translate Script -->
     <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </body>
 </html>
