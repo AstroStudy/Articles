@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vedic Auspicious Timing Finder - Panchanga</title>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2140422184257609" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* === Ganesh Solutions Global Vars (Needed for Master Components) === */
+        :root {
+            --primary-blue: #1a365d;
+            --accent-gold: #d4af37;
+            --dark-navy: #0f1a3c;
+            --light-gray: #f5f7fa;
+            --medium-gray: #e2e8f0;
+            --text-dark: #2d3748;
+            --text-light: #718096;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #header-placeholder { min-height: 100px; }
+
+        .main-container {
+            display: flex;
+            max-width: 1600px;
+            margin: 0 auto;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .content-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Purpose Selector */
+        .purpose-selector {
+            background: rgba(20, 20, 40, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+            padding: 20px;
+            text-align: center;
+        }
+        .purpose-header h2 {
+            color: #0fccce;
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+        .purpose-header p {
+            color: #b8b8b8;
+            font-size: 0.9rem;
+        }
+        .custom-dropdown {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .dropdown-trigger {
+            background: rgba(40, 40, 80, 0.5);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .dropdown-trigger.active {
+            border-color: #e94560;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        .selected-purpose {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .selected-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+        }
+        .selected-text h3 {
+            font-size: 1.1rem;
+            text-align: left;
+        }
+        .selected-text p {
+            font-size: 0.8rem;
+            color: #b8b8b8;
+            text-align: left;
+        }
+        .dropdown-arrow {
+            transition: transform 0.3s ease;
+        }
+        .dropdown-arrow.rotated {
+            transform: rotate(180deg);
+        }
+        .dropdown-options {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(30, 30, 60, 0.95);
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #e94560;
+            border-top: none;
+        }
+        .dropdown-options.active {
+            display: block;
+        }
+        .purpose-option {
+            padding: 12px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.2s;
+        }
+        .purpose-option:hover {
+            background: rgba(233,69,96,0.1);
+        }
+        .purpose-option.active {
+            background: rgba(233,69,96,0.2);
+        }
+        .option-icon {
+            font-size: 1.3rem;
+            width: 30px;
+            text-align: center;
+        }
+        .option-text h3 {
+            font-size: 0.95rem;
+        }
+        .option-text p {
+            font-size: 0.75rem;
+            color: #b8b8b8;
+        }
+
+        /* Input Sections */
+        .input-section {
+            background: rgba(30, 30, 60, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: none;
+        }
+        .input-section.active {
+            display: block;
+        }
+        .input-section h2 {
+            text-align: center;
+            color: #0fccce;
+            margin-bottom: 20px;
+        }
+        .selection-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .star-selector {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(40, 40, 80, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .star-selector h3 {
+            text-align: center;
+            color: #0fccce;
+            margin-bottom: 15px;
+        }
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: none;
+            background: #1a1a2e;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+        select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #e94560;
+        }
+        .star-info {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            display: none;
+        }
+        .star-info h4 {
+            color: #0fccce;
+            margin-bottom: 6px;
+        }
+        .check-button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .check-button {
+            background: linear-gradient(135deg, #e94560, #c62a4a);
+            color: white;
+            border: none;
+            padding: 14px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(233,69,96,0.4);
+        }
+        .check-button:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(233,69,96,0.6);
+        }
+        .check-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Result Section */
+        .result-section {
+            background: rgba(30, 30, 60, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            display: none;
+        }
+        .result-section.active {
+            display: block;
+        }
+        .result-title {
+            font-size: 1.8rem;
+            color: #e94560;
+            margin-bottom: 10px;
+        }
+        .relationship-type {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #0fccce;
+            text-shadow: 0 0 10px rgba(15,204,206,0.5);
+            margin: 15px 0;
+        }
+        .relationship-description {
+            color: #b8b8b8;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        .auspicious-info {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 10px;
+        }
+        .auspicious-info h3 {
+            color: #0fccce;
+            margin-bottom: 15px;
+        }
+
+        /* Date Cards Grid */
+        .dates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .date-card {
+            background: rgba(20, 20, 40, 0.6);
+            border-radius: 16px;
+            padding: 18px;
+            border-left: 4px solid #e94560;
+            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: left;
+            backdrop-filter: blur(4px);
+        }
+        .date-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border-left-color: #0fccce;
+        }
+        .card-date {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #0fccce;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center; gap: 8px;
+        }
+        .card-date i {
+            font-size: 1.2rem;
+            color: #e94560;
+        }
+        .card-detail {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 0.9rem;
+        }
+        .detail-badge {
+            background: rgba(0,0,0,0.4);
+            padding: 5px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .detail-badge i {
+            color: #0fccce;
+            width: 18px;
+        }
+        .detail-label {
+            color: #aaa;
+        }
+        .detail-value {
+            color: #fff;
+            font-weight: 500;
+        }
+        .card-footer {
+            margin-top: 12px;
+            font-size: 0.8rem;
+            color: #888;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 8px;
+        }
+
+        /* Tara Info */
+        .tara-system-info {
+            background: rgba(30,30,60,0.7);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+        .tara-system-info h2 {
+            color: #0fccce;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .tara-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .tara-type {
+            background: rgba(0,0,0,0.2);
+            padding: 12px;
+            border-radius: 10px;
+        }
+        .tara-type h4 {
+            color: #e94560;
+            margin-bottom: 6px;
+        }
+
+        /* Ad Sidebar */
+        .ad-sidebar {
+            width: 300px;
+            min-width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ad-banner {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #0fccce;
+            position: relative;
+            text-align: center;
+            height: 100%;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        .ad-banner:after {
+            content: 'ADVERTISEMENT';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(233,69,96,0.2);
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .ad-header {
+            margin-bottom: 20px;
+        }
+        .ad-icon {
+            font-size: 3rem;
+            color: #0fccce;
+        }
+        .ad-header h3 {
+            color: #e94560;
+            font-size: 1.5rem;
+        }
+        .ad-image {
+            margin: 15px 0;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .ad-button {
+            background: linear-gradient(135deg, #e94560, #c62a4a);
+            padding: 12px;
+            border-radius: 40px;
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+            margin-top: auto;
+            transition: 0.2s;
+            display: inline-block;
+        }
+        .ad-button:hover {
+            background: #0fccce;
+            color: #1a1a2e;
+        }
+
+        @media (max-width: 1200px) {
+            .main-container { flex-direction: column; }
+            .ad-sidebar { width: 100%; align-items: center; }
+            .ad-banner { max-width: 400px; width: 100%; margin: 0 auto; }
+        }
+        @media (max-width: 768px) {
+            .selection-area { flex-direction: column; }
+            .dates-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Master Header Placeholder -->
+    <div id="header-placeholder"></div>
+
+    <div class="main-container">
+        <div class="content-wrapper">
+            <div class="purpose-selector">
+                <div class="purpose-header">
+                    <h2>Select Purpose For Generally Favourable Day</h2>
+                    <p>Intended for emergency use when a Purohit is unavailable; full functionality coming soon.</p>
+                </div>
+                <div class="custom-dropdown">
+                    <div class="dropdown-trigger" id="dropdown-trigger">
+                        <div class="selected-purpose">
+                            <div class="selected-icon">💑</div>
+                            <div class="selected-text">
+                                <h3>Compatibility</h3>
+                                <p>Check relationship between people</p>
+                            </div>
+                        </div>
+                        <div class="dropdown-arrow"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+                    <div class="dropdown-options" id="dropdown-options"></div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div class="input-section active" id="compatibility-input">
+                    <h2 id="dynamic-input-title">Check Compatibility Between Two People</h2>
+                    <div class="selection-area">
+                        <div class="star-selector" id="star1-container">
+                            <h3 id="star1-title">First Person's Birth Star</h3>
+                            <select id="star1">
+                                <option value="">Select a star</option>
+                                <option value="ashwini">Ashwini</option><option value="bharani">Bharani</option><option value="krittika">Krittika</option>
+                                <option value="rohini">Rohini</option><option value="mrigashira">Mrigashira</option><option value="ardra">Ardra</option>
+                                <option value="punarvasu">Punarvasu</option><option value="pushya">Pushya</option><option value="ashlesha">Ashlesha</option>
+                                <option value="magha">Magha</option><option value="purva-phalguni">Purva Phalguni</option><option value="uttara-phalguni">Uttara Phalguni</option>
+                                <option value="hasta">Hasta</option><option value="chitra">Chitra</option><option value="swati">Swati</option>
+                                <option value="vishakha">Vishakha</option><option value="anuradha">Anuradha</option><option value="jyestha">Jyestha</option>
+                                <option value="mula">Mula</option><option value="purva-ashadha">Purva Ashadha</option><option value="uttara-ashadha">Uttara Ashadha</option>
+                                <option value="shravana">Shravana</option><option value="dhanishta">Dhanishta</option><option value="shatabhisha">Shatabhisha</option>
+                                <option value="purva-bhadrapada">Purva Bhadrapada</option><option value="uttara-bhadrapada">Uttara Bhadrapada</option><option value="revati">Revati</option>
+                            </select>
+                            <div class="star-info" id="star1-info"></div>
+                        </div>
+                        <div class="star-selector" id="star2-container">
+                            <h3>Second Person's Birth Star</h3>
+                            <select id="star2">
+                                <option value="">Select a star</option>
+                                <option value="ashwini">Ashwini</option><option value="bharani">Bharani</option><option value="krittika">Krittika</option>
+                                <option value="rohini">Rohini</option><option value="mrigashira">Mrigashira</option><option value="ardra">Ardra</option>
+                                <option value="punarvasu">Punarvasu</option><option value="pushya">Pushya</option><option value="ashlesha">Ashlesha</option>
+                                <option value="magha">Magha</option><option value="purva-phalguni">Purva Phalguni</option><option value="uttara-phalguni">Uttara Phalguni</option>
+                                <option value="hasta">Hasta</option><option value="chitra">Chitra</option><option value="swati">Swati</option>
+                                <option value="vishakha">Vishakha</option><option value="anuradha">Anuradha</option><option value="jyestha">Jyestha</option>
+                                <option value="mula">Mula</option><option value="purva-ashadha">Purva Ashadha</option><option value="uttara-ashadha">Uttara Ashadha</option>
+                                <option value="shravana">Shravana</option><option value="dhanishta">Dhanishta</option><option value="shatabhisha">Shatabhisha</option>
+                                <option value="purva-bhadrapada">Purva Bhadrapada</option><option value="uttara-bhadrapada">Uttara Bhadrapada</option><option value="revati">Revati</option>
+                            </select>
+                            <div class="star-info" id="star2-info"></div>
+                        </div>
+                    </div>
+                    <div id="timeframe-selector" class="selection-area" style="display: none;">
+                        <div class="star-selector">
+                            <h3>Select Month</h3>
+                            <select id="month-select">
+                                <option value="All">All Months</option>
+                                <option>January</option><option>February</option><option>March</option><option>April</option>
+                                <option>May</option><option>June</option><option>July</option><option>August</option>
+                                <option>September</option><option>October</option><option>November</option><option>December</option>
+                            </select>
+                        </div>
+                        <div class="star-selector">
+                            <h3>Select Year</h3>
+                            <select id="year-select">
+                                <option value="2026">2026</option>
+                                <option value="2027">2027</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="check-button-container">
+                        <button id="check-compatibility" class="check-button" disabled>Check Compatibility</button>
+                    </div>
+                </div>
+
+                <div class="result-section" id="compatibility-result">
+                    <h2 class="result-title" id="dynamic-result-title">Compatibility Analysis</h2>
+                    <div class="relationship-type" id="relationship-type">Please make your selection</div>
+                    <p class="relationship-description" id="relationship-desc"></p>
+                    <div class="auspicious-info">
+                        <h3>Insights</h3>
+                        <div id="compatibility-insights">Detailed insights will appear here.</div>
+                    </div>
+                </div>
+
+                <div class="tara-system-info" id="tara-system-info">
+                    <h2>The Tara System in Vedic Astrology</h2>
+                    <p>The Tara system determines the relationship between stars...</p>
+                    <div class="tara-types">
+                        <div class="tara-type"><h4>Janma Tara</h4><p>Birth, health, vitality.</p></div>
+                        <div class="tara-type"><h4>Sampat Tara</h4><p>Wealth, prosperity.</p></div>
+                        <div class="tara-type"><h4>Vipat Tara</h4><p>Obstacles, caution.</p></div>
+                        <div class="tara-type"><h4>Kshema Tara</h4><p>Well-being, success.</p></div>
+                        <div class="tara-type"><h4>Pratyak Tara</h4><p>Opposition, perseverance.</p></div>
+                        <div class="tara-type"><h4>Sadhana Tara</h4><p>Accomplishment.</p></div>
+                        <div class="tara-type"><h4>Naidhana Tara</h4><p>Loss, endings.</p></div>
+                        <div class="tara-type"><h4>Mitra Tara</h4><p>Friendship, support.</p></div>
+                        <div class="tara-type"><h4>Ati Mitra Tara</h4><p>Deep friendship, excellent.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Ads -->
+        <div class="ad-sidebar">
+            <div class="ad-banner">
+                <div class="ad-header">
+                    <div class="ad-icon">✨</div>
+                    <h3>Premium Ad Space</h3>
+                    <p>Your advertisement here</p>
+                </div>
+                <div class="ad-image">
+                    <ins class="adsbygoogle" 
+                         style="display:block" 
+                         data-ad-client="ca-pub-2140422184257609" 
+                         data-ad-slot="1299087104" 
+                         data-ad-format="auto" 
+                         data-full-width-responsive="true"></ins>
+                    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                </div>
+                <p class="ad-description">Reach thousands of astrology enthusiasts daily.</p>
+                <a href="#" class="ad-button">Partner With Us</a>
+                <div class="ad-footer" style="font-size: 0.8rem; color: #888; margin-top: 10px;">Contact for advertising opportunities</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Master Footer Placeholder -->
+    <div id="footer-placeholder"></div>
+
+    <script>
+        const SUPABASE_FUNCTION_URL = 'https://jusjpremtvalmqqtaoth.supabase.co/functions/v1/muhurat-api';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp1c2pwcmVtdHZhbG1xcXRhb3RoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjIyODQyNzksImV4cCI6MjA3Nzg2MDI3OX0.XzE8MFLHhjcKKFJ4TqNX3NNhVyGEiytxufWx8IywTqU';
+
+        // --- MASTER COMPONENT LOADING ---
+        async function loadMasterCopy() {
+            try {
+                const response = await fetch('Components.html');
+                if (!response.ok) throw new Error('Components.html not found');
+                const text = await response.text();
+                const parser = new DOMParser();
+                const masterDoc = parser.parseFromString(text, 'text/html');
+
+                // 1. Inject Header
+                const headerContent = masterDoc.getElementById('site-header-source');
+                if (headerContent) {
+                    document.getElementById('header-placeholder').innerHTML = headerContent.innerHTML;
+                }
+
+                // 2. Inject Footer
+                const footerContent = masterDoc.getElementById('site-footer-source');
+                if (footerContent) {
+                    document.getElementById('footer-placeholder').innerHTML = footerContent.innerHTML;
+                }
+
+                initMenuLogic();
+            } catch (err) {
+                console.error("Master Copy Load Error:", err);
+            }
+        }
+
+        function initMenuLogic() {
+            const mobileBtn = document.getElementById('mobileMenuToggle');
+            const mainNav = document.getElementById('mainNav');
+            if (mobileBtn && mainNav) {
+                mobileBtn.addEventListener('click', () => {
+                    const isActive = mainNav.classList.toggle('active');
+                    mobileBtn.innerHTML = isActive ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+                });
+            }
+            const dropdowns = document.querySelectorAll('.dropdown-toggle');
+            dropdowns.forEach(toggle => {
+                toggle.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 992) {
+                        e.preventDefault();
+                        const li = toggle.parentElement;
+                        li.classList.toggle('active');
+                    }
+                });
+            });
+        }
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        // --- ORIGINAL DATA & APP LOGIC ---
+        const purposeOptions = [
+            { id: 'compatibility', icon: '🤝', title: 'Compatibility', subtitle: 'Check relationship between people' },
+            { id: 'marriage', icon: '💒', title: 'Marriage', subtitle: 'Find auspicious marriage timing' },
+            { id: 'engagement', icon: '💍', title: 'Engagement', subtitle: 'Nischitartham Muhurtham' },
+            { id: 'gruhapravesam', icon: '🏠', title: 'Gruha Pravesam', subtitle: 'House warming ceremony' },
+            { id: 'namakaranam', icon: '👶', title: 'Namakaranam', subtitle: 'Baby naming ceremony' },
+            { id: 'annaprasana', icon: '🍚', title: 'Annaprasana', subtitle: 'First solid food for baby' },
+            { id: 'upanayanam', icon: '📿', title: 'Upanayanam', subtitle: 'Sacred thread ceremony' },
+            { id: 'seemantham', icon: '🤰', title: 'Seemantham', subtitle: 'Baby shower ceremony' },
+            { id: 'vahana', icon: '🚗', title: 'Vahana Purchase', subtitle: 'Vehicle purchase muhurtham' },
+            { id: 'business', icon: '💼', title: 'Business Start', subtitle: 'New business inauguration' },
+            { id: 'education', icon: '📚', title: 'Vidyarambham', subtitle: 'Start of education' },
+            { id: 'travel', icon: '✈️', title: 'Travel', subtitle: 'Yatra shubha muhurtham' },
+            { id: 'property', icon: '🏡', title: 'Property', subtitle: 'Property registration' },
+            { id: 'vastu', icon: '🔨', title: 'Vastu', subtitle: 'Construction start' },
+            { id: 'medical', icon: '🏥', title: 'Medical', subtitle: 'Surgery or treatment start' },
+            { id: 'investment', icon: '💰', title: 'Investment', subtitle: 'Financial investments' },
+            { id: 'legal', icon: '⚖️', title: 'Legal Matters', subtitle: 'Court cases & agreements' },
+            { id: 'puja', icon: '🛕', title: 'Puja', subtitle: 'Religious ceremonies' },
+            { id: 'fasting', icon: '🙏', title: 'Vrata Arambham', subtitle: 'Start of fasting' },
+            { id: 'yagnya', icon: '🔥', title: 'Yagnya', subtitle: 'Sacrificial ceremonies' }
+        ];
+
+        const nakshatraOrder = ["ashwini","bharani","krittika","rohini","mrigashira","ardra","punarvasu","pushya","ashlesha","magha","purva-phalguni","uttara-phalguni","hasta","chitra","swati","vishakha","anuradha","jyestha","mula","purva-ashadha","uttara-ashadha","shravana","dhanishta","shatabhisha","purva-bhadrapada","uttara-bhadrapada","revati"];
+        const starData = Object.fromEntries(nakshatraOrder.map(s => [s, { name: s.charAt(0).toUpperCase()+s.slice(1).replace('-',' '), description: "Vedic nakshatra with unique characteristics." }]));
+        const purposeData = Object.fromEntries(purposeOptions.map(p => [p.id, { type: (p.id==='compatibility'||p.id==='marriage'||p.id==='engagement')?'two-star':'one-star', inputId:"compatibility-input", resultId:"compatibility-result" }]));
+        const taraSystemMap = { 0:{name:"Ati Mitra Tara",desc:"Deep friendship, highly favorable.",score:"Excellent"},1:{name:"Janma Tara",desc:"Birth, health, transformative.",score:"Average"},2:{name:"Sampat Tara",desc:"Wealth, prosperity.",score:"Excellent"},3:{name:"Vipat Tara",desc:"Obstacles, caution.",score:"Poor"},4:{name:"Kshema Tara",desc:"Well-being, success.",score:"Good"},5:{name:"Pratyak Tara",desc:"Opposition, obstacles.",score:"Poor"},6:{name:"Sadhana Tara",desc:"Accomplishment through effort.",score:"Good"},7:{name:"Naidhana Tara",desc:"Loss, endings, careful.",score:"Very Poor"},8:{name:"Mitra Tara",desc:"Friendship, support.",score:"Good"} };
+
+        let currentPurpose = 'compatibility';
+        let isDropdownOpen = false;
+
+        const dropdownTrigger = document.getElementById('dropdown-trigger');
+        const dropdownOptions = document.getElementById('dropdown-options');
+        const star1Select = document.getElementById('star1');
+        const star2Select = document.getElementById('star2');
+        const checkButton = document.getElementById('check-compatibility');
+        const star1Container = document.getElementById('star1-container');
+        const star2Container = document.getElementById('star2-container');
+        const star1Title = document.getElementById('star1-title');
+        const star1Info = document.getElementById('star1-info');
+        const star2Info = document.getElementById('star2-info');
+
+        function initializeDropdown() {
+            dropdownOptions.innerHTML = '';
+            purposeOptions.forEach(p => {
+                const option = document.createElement('div');
+                option.className = `purpose-option ${p.id===currentPurpose?'active':''}`;
+                option.setAttribute('data-purpose', p.id);
+                option.innerHTML = `<div class="option-icon">${p.icon}</div><div class="option-text"><h3>${p.title}</h3><p>${p.subtitle}</p></div>`;
+                option.addEventListener('click', () => selectPurpose(p));
+                dropdownOptions.appendChild(option);
+            });
+            updateSelectedPurpose(currentPurpose);
+            applyDynamicUI(currentPurpose);
+        }
+
+        function updateSelectedPurpose(purposeId) {
+            const p = purposeOptions.find(x=>x.id===purposeId);
+            if(p){ 
+                document.querySelector('.selected-icon').textContent = p.icon; 
+                document.querySelector('.selected-text h3').textContent = p.title; 
+                document.querySelector('.selected-text p').textContent = p.subtitle; 
+            }
+        }
+
+        function applyDynamicUI(purposeId) {
+            const pData = purposeData[purposeId];
+            if(pData.type === 'one-star') {
+                star2Container.style.display = 'none';
+                star1Title.textContent = 'Select Your Birth Star';
+                star2Select.value = '';
+                star2Info.style.display = 'none';
+            } else {
+                star2Container.style.display = 'block';
+                star1Title.textContent = "First Person's Birth Star";
+            }
+            if(purposeId === 'compatibility') {
+                document.getElementById('timeframe-selector').style.display = 'none';
+                document.getElementById('tara-system-info').style.display = 'block';
+                document.getElementById('dynamic-input-title').textContent = 'Check Compatibility Between Two People';
+                document.getElementById('dynamic-result-title').textContent = 'Compatibility Analysis';
+                checkButton.textContent = 'Check Compatibility';
+            } else {
+                document.getElementById('timeframe-selector').style.display = 'flex';
+                document.getElementById('tara-system-info').style.display = 'none';
+                const purp = purposeOptions.find(p=>p.id===purposeId);
+                document.getElementById('dynamic-input-title').textContent = `Find Auspicious Timings for ${purp.title}`;
+                document.getElementById('dynamic-result-title').textContent = `${purp.title} Timings`;
+                checkButton.textContent = 'Find Timings';
+            }
+            updateStarInfo();
+        }
+
+        function selectPurpose(purpose) {
+            currentPurpose = purpose.id;
+            updateSelectedPurpose(purpose.id);
+            closeDropdown();
+            document.querySelectorAll('.purpose-option').forEach(opt=>opt.classList.remove('active'));
+            document.querySelector(`.purpose-option[data-purpose="${purpose.id}"]`).classList.add('active');
+            applyDynamicUI(currentPurpose);
+        }
+
+        function closeDropdown() { 
+            isDropdownOpen=false; 
+            dropdownOptions.classList.remove('active'); 
+            dropdownTrigger.classList.remove('active'); 
+            dropdownTrigger.querySelector('.dropdown-arrow').classList.remove('rotated'); 
+        }
+
+        dropdownTrigger.addEventListener('click', () => {
+            isDropdownOpen = !isDropdownOpen;
+            dropdownOptions.classList.toggle('active', isDropdownOpen);
+            dropdownTrigger.classList.toggle('active', isDropdownOpen);
+            dropdownTrigger.querySelector('.dropdown-arrow').classList.toggle('rotated', isDropdownOpen);
+        });
+
+        document.addEventListener('click',(e)=>{ 
+            if(!dropdownTrigger.contains(e.target) && !dropdownOptions.contains(e.target)) closeDropdown(); 
+        });
+
+        star1Select.addEventListener('change', updateStarInfo);
+        star2Select.addEventListener('change', updateStarInfo);
+        checkButton.addEventListener('click', processRequest);
+
+        function updateStarInfo() {
+            if(star1Select.value && starData[star1Select.value]) {
+                star1Info.innerHTML = `<h4>About ${starData[star1Select.value].name}</h4><p>${starData[star1Select.value].description}</p>`;
+                star1Info.style.display = 'block';
+            } else star1Info.style.display = 'none';
+            if(star2Select.value && starData[star2Select.value]) {
+                star2Info.innerHTML = `<h4>About ${starData[star2Select.value].name}</h4><p>${starData[star2Select.value].description}</p>`;
+                star2Info.style.display = 'block';
+            } else star2Info.style.display = 'none';
+            
+            const pData = purposeData[currentPurpose];
+            if(pData.type === 'one-star') checkButton.disabled = !star1Select.value;
+            else checkButton.disabled = !(star1Select.value && star2Select.value);
+        }
+
+        function processRequest() {
+            const star1 = star1Select.value, star2 = star2Select.value;
+            const pData = purposeData[currentPurpose];
+            const resultSection = document.getElementById('compatibility-result');
+            resultSection.classList.add('active');
+
+            if(currentPurpose === 'compatibility') calculateTaraLocally(star1, star2);
+            else fetchMuhuratDataFromDatabase(currentPurpose, star1, pData.type==='two-star'?star2:null, document.getElementById('month-select').value, document.getElementById('year-select').value);
+        }
+
+        function calculateTaraLocally(star1, star2) {
+            const idx1 = nakshatraOrder.indexOf(star1), idx2 = nakshatraOrder.indexOf(star2);
+            let count1to2 = (idx2 - idx1) + 1; if(count1to2<=0) count1to2+=27; const t1 = count1to2%9;
+            let count2to1 = (idx1 - idx2) + 1; if(count2to1<=0) count2to1+=27; const t2 = count2to1%9;
+            const res1 = taraSystemMap[t1], res2 = taraSystemMap[t2];
+            const name1 = starData[star1].name, name2 = starData[star2].name;
+            
+            document.getElementById('relationship-type').textContent = "Tara Compatibility";
+            document.getElementById('relationship-desc').textContent = `Vedic Star Relationship between ${name1} and ${name2}`;
+            document.getElementById('compatibility-insights').innerHTML = `
+                <div class="date-card" style="margin-bottom:15px">
+                    <h4 style="color:#0fccce;">From ${name1} to ${name2}</h4>
+                    <p><strong>${res1.name}</strong></p>
+                    <p>${res1.desc}</p>
+                </div>
+                <div class="date-card" style="border-left-color:#0fccce">
+                    <h4 style="color:#e94560;">From ${name2} to ${name1}</h4>
+                    <p><strong>${res2.name}</strong></p>
+                    <p>${res2.desc}</p>
+                </div>
+            `;
+        }
+
+        async function fetchMuhuratDataFromDatabase(purpose, star1, star2, month, year) {
+            const insights = document.getElementById('compatibility-insights');
+            document.getElementById('relationship-type').textContent = "Calculating...";
+            insights.innerHTML = '<i class="fas fa-spinner fa-spin" style="font-size:2rem; color:#0fccce;"></i><br>Loading...';
+            checkButton.disabled = true;
+            try {
+                const resp = await fetch(SUPABASE_FUNCTION_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${SUPABASE_ANON_KEY}` },
+                    body: JSON.stringify({ purpose, star1, star2, month, year })
+                });
+                const data = await resp.json();
+                if(data.success && data.results.length) {
+                    document.getElementById('relationship-type').textContent = `${data.results.length} Auspicious Dates Found`;
+                    let html = '<div class="dates-grid">';
+                    data.results.forEach(row => {
+                        html += `
+                            <div class="date-card">
+                                <div class="card-date"><i class="fas fa-calendar-alt"></i> ${new Date(row.Date).toLocaleDateString()}</div>
+                                <div class="card-detail">
+                                    <span class="detail-badge">Tithi: ${row.Tithi_Name}</span>
+                                    <span class="detail-badge">Nakshatra: ${row.Nakshatra_Name}</span>
+                                </div>
+                            </div>`;
+                    });
+                    insights.innerHTML = html + '</div>';
+                } else {
+                    insights.innerHTML = "No auspicious dates found for the selection. Try different parameters or consult an astrologer.";
+                }
+            } catch(err) {
+                insights.innerHTML = "Error retrieving timings. Please try again later.";
+            } finally { checkButton.disabled = false; }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMasterCopy();
+            initializeDropdown();
+        });
+    </script>
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>
