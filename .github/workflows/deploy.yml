@@ -30,7 +30,7 @@ jobs:
         env:
           SECRET_URL: ${{ secrets.DATA_TABLE_URL }}
         run: |
-          perl -pi -e 's|\{\{DATA_TABLE_URL\}\}|$ENV{SECRET_URL}|g' index.html
+          perl -pi -e 's|\{\{DATA_TABLE_URL\}\}|$ENV{SECRET_URL}|g' Antharyami-DataBank.html
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
