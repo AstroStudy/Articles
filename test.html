@@ -45,29 +45,12 @@
     </script>
     
     <style>
-        /* Custom scrollbar for table container to match modern aesthetics */
-        .table-scroll::-webkit-scrollbar {
-            height: 8px;
-            width: 8px;
-        }
-        .table-scroll::-webkit-scrollbar-track {
-            background: #f1f5f9;
-            border-radius: 4px;
-        }
-        .table-scroll::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
-        }
-        .table-scroll::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8;
-        }
-        
         /* Smooth transitions */
         .fade-in {
-            animation: fadeIn 0.5s ease-in-out;
+            animation: fadeIn 0.4s ease-in-out;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -128,6 +111,14 @@
             .dropdown-menu { position: static; opacity: 1; visibility: visible; transform: none; background: rgba(255, 255, 255, 0.05); width: 100%; display: none; }
             nav ul li.active .dropdown-menu { display: block; }
         }
+        
+        /* Highlight styling for search matches */
+        .highlight {
+            background-color: #fef08a;
+            color: #854d0e;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 font-sans antialiased min-h-screen flex flex-col">
@@ -135,18 +126,39 @@
     <!-- Placeholder for master header -->
     <div id="header-placeholder"></div>
 
-    <!-- Main Content Area -->
-    <main class="flex-grow w-full max-w-[95%] mx-auto px-4 py-8 relative">
+    <!-- Main Content Area: Search Engine Interface -->
+    <main class="flex-grow w-full max-w-5xl mx-auto px-4 py-12 relative flex flex-col items-center">
         
-        <div id="status-container" class="mb-6">
-            <!-- Initial Loading State matching reference prose-loading -->
-            <div class="flex flex-col items-center justify-center py-12 bg-white rounded-2xl shadow-sm border border-gray-100 fade-in">
-                <i class="fas fa-spinner fa-spin text-3xl text-brand-500 mb-4"></i>
-                <p class="text-gray-500 font-medium">Initializing  Data...</p>
+        <!-- Search Hero Section -->
+        <div class="w-full max-w-3xl text-center mb-10 fade-in">
+            <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gs-blue/10 text-gs-blue mb-6">
+                <i class="fas fa-database text-3xl"></i>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-serif font-bold text-gs-navy mb-4">Antharyami Data Bank</h1>
+            <p class="text-gray-500 mb-8 font-medium">Search across our comprehensive registry</p>
+            
+            <div id="status-container" class="mt-6 text-sm">
+                <span class="inline-flex items-center gap-2 text-brand-600 bg-brand-50 px-4 py-1.5 rounded-full font-medium">
+                    <i class="fas fa-spinner fa-spin"></i> Initializing databank...
+                </span>
             </div>
         </div>
 
-        <div id="table-container" class="fade-in"></div>
+        <!-- Parametric Search Form Container -->
+        <div id="search-form-container" class="w-full max-w-5xl bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200 hidden mb-10 fade-in">
+            <!-- Form will be injected here -->
+        </div>
+
+        <!-- Results Information Area -->
+        <div id="results-info" class="w-full flex justify-between items-end border-b border-gray-200 pb-2 mb-6 hidden">
+            <h2 class="text-lg font-semibold text-gray-800">Search Results</h2>
+            <span id="results-count" class="text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full"></span>
+        </div>
+
+        <!-- Search Results Container -->
+        <div id="results-container" class="w-full space-y-4 pb-12">
+            <!-- Cards will be injected here -->
+        </div>
         
     </main>
 
@@ -156,6 +168,11 @@
     <script>
         // Google Sheets published XLSX URL
         const EXCEL_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSRmpidryznLtEuGt1_FvHpfcM22HDIIfQHYixnBHFeWqLadHAtaxZAt6-8N0ZTI3gGWHLBT7UanaGa/pub?output=xlsx";
+
+        // Global variables to hold data in memory
+        let globalHeaders = [];
+        let globalData = [];
+        const MAX_RESULTS = 100; // Limit rendering for performance
 
         async function loadData() {
             try {
@@ -171,101 +188,194 @@
                 if (!sheetData || sheetData.length < 2) throw new Error("Empty dataset or missing headers");
 
                 const rawHeaders = sheetData[0];
-                const headers = rawHeaders.map(h => h || 'Unnamed Column');
+                globalHeaders = rawHeaders.map(h => h || 'Unnamed Column');
 
-                const rows = sheetData.slice(1).map(row => {
-                    return headers.map((_, colIndex) => {
+                globalData = sheetData.slice(1).map(row => {
+                    return globalHeaders.map((_, colIndex) => {
                         const cellValue = row[colIndex];
-                        return (cellValue !== undefined && cellValue !== null) ? cellValue : "";
+                        return (cellValue !== undefined && cellValue !== null) ? String(cellValue) : "";
                     });
                 });
 
-                renderTable(headers, rows);
-                
-                // Show success status
-                document.getElementById("status-container").innerHTML = `
-                    <div class="flex items-center gap-3 p-4 bg-emerald-50 text-emerald-800 border-l-4 border-emerald-500 rounded-lg shadow-sm fade-in">
-                        <i class="fas fa-check-circle text-emerald-500 text-xl"></i>
-                        <span class="font-medium text-sm">Successfully synchronized <strong>${rows.length}</strong> records from databank.</span>
-                    </div>
-                `;
+                // Hide loading status, show form
+                document.getElementById("status-container").classList.add("hidden");
+                generateSearchForm();
 
             } catch (error) {
-                // Show error status matching prose-error
                 document.getElementById("status-container").innerHTML = `
-                    <div class="flex items-start gap-3 p-5 bg-red-50 text-red-900 border-l-4 border-red-600 rounded-lg shadow-sm fade-in">
-                        <i class="fas fa-exclamation-triangle text-red-600 text-xl mt-0.5"></i>
-                        <div>
-                            <h3 class="font-bold">Data Retrieval Failed</h3>
-                            <p class="text-sm mt-1 text-red-800">${error.message}</p>
-                        </div>
-                    </div>
+                    <span class="inline-flex items-center gap-2 text-red-700 bg-red-50 border border-red-100 px-4 py-1.5 rounded-full font-medium fade-in shadow-sm">
+                        <i class="fas fa-exclamation-triangle"></i> Failed to initialize databank.
+                    </span>
                 `;
                 console.error("Loading failed:", error);
             }
         }
 
-        function renderTable(headers, rows) {
-            // Create styled search header row
-            const searchHeader = headers.map((header, index) => `
-                <th class="p-3 bg-gray-50 border-b border-gray-200">
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none">
-                            <i class="fas fa-filter text-gray-400 text-[10px]"></i>
-                        </div>
-                        <input class="w-full pl-7 pr-3 py-1.5 rounded-md border border-gray-300 text-gray-800 text-xs focus:ring-2 focus:ring-gs-gold focus:border-transparent transition-all outline-none font-normal shadow-sm bg-white" 
-                               placeholder="Filter..." 
-                               oninput="filterColumn(${index}, this.value)"
-                               aria-label="Filter by ${header}">
-                    </div>
-                </th>
-            `).join('');
+        function generateSearchForm() {
+            const container = document.getElementById('search-form-container');
+            let formHTML = `<div class="mb-5"><h2 class="text-xl font-bold text-gs-navy">Search Parameters</h2><p class="text-sm text-gray-500">Fill in one or more fields to filter the registry.</p></div>`;
+            formHTML += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-6">`;
 
-            // Create Tailwind-styled table HTML
-            const tableHTML = `
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="overflow-x-auto table-scroll max-h-[70vh]">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gs-blue text-white sticky top-0 z-20">
-                                <tr>
-                                    ${headers.map(h => `
-                                        <th class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wider whitespace-nowrap border-b border-gs-navy/50">
-                                            ${h}
-                                        </th>
-                                    `).join('')}
-                                </tr>
-                            </thead>
-                            <thead class="bg-gray-50 sticky top-[53px] z-10 shadow-sm">
-                                <tr>${searchHeader}</tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100 bg-white">
-                                ${rows.map((row, rowIndex) => `
-                                    <tr class="hover:bg-blue-50/60 transition-colors duration-150 ${rowIndex % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'}">
-                                        ${row.map(cell => `
-                                            <td class="px-5 py-3.5 text-sm text-gray-700 whitespace-nowrap">
-                                                ${cell !== "" ? cell : '<span class="text-gray-300">-</span>'}
-                                            </td>
-                                        `).join('')}
-                                    </tr>
-                                `).join('')}
-                            </tbody>
-                        </table>
+            globalHeaders.forEach((header, index) => {
+                formHTML += `
+                    <div class="flex flex-col text-left">
+                        <label class="text-xs font-bold text-gs-blue mb-1.5 uppercase tracking-wide" for="param-${index}">${header}</label>
+                        <input type="text" id="param-${index}" data-col-index="${index}" class="param-input w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-gs-gold focus:border-transparent transition-all shadow-sm text-sm text-gray-800 bg-gray-50 focus:bg-white" placeholder="Any...">
                     </div>
-                </div>
-            `;
+                `;
+            });
 
-            document.getElementById("table-container").innerHTML = tableHTML;
+            formHTML += `</div>
+            <div class="flex flex-wrap justify-end gap-3 border-t border-gray-100 pt-5">
+                <button id="clearParamsBtn" class="px-6 py-2.5 rounded-xl font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 transition-colors text-sm">Clear Form</button>
+                <button id="executeSearchBtn" class="px-8 py-2.5 rounded-xl font-bold text-white bg-gs-blue hover:bg-gs-navy transition-colors shadow-md text-sm flex items-center gap-2"><i class="fas fa-search"></i> Search Records</button>
+            </div>`;
+
+            container.innerHTML = formHTML;
+            container.classList.remove('hidden');
+
+            document.getElementById('executeSearchBtn').addEventListener('click', performSearch);
+            document.getElementById('clearParamsBtn').addEventListener('click', clearForm);
+
+            // Allow pressing Enter in any input to search
+            document.querySelectorAll('.param-input').forEach(input => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') performSearch();
+                });
+            });
         }
 
-        function filterColumn(colIndex, searchTerm) {
-            const term = searchTerm.toLowerCase().trim();
-            document.querySelectorAll("tbody tr").forEach(row => {
-                const cell = row.cells[colIndex];
-                if(cell) {
-                    const cellText = cell.textContent.toLowerCase();
-                    row.style.display = cellText.includes(term) ? "" : "none";
+        function clearForm() {
+            document.querySelectorAll('.param-input').forEach(input => input.value = '');
+            document.getElementById('results-info').classList.add('hidden');
+            document.getElementById('results-container').innerHTML = '';
+        }
+
+        function performSearch() {
+            const inputs = document.querySelectorAll('.param-input');
+            const searchParams = {};
+            let hasCriteria = false;
+
+            inputs.forEach(input => {
+                const val = input.value.trim().toLowerCase();
+                if (val) {
+                    searchParams[input.dataset.colIndex] = val;
+                    hasCriteria = true;
                 }
             });
+
+            const container = document.getElementById('results-container');
+            const resultsInfo = document.getElementById('results-info');
+
+            if (!hasCriteria) {
+                container.innerHTML = `
+                    <div class="text-center py-10 bg-yellow-50 rounded-2xl border border-yellow-200 fade-in text-yellow-800 w-full">
+                        <i class="fas fa-info-circle mb-3 text-3xl"></i>
+                        <h3 class="text-lg font-bold mb-1">No parameters entered</h3>
+                        <p class="text-sm">Please fill in at least one parameter to search.</p>
+                    </div>
+                `;
+                resultsInfo.classList.add('hidden');
+                return;
+            }
+
+            // Perform filtering across specified columns
+            const matchedRows = globalData.filter(row => {
+                for (const [colIndex, query] of Object.entries(searchParams)) {
+                    const cellValue = (row[colIndex] || "").toLowerCase();
+                    if (!cellValue.includes(query)) {
+                        return false; // Fails if it doesn't match this parameter
+                    }
+                }
+                return true;
+            });
+
+            // Update info header
+            resultsInfo.classList.remove('hidden');
+            let countText = `${matchedRows.length} found`;
+            if (matchedRows.length > MAX_RESULTS) {
+                countText += ` (Showing first ${MAX_RESULTS})`;
+            }
+            document.getElementById('results-count').textContent = countText;
+
+            renderResults(matchedRows, searchParams);
+        }
+
+        // Helper function to safely escape HTML and highlight search query
+        function highlightMatch(text, query) {
+            if (!text) return '-';
+            
+            // Basic HTML escaping
+            const div = document.createElement('div');
+            div.textContent = text;
+            let escapedText = div.innerHTML;
+
+            if(!query) return escapedText;
+
+            // Highlight the query (case insensitive)
+            const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return escapedText.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        function renderResults(results, searchParams) {
+            const container = document.getElementById('results-container');
+            
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-2xl border border-gray-200 border-dashed fade-in w-full">
+                        <div class="text-gray-300 mb-3"><i class="fas fa-search text-4xl"></i></div>
+                        <h3 class="text-xl font-medium text-gray-800 mb-1">No results found</h3>
+                        <p class="text-gray-500">We couldn't find any records matching your specific parameters.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const displayResults = results.slice(0, MAX_RESULTS);
+
+            const cardsHTML = displayResults.map((row, index) => {
+                let detailsHtml = '';
+                let mainTitle = `Record #${index + 1}`;
+                let titleFound = false;
+
+                row.forEach((cell, idx) => {
+                    if (cell === "") return;
+                    
+                    const cellQuery = searchParams[idx] || "";
+                    
+                    // Use the first non-empty column as the main title for the card
+                    if (!titleFound) {
+                        mainTitle = highlightMatch(cell, cellQuery);
+                        titleFound = true;
+                    } else {
+                        detailsHtml += `
+                            <div class="flex flex-col p-3 rounded-lg bg-gray-50/50 border border-gray-100 hover:bg-brand-50 hover:border-brand-100 transition-colors">
+                                <span class="text-[10px] uppercase font-bold text-gs-blue/60 tracking-wider mb-1">${globalHeaders[idx]}</span>
+                                <span class="text-sm text-gray-800 font-medium break-words">${highlightMatch(cell, cellQuery)}</span>
+                            </div>
+                        `;
+                    }
+                });
+
+                return `
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow duration-200 fade-in relative overflow-hidden group">
+                        <div class="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-gs-gold transition-colors"></div>
+                        <h3 class="text-xl font-serif font-bold text-gs-navy mb-4 pb-3 border-b border-gray-100 flex items-center gap-2">
+                            <i class="far fa-file-alt text-gray-400 text-lg"></i> 
+                            ${mainTitle}
+                        </h3>
+                        ${detailsHtml ? `
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+                                ${detailsHtml}
+                            </div>
+                        ` : `
+                            <p class="text-sm text-gray-400 italic">No additional details available.</p>
+                        `}
+                    </div>
+                `;
+            }).join('');
+
+            container.innerHTML = cardsHTML;
         }
 
         /**
