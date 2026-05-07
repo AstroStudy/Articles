@@ -297,6 +297,11 @@
             document.getElementById('results-count').textContent = countText;
 
             renderResults(matchedRows, searchParams);
+            
+            // Auto scroll directly to the results
+            setTimeout(() => {
+                resultsInfo.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
         }
 
         // Helper function to safely escape HTML and highlight search query
@@ -336,20 +341,45 @@
                 let mainTitle = `Record #${index + 1}`;
                 let titleFound = false;
 
+                // Create an array of valid fields for easier sorting
+                let displayFields = [];
                 row.forEach((cell, idx) => {
                     if (cell === "") return;
+                    displayFields.push({
+                        header: globalHeaders[idx],
+                        value: cell,
+                        query: searchParams[idx] || ""
+                    });
+                });
+
+                // Rearrange fields: Find Notes and move it directly after Time Zone
+                const notesIdx = displayFields.findIndex(f => f.header.toLowerCase().trim() === 'notes');
+                if (notesIdx !== -1) {
+                    const notesField = displayFields.splice(notesIdx, 1)[0];
+                    const tzIdx = displayFields.findIndex(f => f.header.toLowerCase().trim() === 'time zone');
                     
-                    const cellQuery = searchParams[idx] || "";
-                    
-                    // Use the first non-empty column as the main title for the card
+                    if (tzIdx !== -1) {
+                        displayFields.splice(tzIdx + 1, 0, notesField);
+                    } else {
+                        // Fallback if Time Zone is not present (empty) for this record
+                        displayFields.push(notesField);
+                    }
+                }
+
+                displayFields.forEach((field) => {
+                    // Use the first non-empty field as the main title for the card
                     if (!titleFound) {
-                        mainTitle = highlightMatch(cell, cellQuery);
+                        mainTitle = highlightMatch(field.value, field.query);
                         titleFound = true;
                     } else {
+                        // Check if this field is 'Notes' to assign it the wider column span
+                        const isNotes = field.header.toLowerCase().trim() === 'notes';
+                        const colSpanClass = isNotes ? 'col-span-1 sm:col-span-2 lg:col-span-3 xl:col-span-4 bg-yellow-50/30' : '';
+
                         detailsHtml += `
-                            <div class="flex flex-col p-3 rounded-lg bg-gray-50/50 border border-gray-100 hover:bg-brand-50 hover:border-brand-100 transition-colors">
-                                <span class="text-[10px] uppercase font-bold text-gs-blue/60 tracking-wider mb-1">${globalHeaders[idx]}</span>
-                                <span class="text-sm text-gray-800 font-medium break-words">${highlightMatch(cell, cellQuery)}</span>
+                            <div class="flex flex-col p-3 rounded-lg bg-gray-50/50 border border-gray-100 hover:bg-brand-50 hover:border-brand-100 transition-colors ${colSpanClass}">
+                                <span class="text-[10px] uppercase font-bold text-gs-blue/60 tracking-wider mb-1">${field.header}</span>
+                                <span class="text-sm text-gray-800 font-medium break-words">${highlightMatch(field.value, field.query)}</span>
                             </div>
                         `;
                     }
