@@ -164,9 +164,12 @@
     <div id="footer-placeholder"></div>
 
     <script>
-        // Google Sheets published XLSX URL
-        const EXCEL_URL = "{{DATA_TABLE_URL}}";
-
+        // Get the raw URL injected by GitHub Actions
+        const SECRET_URL = "{{DATA_TABLE_URL}}";
+        
+        // Wrap the URL in a free CORS proxy to bypass Google's security block
+        const EXCEL_URL = "https://corsproxy.io/?" + encodeURIComponent(SECRET_URL);
+        
         // Global variables to hold data in memory
         let globalHeaders = [];
         let globalData = [];
